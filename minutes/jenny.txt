@@ -1,0 +1,14 @@
+Minutes
+
+10/2/17 (and subsequent emails to client)
+
+Admins should be able to enter data both manually and via excel files.
+Data will include students, community partners, civic engagement activities.
+Core civic engagement activities are in a pre-defined list, but students should be able to enter their own.
+Admins should be able to update a calendar of possible events.
+Admins should be able to view and edit activity for all students.
+Peer leaders should be able to view activity for their assigned students.
+Student volunteers should be able to check in and out of volunteering with a community partner.
+Volunteers should be able to view their own activity history (in total and in summarizing statistics e.g. number of hours).
+Peer leaders should have all the functionality of a student volunteer in regards to their own activity.
+Community partners will not be accessing the system directly.
