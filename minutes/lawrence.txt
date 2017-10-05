@@ -1,0 +1,25 @@
+Sprint 1 notes
+--------------
+NU ACES:
+myneu salesforce backend, limited support
+application features
+    admin input via form / spreadsheet import
+    separate admin / student views
+    event check-in
+    community location listing
+    track civic actions and community engagements
+        meeting attendance
+        timeline of activity
+        hours not emphasized - opt-in program
+        students should see break down of their activities
+    filtered reports
+        data by student and some kind of aggregate data
+    event calendar
+honor system, mostly
+
+concerns:
+security
+filter types
+information per student to store
+information to include in reports
+peer leader view
