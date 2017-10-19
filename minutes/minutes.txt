@@ -163,3 +163,22 @@ Community partners will not be accessing the system directly.
 
 Sprint 2
 
+Email Clients:
+
+Sent client the project description to review
+Set-up a client meeting with the team and clients for Tuesday, October 24th @ 3:30 PM
+  - Will discuss the client the project description and any other questions they might have
+  - Will bring the UX sketches and walk through the design with the client to get any feedback or corrections
+
+
+Client Meeting, October 17th
+  - Experiences are the priority 
+    - Should not emphasize hours
+    - Do not like the wording "Timesheet" perfer "Civic Log"
+    - Would like a space for the students to exapnd on what they did on service (diary like)
+  - Will be generating many reports at the end of the year
+  - Bi-weekly reports will be standard for the academic year
+  - Uploading students from Excel spreadsheet not students creating accounts
+  - Staff will assign core community partners
+  
+
