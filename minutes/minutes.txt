@@ -194,3 +194,16 @@ Client Meeting, October 17th
   - Bi-weekly reports will be standard for the academic year
   - Uploading students from Excel spreadsheet not students creating accounts
   - Staff will assign core community partners
+
+Team planning meeting
+  - Main tech stack
+    + Backend: Python Flask
+    + Frontend: Angular
+    + Database: MongoDB
+    + SSO: Google
+  - Long term plan for future sprints:
+    + Sprint 3: Finalize design and begin implementation
+    + Sprint 4-6: Iterate on ticket backlog, tests, development
+    + Sprint 7: Finalize production environment
+    + Division of labor between Tests / API / Frontend
+    + Regular check-ins with client to ensure needs are met
