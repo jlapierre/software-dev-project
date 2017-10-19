@@ -163,3 +163,16 @@ Community partners will not be accessing the system directly.
 
 Sprint 2
 
+from sprint review 1:
+
+-client very responsive
+-team good at dividing work
+-sprint 1 was short because we didn't know who our client was until during the sprint
+-minutes should be a single file
+-we must follow branching procedures for minutes, even though the team feels it's a waste of time
+-we should send the client our project description and UI mockups
+-we should try using a whiteboard for future planning
+-do we need to upload UML to confluence?
+-we plan to start generating tickets for the backlog
+-can the client access our confluence repo?
+-all devs should set up local environment this sprint
