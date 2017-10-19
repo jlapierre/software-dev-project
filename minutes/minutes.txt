@@ -16,7 +16,7 @@ Center for Community Service
       * OR how regularly
          * E.g. how often - weekly?
    * !FEEDBACK?
-      * Some sort of access (donít know)
+      * Some sort of access (don‚Äôt know)
       * Optional feedback
 * NU|ACES
    * CEP = On Scholarship -> community engagement
@@ -27,7 +27,7 @@ Center for Community Service
       * More about regular engagement
    * Civic Actions - voting, jury duty, watching debate, going to events
    * What students are doing, how often
-   * Student look back at breakdown of what theyíve been doing
+   * Student look back at breakdown of what they‚Äôve been doing
    * myNeu backend is Salesforce
       * !What shortcomings?
       * Team at Salesforce (left) lack of support
@@ -48,10 +48,10 @@ Center for Community Service
    * !Trust or required?
       * Service-learning = honor
       * General location/backend check-off
-         * Donít want to overwhelm staff member
+         * Don‚Äôt want to overwhelm staff member
    * !!Get list of Civic actions
-      * Donít care about hours
-      * More about timeline and ìbucketsî
+      * Don‚Äôt care about hours
+      * More about timeline and ‚Äúbuckets‚Äù
    * Calendar Notifications + Reminders
       * Shared calendar = HEY ELECTIONS!
       * Workshops etc.
@@ -163,6 +163,20 @@ Community partners will not be accessing the system directly.
 
 Sprint 2
 
+from sprint review 1:
+
+-client very responsive
+-team good at dividing work
+-sprint 1 was short because we didn't know who our client was until during the sprint
+-minutes should be a single file
+-we must follow branching procedures for minutes, even though the team feels it's a waste of time
+-we should send the client our project description and UI mockups
+-we should try using a whiteboard for future planning
+-do we need to upload UML to confluence?
+-we plan to start generating tickets for the backlog
+-can the client access our confluence repo?
+-all devs should set up local environment this sprint
+
 Email Clients:
 
 Sent client the project description to review
@@ -180,5 +194,3 @@ Client Meeting, October 17th
   - Bi-weekly reports will be standard for the academic year
   - Uploading students from Excel spreadsheet not students creating accounts
   - Staff will assign core community partners
-  
-
