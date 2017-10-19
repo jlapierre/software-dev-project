@@ -16,7 +16,7 @@ Center for Community Service
       * OR how regularly
          * E.g. how often - weekly?
    * !FEEDBACK?
-      * Some sort of access (donít know)
+      * Some sort of access (don‚Äôt know)
       * Optional feedback
 * NU|ACES
    * CEP = On Scholarship -> community engagement
@@ -27,7 +27,7 @@ Center for Community Service
       * More about regular engagement
    * Civic Actions - voting, jury duty, watching debate, going to events
    * What students are doing, how often
-   * Student look back at breakdown of what theyíve been doing
+   * Student look back at breakdown of what they‚Äôve been doing
    * myNeu backend is Salesforce
       * !What shortcomings?
       * Team at Salesforce (left) lack of support
@@ -48,10 +48,10 @@ Center for Community Service
    * !Trust or required?
       * Service-learning = honor
       * General location/backend check-off
-         * Donít want to overwhelm staff member
+         * Don‚Äôt want to overwhelm staff member
    * !!Get list of Civic actions
-      * Donít care about hours
-      * More about timeline and ìbucketsî
+      * Don‚Äôt care about hours
+      * More about timeline and ‚Äúbuckets‚Äù
    * Calendar Notifications + Reminders
       * Shared calendar = HEY ELECTIONS!
       * Workshops etc.
@@ -176,3 +176,21 @@ from sprint review 1:
 -we plan to start generating tickets for the backlog
 -can the client access our confluence repo?
 -all devs should set up local environment this sprint
+
+Email Clients:
+
+Sent client the project description to review
+Set-up a client meeting with the team and clients for Tuesday, October 24th @ 3:30 PM
+  - Will discuss the client the project description and any other questions they might have
+  - Will bring the UX sketches and walk through the design with the client to get any feedback or corrections
+
+
+Client Meeting, October 17th
+  - Experiences are the priority 
+    - Should not emphasize hours
+    - Do not like the wording "Timesheet" perfer "Civic Log"
+    - Would like a space for the students to exapnd on what they did on service (diary like)
+  - Will be generating many reports at the end of the year
+  - Bi-weekly reports will be standard for the academic year
+  - Uploading students from Excel spreadsheet not students creating accounts
+  - Staff will assign core community partners
