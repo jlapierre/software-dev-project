@@ -1,9 +1,14 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template, send_from_directory
 from ..controller import example_controller as kc
 from server.auth.auth_service import requires_slack_auth
 
 example_api = Blueprint('example_api', __name__)
 
+
+# Serves all content within the client folder as the root /
+@example_api.route('/<path:path>')
+def serve_frontend(path):
+    return send_from_directory('../client/', path)
 
 # Test route that has pre-filled parameters
 #@example_api.route('/api/example/test', methods=['GET'])
