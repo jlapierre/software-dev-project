@@ -8,7 +8,8 @@ example_api = Blueprint('example_api', __name__)
 # Serves all content within the client folder as the root /
 @example_api.route('/<path:path>')
 def serve_frontend(path):
-    return send_from_directory('../client/', path)
+    from server import ROOT_PATH
+    return send_from_directory(ROOT_PATH + '/client/', path)
 
 
 # Test route that has pre-filled parameters
