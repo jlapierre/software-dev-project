@@ -1,7 +1,24 @@
 # 108
 section 1 team 8
 
+## Setup Lint
+
+To properly set up the pre-commit hooks to use Lint complete the following steps:
+1. Install git lint 
+$ pip install git-lint
+
+2. Setup git to look at the correct git hooks
+$ git config core.hooksPath hooks
+
+3. Install the proper lint for the file type
+$ pip install pep8
+$ brew install libjpeg 
+$ npm install csslint
+$ npm install -g jshint
+$ pip install html-linter
+
 ## Directions for running the template
+
 1. Make sure that flask and python is installed
 2. cd src/server/config and cp private.py.example private.py
 3. cd src
@@ -9,6 +26,7 @@ section 1 team 8
 5. Open a web browser and navigate to localhost:5000
 
 ## Setup for Running Frontend Tests
+
 This process uses npm, so ensure that is properly installed
 1. npm install karma --save-dev 
 2. npm install angular angular-route angular-mocks --save-dev 
