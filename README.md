@@ -1,5 +1,5 @@
 # 108
-Section 1 Team 8
+section 1 team 8
 
 ## Setup Lint
 
