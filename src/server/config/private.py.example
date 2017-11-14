@@ -1,3 +1,9 @@
+# Mongo Database URL
+MONGO_DB_URL = ''
+
+# Mongo Database name
+MONGO_DB_NAME = ''
+
 # Peerflix server local/public url
 PEERFLIX_SERVER = ''
 
