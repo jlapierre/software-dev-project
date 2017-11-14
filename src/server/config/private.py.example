@@ -1,0 +1,8 @@
+# Mongo Database URL
+MONGO_DB_URL = ''
+
+# Mongo Database name
+MONGO_DB_NAME = ''
+
+# Token to authenticate Slack webhook
+SLACK_TOKEN = ''

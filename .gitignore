@@ -1,0 +1,6 @@
+.tmp
+.idea
+*.pyc
+client/bower_components
+dist
+private.py
