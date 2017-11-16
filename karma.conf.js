@@ -20,6 +20,7 @@ module.exports = function(config) {
       'node_modules/angular-route/angular-route.js',
       'src/client/app.js',
       'src/client/app-view/**/*.js',
+      'src/client/app-services/**/*.js',
       'test/client/**/*.spec.js'
     ],
 
