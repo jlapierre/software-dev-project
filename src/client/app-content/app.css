@@ -6,20 +6,110 @@
     font-size: 100%;
     vertical-align: baseline;
     background: transparent;
+    overflow-x: scroll;
+    background-color: #fafafa;
+    height: 100%;
 }
 
 .header {
     width: 100%;
     text-align: center;
-    background-color: #d9001f;
     display: table;
     font-family: garamond;
-    height: 4em
+    height: 4em;
 }
 
 .header-text {
     color: #ffffff;
     display: table-cell;
     font-size: 3em;
+    background-color: #d9001f;
+}
+
+@media only screen and (max-width: 900px) {
+    .menu-button {
+        height: 4em;
+        width: 75px;
+        background-color: #d9001f;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .menu-bars {
+        background-color: #d9001f;
+        padding: 7.5px 0px;
+    }
+
+    .menu-bar {
+        width: 35px;
+        height: 5px;
+        background-color: #ffffff;
+        margin: 7.5px 20px;
+    }
+
+    .menu-bars:hover {
+        background-color: #8d0014;
+    }
+
+    .hide-menu {
+        display: none;
+    }
+
+    .menu {
+        height: 100%;
+        width: 75%;
+        float: right;
+        background-color: #f0f0f0;
+        z-index: 1;
+    }
+
+}
+
+
+.page {
+    top: 4em;
+}
+
+@media only screen and (min-width: 900px) {
+    .menu-button, menu-bars, menu-bar {
+        display: none
+    }
+
+    .hide-menu {
+        display: block;
+    }
+
+    .menu {
+        height: 100%;
+        width: 200px;
+        float: left;
+        background-color: #f0f0f0;
+    }
+}
+
+.menu-item {
+    height: 2em;
+    font-weight: 700;
+    font-size: 1em;
+    color: #5a5a5a;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    display: block;
+    cursor: pointer;
+    padding: 1em 1em;
+}
+
+.menu-color {
+    background-color: #f0f0f0;
+}
+
+li {
+    display: list-item;
+}
+
+
+
+.menu-item:hover {
+    background-color: #dddddd;
 }
 
