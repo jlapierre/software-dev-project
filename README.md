@@ -34,3 +34,8 @@ This process uses npm, so ensure that is properly installed
 ## Running Frontend Tests
 1. karma start (from the 108 directory)
 
+## Running Lettuce Tests in Pycharm
+1. Install Pycharm professional edition
+2. Go under Project Settings > Languages and Frameworks > BDD
+3. Select Lettuce
+4. Right click on any .feature file and click Run to run that feature
