@@ -7,7 +7,7 @@ from server.config.private import MONGO_DB_URL
 from server.config.private import MONGO_DB_NAME
 print "Connecting to {0}...".format(MONGO_DB_URL)
 client = pymongo.MongoClient(MONGO_DB_URL)
-print "Linking to the following database: {0}...".format(MONGO_DB_NAME)
+print "Linking to the following data: {0}...".format(MONGO_DB_NAME)
 db = client[MONGO_DB_NAME]
 COLLECTIONS = ['enumerations', 'users', 'partners']
 
@@ -44,7 +44,7 @@ def create_collections():
 
 def populate_enumerations():
     """
-    Adds enumeration objects to the database
+    Adds enumeration objects to the data
     :return: Nothing
     """
     print "Populating the enumerations collection..."
@@ -60,7 +60,7 @@ def populate_enumerations():
 
 def populate_users():
     """
-    Adds user objects to the database
+    Adds user objects to the data
     :return: Nothing
     """
     print "Populating the users collection..."
@@ -232,7 +232,7 @@ def populate_users():
 
 def populate_partners():
     """
-    Add partner locations to the database
+    Add partner locations to the data
     :return: Nothing
     """
     print "Populating the partners collection..."
