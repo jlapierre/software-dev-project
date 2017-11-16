@@ -1,11 +1,8 @@
-# Peerflix server local/public url
-PEERFLIX_SERVER = ''
+# Mongo Database URL
+MONGO_DB_URL = ''
 
-# Youtube channel which video will stream at
-YT_CHANNEL = ''
-
-# Key for Youtube livestream upload
-YT_LIVESTREAM_KEY = ''
+# Mongo Database name
+MONGO_DB_NAME = ''
 
 # Token to authenticate Slack webhook
 SLACK_TOKEN = ''
