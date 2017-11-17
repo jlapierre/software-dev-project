@@ -4,3 +4,4 @@
 client/bower_components
 dist
 private.py
+.DS_Store
