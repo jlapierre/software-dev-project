@@ -2,15 +2,7 @@
 <div class="page">
     <aces-menu hide-menu="vm.hideMenu"></aces-menu>
     <div>
-        <h1>Hi {{vm.user}}!</h1>
-        <p>You're logged in!!</p>
-        <h3>All registered users:</h3>
-        <ul>
-            <li ng-repeat="user in vm.allUsers">
-                {{user}}
-            </li>
-        </ul>
-
+        <aces-typeahead options="vm.partners" selected="vm.selected"></aces-typeahead>
     </div>
 </div>
 

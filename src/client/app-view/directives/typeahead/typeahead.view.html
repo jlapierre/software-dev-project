@@ -1,0 +1,9 @@
+<div>
+    <form class="text">
+        <input type="text" autocomplete="off" ng-model="searchText">
+    </form>
+
+    <ul class="option" ng-repeat="option in options | filter:searchText" ng-if="vm.showOptions">
+        <li>{{option.name}}</li>
+    </ul>
+</div>

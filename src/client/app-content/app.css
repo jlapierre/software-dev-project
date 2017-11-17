@@ -1,7 +1,6 @@
 * {
     margin: 0;
     padding: 0;
-    border: 0;
     outline: 0;
     font-size: 100%;
     vertical-align: baseline;
@@ -9,6 +8,10 @@
     overflow-x: scroll;
     background-color: #fafafa;
     height: 100%;
+}
+
+li {
+    display: list-item;
 }
 
 .header {
@@ -103,13 +106,17 @@
     background-color: #f0f0f0;
 }
 
-li {
-    display: list-item;
-}
-
-
-
 .menu-item:hover {
     background-color: #dddddd;
 }
 
+.text {
+    width: 75%;
+    height: 1.5em;
+    padding: 2px;
+    background-color: #ffffff;
+}
+
+.option {
+    height: 1.5em;
+}
