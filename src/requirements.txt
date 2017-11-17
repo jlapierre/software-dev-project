@@ -1,2 +1,4 @@
 pymongo
 bson
+flask
+flask_oauth
