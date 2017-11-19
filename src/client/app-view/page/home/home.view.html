@@ -1,9 +1,22 @@
 <aces-header hide-menu="vm.hideMenu"></aces-header>
 <div class="page">
-    <aces-menu hide-menu="vm.hideMenu"></aces-menu>
-    <div>
-        <aces-typeahead options="vm.partners" selected="vm.selected"></aces-typeahead>
-    </div>
+  <aces-menu hide-menu="vm.hideMenu"></aces-menu>
+
+  <div>
+    <aces-typeahead options="vm.partners"
+                    selected-item="vm.selected"
+                    on-select="vm.noop"
+                    on-no-options="vm.noop"
+                    no-options="Add a New Community Partner"
+                    placeholder="Enter a Community Partner"></aces-typeahead>
+
+    <aces-typeahead options="vm.partners"
+                    selected-item="vm.selected"
+                    on-select="vm.noop"
+                    on-no-options="vm.noop"
+                    no-options="Add a New Community Partner"
+                    placeholder="Enter a Community Partner"></aces-typeahead>
+  </div>
 </div>
 
 

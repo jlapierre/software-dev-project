@@ -63,8 +63,12 @@ li {
         height: 100%;
         width: 75%;
         float: right;
-        background-color: #f0f0f0;
+        background-color: #f2f2f2;
         z-index: 1;
+    }
+
+    .typeahead-options {
+        width: 44%;
     }
 
 }
@@ -87,7 +91,11 @@ li {
         height: 100%;
         width: 200px;
         float: left;
-        background-color: #f0f0f0;
+        background-color: #f2f2f2;
+    }
+
+    .typeahead-options {
+        width: calc(45% - 100px);
     }
 }
 
@@ -103,20 +111,66 @@ li {
 }
 
 .menu-color {
-    background-color: #f0f0f0;
+    background-color: #f2f2f2;
 }
 
 .menu-item:hover {
     background-color: #dddddd;
 }
 
-.text {
-    width: 75%;
-    height: 1.5em;
-    padding: 2px;
-    background-color: #ffffff;
+.typeahead {
+    height: initial;
+    width: 50%;
+    margin: 0 auto;
 }
 
-.option {
+.typeahead-textbox-position {
+    width: 100%;
+    height: initial;
+    margin: 0 auto;
+}
+
+.typeahead-textbox {
+    width: 90%;
+    border: 2px solid #990017;
+    border-radius: 20px;
+    margin: 10px 10px 0px 10px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.typeahead-option-position {
+    width: 90%;
+    margin: 0 20px;
+}
+
+.typeahead-options {
+    border-bottom: 2px solid #cccccc;
+    border-left: 2px solid #cccccc;
+    border-right: 2px solid #cccccc;
+    position: fixed;
+    height: initial;
+    margin 0 auto;
+    margin-left: 5px;
+}
+
+.typeahead-option {
     height: 1.5em;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    color: #5a5a5a;
+    border-top: 2px solid #cccccc;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+}
+
+.typeahead-option-text {
+    background-color: inherit;
+    color: inherit;
+}
+
+.typeahead-option:hover {
+    background-color: #990017;
+    color: #ffffff;
 }

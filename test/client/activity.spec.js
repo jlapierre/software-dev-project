@@ -31,7 +31,7 @@ describe('ActivityService', function() {
 
   it('currentUserActivity should return an activity object', inject(function($injector) {
     var ActivityService = $injector.get('ActivityService');
-    var activity = ActivityService.currentUserActivity();
+    var activity = ActivityService.currentUserActivity(1);
 
     expect(typeof activity).toBe('object');
 

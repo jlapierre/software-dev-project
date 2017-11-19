@@ -13,7 +13,9 @@
         vm.user = 'Katherine';
         vm.allUsers = ['Katherine', 'Jonathon', 'Lawerence', 'Jenny'];
 
-        vm.partners = [{name: 'Partner1'}, {name: 'Community2'}, {name: 'Paul3'}];
+        vm.partners = [{name: 'Partner1'}, {name: 'PCommunity2'}, {name: 'Paul3'}];
+
+        vm.noop = function(){};
     }
 
 })();
