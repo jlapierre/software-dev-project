@@ -21,6 +21,7 @@ module.exports = function(config) {
       'src/client/app.js',
       'src/client/app-services/**/*.js',
       'src/client/app-view/**/*.js',
+      'src/client/app-services/**/*.js',
       'test/client/**/*.spec.js'
     ],
 

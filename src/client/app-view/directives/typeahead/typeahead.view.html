@@ -1,0 +1,25 @@
+<div class="typeahead">
+  <form class="typeahead-textbox-position">
+    <input class="typeahead-textbox" type="text" autocomplete="off" ng-model="vm.selectedText"
+           placeholder="{{ vm.placeholder }}" ng-keydown="vm.unSelect()">
+  </form>
+
+  <div class="typeahead-option-position">
+    <div class="typeahead-options" ng-hide="!vm.selectedText.length || vm.selected">
+
+      <ul class="typeahead-option"
+          ng-repeat="option in filteredOptions = (options | filter: vm.selectedText)"
+          ng-click="vm.handleSelection(option)">
+        <li class="option-text">{{option.name}}</li>
+      </ul>
+
+      <div class="typeahead-option"
+           ng-show="!filteredOptions.length"
+           ng-click="vm.onNoOptions()">
+        {{ vm.noOptions }}
+      </div>
+
+    </div>
+  </div>
+
+</div>

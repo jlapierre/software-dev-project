@@ -1,12 +1,16 @@
-<h1>Hi {{vm.user}}!</h1>
-<p>You're logged in!!</p>
-<h3>All registered users:</h3>
-<ul>
-  <li ng-repeat="user in vm.allUsers">
-    {{user}}
-  </li>
-</ul>
+<aces-typeahead options="vm.partners"
+                selected-item="vm.selected"
+                on-select="vm.noop"
+                on-no-options="vm.noop"
+                no-options="Add a New Community Partner"
+                placeholder="Enter a Community Partner"></aces-typeahead>
 
+<aces-typeahead options="vm.partners"
+                selected-item="vm.selected"
+                on-select="vm.noop"
+                on-no-options="vm.noop"
+                no-options="Add a New Community Partner"
+                placeholder="Enter a Community Partner"></aces-typeahead>
 
 
 
