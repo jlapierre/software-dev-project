@@ -8,7 +8,7 @@
     function HomeController() {
         var vm = this;
 
-        vm.hideMenu = true;
+        vm.showMenu = true;
 
         vm.user = 'Katherine';
         vm.allUsers = ['Katherine', 'Jonathon', 'Lawerence', 'Jenny'];

@@ -10,16 +10,12 @@
   </head>
 
   <body>
-    <aces-header hide-menu="vm.hideMenu"></aces-header>
-    <div class="page">
-      <aces-menu hide-menu="vm.hideMenu"></aces-menu>
-      <div ng-view></div>
-    </div>
+    <div ng-view></div>
 
     <!--Angular JS Files-->
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.min.js"></script>
-    
+
     <script src="app.js"></script>
     <script src="app-services/user.service.js"></script>
     <script src="app-services/activity.service.js"></script>

@@ -27,6 +27,19 @@ GOOGLE = OAUTH.remote_app(
     consumer_key=GOOGLE_CLIENT_ID,
     consumer_secret=GOOGLE_CLIENT_SECRET)
 
+
+@example_api.after_request
+def add_header(req):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    req.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    req.headers["Pragma"] = "no-cache"
+    req.headers["Expires"] = "0"
+    req.headers['Cache-Control'] = 'public, max-age=0'
+    return req
+
 # Serves all content within the client folder as the root /
 @example_api.route('/<path:path>')
 @GOOGLE.authorized_handler

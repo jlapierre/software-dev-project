@@ -10,7 +10,7 @@
       <ul class="typeahead-option"
           ng-repeat="option in filteredOptions = (options | filter: vm.selectedText)"
           ng-click="vm.handleSelection(option)">
-        <li class="option-text">{{option.name}}</li>
+        <li class="typeahead-option-text">{{option.name}}</li>
       </ul>
 
       <div class="typeahead-option"

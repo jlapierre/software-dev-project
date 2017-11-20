@@ -1,16 +1,24 @@
-<aces-typeahead options="vm.partners"
-                selected-item="vm.selected"
-                on-select="vm.noop"
-                on-no-options="vm.noop"
-                no-options="Add a New Community Partner"
-                placeholder="Enter a Community Partner"></aces-typeahead>
+<aces-header show-menu="vm.showMenu"></aces-header>
+<div class="page">
+  <aces-menu ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
+  <div>
+    <aces-typeahead options="vm.partners"
+                    selected-item="vm.selected"
+                    on-select="vm.noop"
+                    on-no-options="vm.noop"
+                    no-options="Add a New Community Partner"
+                    placeholder="Enter a Community Partner"></aces-typeahead>
 
-<aces-typeahead options="vm.partners"
-                selected-item="vm.selected"
-                on-select="vm.noop"
-                on-no-options="vm.noop"
-                no-options="Add a New Community Partner"
-                placeholder="Enter a Community Partner"></aces-typeahead>
+    <aces-typeahead options="vm.partners"
+                    selected-item="vm.selected"
+                    on-select="vm.noop"
+                    on-no-options="vm.noop"
+                    no-options="Add a New Community Partner"
+                    placeholder="Enter a Community Partner"></aces-typeahead>
+  </div>
+</div>
+
+
 
 
 

@@ -55,16 +55,21 @@ li {
         background-color: #8d0014;
     }
 
+    .show-menu {
+        z-index: 99;
+        position: fixed;
+        right: 0;
+        width: 75%;
+    }
+
     .hide-menu {
         display: none;
     }
 
     .menu {
         height: 100%;
-        width: 75%;
-        float: right;
+        width: 100%;
         background-color: #f2f2f2;
-        z-index: 1;
     }
 
     .typeahead-options {
