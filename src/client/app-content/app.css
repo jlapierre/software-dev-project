@@ -88,10 +88,6 @@ li {
         display: none
     }
 
-    .hide-menu {
-        display: block;
-    }
-
     .menu {
         height: 100%;
         width: 200px;
