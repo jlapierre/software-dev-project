@@ -103,6 +103,18 @@ var partner3 = {
     core: true
 };
 
+// Activity Examples
+var activity3 = {
+    type: 'Partner',
+    partnerId: 3,
+    contactId: 3,
+    locationId: 3,
+    startTime: 1510833600,
+    endTime: 1510840800,
+    manual: true,
+    comment: 'Assisted with organization of an event'
+};
+
 describe('CheckInOutController', function() {
 
   beforeEach(module('app'));
@@ -209,4 +221,79 @@ describe('CheckInOutController', function() {
     expect(vm.selectedContact).toBe(undefined);
 
   }));
+
+  it('can set up an current activity correctly', inject(function($controller) {
+    var vm = $controller('CheckInOutController');
+
+    vm.initCurrentActivity(activity3);
+
+    expect(vm.selectedPartner.id).toBe(3);
+    expect(vm.selectedLocation.name).toBe('360 Huntington Ave, Boston MA, 02115');
+    expect(vm.selectedContact.name).toBe('Lawrence Lim');
+
+  }));
+
+  it('can set up an current activity correctly with the Google map', inject(function($controller) {
+    var vm = $controller('CheckInOutController');
+
+    vm.initCurrentActivity(activity3);
+
+    expect(googleCenter.lat).toBe(42.340496);
+    expect(googleCenter.lng).toBe(-71.087897);
+    expect(googleZoom).toBe(17);
+    expect(googlePosition.lat).toBe(42.340496);
+    expect(googlePosition.lng).toBe(-71.087897);
+
+  }));
+
+  it('when there is no current activity correct button is check in', inject(function($controller) {
+    var vm = $controller('CheckInOutController');
+
+    vm.currentActivity = undefined;
+
+    var correctButton = vm.correctButton();
+
+    expect(correctButton).toBe('Check In');
+
+  }));
+
+  it('when there is a current activity correct button is check ouy', inject(function($controller) {
+    var vm = $controller('CheckInOutController');
+
+    vm.currentActivity = activity3;
+
+    var correctButton = vm.correctButton();
+
+    expect(correctButton).toBe('Check Out');
+
+  }));
+
+  it('when there is no current activity current activity is created when checked in', inject(function($controller) {
+    var vm = $controller('CheckInOutController');
+
+    vm.currentActivity = undefined;
+    vm.onPartnerSelect(partner3);
+    vm.onLocationSelect(location3);
+    vm.onContactSelect(contact3);
+
+    vm.checkInOrOut();
+
+    expect(vm.currentActivity).not.toBe(undefined);
+    expect(vm.currentActivity.partnerId).toBe(3);
+    expect(vm.currentActivity.locationId).toBe(3);
+    expect(vm.currentActivity.contactId).toBe(3);
+
+  }));
+
+  it('when there is a current activity current activity cleared', inject(function($controller) {
+    var vm = $controller('CheckInOutController');
+
+    vm.currentActivity = activity3;
+
+    vm.checkInOrOut();
+
+    expect(vm.currentActivity).toBe(undefined);
+
+  }));
+
 });

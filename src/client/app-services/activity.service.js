@@ -35,7 +35,7 @@
         };
 
         // Current User Activity Examples
-        var currentUserActivities = {1: activity1, 2: activity2, 3: activity3, 4: {}};
+        var currentUserActivities = {1: activity1, 2: activity2};
 
         // Current User Activity
         function currentUserActivity(userId) {

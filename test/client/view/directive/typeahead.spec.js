@@ -87,4 +87,29 @@ describe('TypeaheadController', function() {
 
     expect(onNoOptionsCalled).toBe(true);
   }));
+
+  it('updateText will change the selected text with the selected item', inject(function($controller, $rootScope) {
+    var scope = $rootScope.$new();
+    var selectedItem = {name: 'selected'};
+    scope.onSelect = function() {};
+
+    var vm = $controller('TypeaheadController', {$scope: scope});
+
+    vm.updateText(selectedItem);
+
+    expect(vm.selectedText).toBe('selected');
+  }));
+
+  it('updateText will change the selected text if it was undefined', inject(function($controller, $rootScope) {
+    var scope = $rootScope.$new();
+    var selectedItem = undefined;
+    scope.onSelect = function() {};
+
+    var vm = $controller('TypeaheadController', {$scope: scope});
+
+    vm.updateText(selectedItem);
+
+    expect(vm.selectedText).toBe('');
+  }));
+
 });

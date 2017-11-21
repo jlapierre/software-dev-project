@@ -13,4 +13,19 @@ describe('UserService', function() {
 
   }));
 
+  it('service should contain a function called getCurrentUser', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+
+    expect(UserService.getCurrentUser).not.toBe(undefined);
+    expect(typeof UserService.getCurrentUser).toBe('function');
+
+  }));
+
+  it('getCurrentUser should return a user object', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+    var user = UserService.getCurrentUser();
+
+    expect(typeof user).toBe('object');
+  }));
+
 });

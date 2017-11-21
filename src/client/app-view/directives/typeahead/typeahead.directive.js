@@ -13,6 +13,7 @@
                 placeholder: '@',
                 noOptions: '@',
                 options: '=',
+                selectedItem: '=',
                 onSelect: '&',
                 unSelect: '&',
                 onNoOptions: '&',
@@ -23,18 +24,28 @@
         };
     }
 
-    function TypeaheadController($scope, $timeout) {
+    function TypeaheadController($scope) {
         var vm = this;
 
         vm.placeholder = $scope.placeholder;
         vm.noOptions = $scope.noOptions;
 
         vm.selected = true; // hides list initially
-        vm.selectedText = '';
+
+        // Update the text displayed when the selection changes
+        // or is cleared
+        function updateText(selectedItem) {
+            if (selectedItem) {
+                vm.selectedText = selectedItem.name;
+            } else {
+                vm.selectedText = '';
+            }
+        }
+
+        $scope.$watch('selectedItem', updateText);
 
         function handleSelection(selectedItem) {
-            vm.selectedText = selectedItem.name;
-
+            vm.updateText(selectedItem);
             vm.selected = true;
             $scope.onSelect({selectedItem: selectedItem});
         }
@@ -44,6 +55,7 @@
             $scope.unSelect();
         }
 
+        vm.updateText = updateText;
         vm.handleSelection = handleSelection;
         vm.unSelect = unSelect;
         vm.onNoOptions = $scope.onNoOptions;
