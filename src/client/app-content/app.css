@@ -131,6 +131,10 @@ body {
     background-color: #f2f2f2;
 }
 
+.menu-selected {
+    background-color: #dedede;
+}
+
 .menu-item:hover {
     background-color: #dddddd;
 }

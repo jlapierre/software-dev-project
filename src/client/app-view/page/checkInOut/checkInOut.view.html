@@ -1,6 +1,8 @@
 <aces-header show-menu="vm.showMenu"></aces-header>
 <div class="page-with-menu">
-  <aces-menu ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
+  <aces-menu auth-role="{{ vm.currentUser.authRole }}"
+             page-name="Service Check In"
+             ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
   <div class="page">
     <aces-typeahead options="vm.partners"
                     selected-item="vm.selectedPartner"

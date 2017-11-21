@@ -12,33 +12,33 @@
             firstName: 'Katherine',
             lastName: 'McDonough',
             email: 'mcdonough.kat@husky.neu.edu',
-            authRole: 'student'
+            authRole: 'Student'
         };
         var user2 = {
             id: 2,
             firstName: 'Jennifer',
             lastName: 'LaPierre',
             email: 'lapierre.j@husky.neu.edu',
-            authRole: 'peer'
+            authRole: 'Peer Leader'
         };
         var user3 = {
             id: 3,
             firstName: 'Lawrence',
             lastName: 'Lim',
             email: 'lim.law@husky.neu.edu',
-            authRole: 'admin'
+            authRole: 'Administrator'
         };
         var user4 = {
             id: 4,
             firstName: 'Jonathon',
             lastName: 'Northcott',
             email: 'northcott.j@husky.neu.edu',
-            authRole: 'student'
+            authRole: 'Student'
         };
 
         // Current Signed In User
         function getCurrentUser() {
-            return user1;
+            return user2;
         }
 
         // Sign Out User
