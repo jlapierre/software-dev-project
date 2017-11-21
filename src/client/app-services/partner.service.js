@@ -5,7 +5,7 @@
         .module('app')
         .factory('PartnerService', PartnerService);
 
-    function PartnerService() {
+    function PartnerService($http) {
         // Example Contacts
         var contact1 = {
             name: 'Katherine McDonough',
@@ -89,8 +89,20 @@
             return [partner1, partner2, partner3];
         }
 
+        // Upload a new set of partners
+        function uploadPartners(file) {
+            var fileFormData = new FormData();
+            fileFormData.append('file', file);
+
+            return $http({
+                method: 'POST',
+                url: '/api/upload_from_file',
+                data: {file: fileFormData, type: 'Partners'}});
+        }
+
         return {
-            getPartners: getPartners
+            getPartners: getPartners,
+            uploadPartners: uploadPartners
         };
     }
 

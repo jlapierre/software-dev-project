@@ -21,4 +21,20 @@ describe('PartnerService', function() {
 
   }));
 
+  it('service should contain a function called uploadPartners', inject(function($injector) {
+    var PartnerService = $injector.get('PartnerService');
+
+    expect(PartnerService.uploadPartners).not.toBe(undefined);
+    expect(typeof PartnerService.uploadPartners).toBe('function');
+
+  }));
+
+  it('uploadPartners should return a list of partners', inject(function($injector) {
+    var PartnerService = $injector.get('PartnerService');
+    var promise = PartnerService.uploadPartners();
+
+    expect(typeof promise).toBe('object');
+
+  }));
+
 });

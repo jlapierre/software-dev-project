@@ -91,6 +91,7 @@ body {
 .page {
     background-color: #fafafa;
     height: 100%;
+    position: relative;
 }
 
 @media only screen and (min-width: 900px) {
@@ -233,4 +234,47 @@ body {
     -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
     -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
     box-shadow:         3px 3px 5px 6px #ccc;
+}
+
+.manage-tabs {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #990017;
+}
+
+.manage-tab {
+    width: 25%;
+    float: left;
+    height: 2em;
+    font-size; 1em;
+    color: #ffffff;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    display: block;
+    cursor: pointer;
+    overflow-x: hidden;
+    text-align: center;
+    padding-top: 10px;
+    background-color: inherit;
+}
+
+.manage-tab-selected, .manage-tab:hover {
+    color: #990017;
+    background-color: #fafafa;
+}
+
+.excel-button {
+    width: 25%;
+    float: right;
+    margin: 10px;
+    color: #ffffff;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    background-color: #990017;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+    text-align: center;
+}
+
+.file-selector {
+    display: none;
 }

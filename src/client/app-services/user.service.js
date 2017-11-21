@@ -5,7 +5,7 @@
         .module('app')
         .factory('UserService', UserService);
 
-    function UserService($http, $window) {
+    function UserService($http, $window, $q) {
         // User Examples
         var user1 = {
             id: 1,
@@ -53,9 +53,45 @@
                 });
         }
 
+        // Upload a new set of students
+        function uploadStudents(file) {
+            var fileFormData = new FormData();
+            fileFormData.append('file', file);
+
+            return $http({
+                method: 'POST',
+                url: '/api/upload_from_file',
+                data: {file: fileFormData, type: 'Students'}});
+        }
+
+        // Upload a new set of peer leaders
+        function uploadPeerLeaders(file) {
+            var fileFormData = new FormData();
+            fileFormData.append('file', file);
+
+            return $http({
+                method: 'POST',
+                url: '/api/upload_from_file',
+                data: {file: fileFormData, type: 'Peer Leaders'}});
+        }
+
+        // Upload a new set of administrators
+        function uploadAdministrators(file) {
+            var fileFormData = new FormData();
+            fileFormData.append('file', file);
+
+            return $http({
+                method: 'POST',
+                url: '/api/upload_from_file',
+                data: {file: fileFormData, type: 'Administrators'}});
+        }
+
         return {
             signOutUser: signOutUser,
-            getCurrentUser: getCurrentUser
+            getCurrentUser: getCurrentUser,
+            uploadStudents: uploadStudents,
+            uploadPeerLeaders: uploadPeerLeaders,
+            uploadAdministrators: uploadAdministrators
         };
     }
 

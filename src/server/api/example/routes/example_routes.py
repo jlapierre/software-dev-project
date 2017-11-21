@@ -109,3 +109,15 @@ def get_access_token():
 def google_logout():
     session.pop('access_token', None)
     return redirect('/index.html')
+
+@example_api.route('/api/upload_from_file', methods=['POST'])
+def upload_students_file():
+    # Upload all of the users/partners in the file
+    # File stored in request.data['file']
+    # Type (Partners, Students, Peer Leaders, Administrators) stored in request.data['type']
+    data = json.loads(request.data)
+    print data['file'];
+
+    # Return all of the current partners in the database if loaded
+    # Return an HTTP error if the partners were not loaded
+    return jsonify({'type': data['type'], 'data': []})

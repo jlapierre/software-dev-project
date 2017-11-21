@@ -4,7 +4,43 @@
              page-name="Manage"
              ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
   <div class="page">
-    <div>MANAGE PAGE</div>
+
+    <div class="manage-tabs">
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Community Partners'}"
+           ng-click="vm.selectedTab = 'Community Partners'">
+        Community Partners
+      </div>
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Students'}"
+           ng-click="vm.selectedTab = 'Students'">
+        Students
+      </div>
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Peer Leaders'}"
+           ng-click="vm.selectedTab = 'Peer Leaders'">
+        Peer Leaders
+      </div>
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Administrators'}"
+           ng-click="vm.selectedTab = 'Administrators'">
+        Administrators
+      </div>
+    </div>
+
+    <button class="excel-button">
+      <label>
+        Add from Excel File
+        <input type="file"
+               id="files"
+               name="files"
+               accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+               class="file-selector" file-handler>
+      </label>
+    </button>
+
+    <div>{{vm.type}}</div>
+
   </div>
 </div>
 
