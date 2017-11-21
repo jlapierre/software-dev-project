@@ -1,14 +1,19 @@
 <div class="typeahead">
   <form class="typeahead-textbox-position">
-    <input class="typeahead-textbox" type="text" autocomplete="off" ng-model="vm.selectedText"
-           placeholder="{{ vm.placeholder }}" ng-keydown="vm.unSelect()">
+    <input class="typeahead-textbox"
+           type="text" autocomplete="off"
+           ng-model="vm.selectedText"
+           placeholder="{{ vm.placeholder }}"
+           ng-keydown="vm.unSelect()"
+           ng-disabled="disabled"
+           ng-class="{'typeahead-textbox-disabled': disabled}">
   </form>
 
   <div class="typeahead-option-position">
     <div class="typeahead-options" ng-hide="!vm.selectedText.length || vm.selected">
 
       <ul class="typeahead-option"
-          ng-repeat="option in filteredOptions = (options | filter: vm.selectedText)"
+          ng-repeat="option in filteredOptions = (options | filter:{name: vm.selectedText})"
           ng-click="vm.handleSelection(option)">
         <li class="typeahead-option-text">{{option.name}}</li>
       </ul>

@@ -34,24 +34,32 @@
             city: 'Boston',
             state: 'MA',
             zipcode: '02115',
+            location: {lat: 42.341423, lng: -71.091129},
+            name: '165 Hemenway Street, Boston MA, 02115'
         };
         var location2 = {
-            street: '165 Hemenway Street',
+            street: '171 Hemenway Street',
             city: 'Boston',
             state: 'MA',
             zipcode: '02115',
+            location: {lat: 42.341309, lng: -71.091202},
+            name: '171 Hemenway Street, Boston MA, 02115'
         };
         var location3 = {
             street: '360 Huntington Ave',
             city: 'Boston',
             state: 'MA',
             zipcode: '02115',
+            location: {lat: 42.340496, lng: -71.087897},
+            name: '360 Huntington Ave, Boston MA, 02115'
         };
         var location4 = {
             street: '633 Clark Street',
             city: 'Evanston',
             state: 'IL',
             zipcode: '60208',
+            location: {lat: 42.050626, lng: -87.679727},
+            name: '633 Clark Street, Evanston IL, 60208'
         };
 
         // Example Partners

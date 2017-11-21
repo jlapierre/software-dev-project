@@ -13,16 +13,17 @@
                 placeholder: '@',
                 noOptions: '@',
                 options: '=',
-                selectedItem: '=',
                 onSelect: '&',
-                onNoOptions: '&'
+                unSelect: '&',
+                onNoOptions: '&',
+                disabled: '='
             },
             templateUrl: 'app-view/directives/typeahead/typeahead.view.html',
             controller: 'TypeaheadController as vm'
         };
     }
 
-    function TypeaheadController($scope) {
+    function TypeaheadController($scope, $timeout) {
         var vm = this;
 
         vm.placeholder = $scope.placeholder;
@@ -33,15 +34,14 @@
 
         function handleSelection(selectedItem) {
             vm.selectedText = selectedItem.name;
-            $scope.selectedItem = selectedItem;
 
             vm.selected = true;
-            $scope.onSelect();
+            $scope.onSelect({selectedItem: selectedItem});
         }
 
         function unSelect() {
             vm.selected = false;
-            $scope.selectedItem = undefined;
+            $scope.unSelect();
         }
 
         vm.handleSelection = handleSelection;

@@ -5,9 +5,6 @@
     font-size: 100%;
     vertical-align: baseline;
     background: transparent;
-    overflow-x: scroll;
-    background-color: #fafafa;
-    height: 100%;
 }
 
 li {
@@ -29,7 +26,16 @@ li {
     background-color: #d9001f;
 }
 
+body {
+    background-color: #f2f2f2;
+}
+
 @media only screen and (max-width: 900px) {
+    .page {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
     .menu-button {
         height: 4em;
         width: 75px;
@@ -78,12 +84,22 @@ li {
 
 }
 
-
-.page {
+.page-with-menu {
     top: 4em;
 }
 
+.page {
+    background-color: #fafafa;
+    height: 100%;
+}
+
 @media only screen and (min-width: 900px) {
+    .page {
+        width: calc(100% - 200px);
+        overflow-x: scroll;
+        float: right;
+    }
+
     .menu-button, menu-bars, menu-bar {
         display: none
     }
@@ -140,6 +156,10 @@ li {
     display: inline-block;
 }
 
+.typeahead-textbox-disabled {
+    background-color: #dedede;
+}
+
 .typeahead-option-position {
     width: 90%;
     margin: 0 20px;
@@ -149,21 +169,23 @@ li {
     border-bottom: 2px solid #cccccc;
     border-left: 2px solid #cccccc;
     border-right: 2px solid #cccccc;
-    position: fixed;
+    position: absolute;
     height: initial;
     margin 0 auto;
     margin-left: 5px;
+    text-decoration: none;
+    z-index: 100;
 }
 
 .typeahead-option {
-    height: 1.5em;
-    width: 100%;
+    width: calc(100% - 20px);
     padding: 10px;
     cursor: pointer;
     background-color: #f2f2f2;
     color: #5a5a5a;
     border-top: 2px solid #cccccc;
     font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    list-style: none;
 }
 
 .typeahead-option-text {
@@ -174,4 +196,37 @@ li {
 .typeahead-option:hover {
     background-color: #990017;
     color: #ffffff;
+}
+
+.map {
+    height: 400px;
+    width: 60%;
+    margin: 20px auto;
+}
+
+.check-in-out-button {
+    height: 2em;
+    width: 60%;
+    margin: 20px auto;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+
+    text-align: center;
+    padding: 15px 10px 0px 10px;
+    font-size: 1.5em;
+
+}
+
+.check-in-out-button-disabled {
+    background-color: #888888;
+    color: #dedede;
+    cursor: default;
+}
+
+.check-in-out-button-enabled {
+    background-color: #990017;
+    cursor: pointer;
+    color: #ffffff;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+    box-shadow:         3px 3px 5px 6px #ccc;
 }

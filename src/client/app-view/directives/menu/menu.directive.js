@@ -10,7 +10,8 @@
         return {
             restrict: 'E',
             templateUrl: 'app-view/directives/menu/menu.view.html',
-            controller: 'MenuController as vm'
+            controller: 'MenuController as vm',
+            scope: {}
         }
     }
 

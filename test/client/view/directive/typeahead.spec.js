@@ -20,17 +20,6 @@ describe('TypeaheadController', function() {
     expect(vm.selectedText).toBe("Option 1");
   }));
 
-  it('handleSelection should set the selected item', inject(function($controller, $rootScope) {
-    var scope = $rootScope.$new();
-    scope.onSelect = function() {};
-
-    var vm = $controller('TypeaheadController', {$scope: scope});
-
-    vm.handleSelection(option1);
-
-    expect(scope.selectedItem).toBe(option1);
-  }));
-
   it('handleSelection sets selected to true', inject(function($controller, $rootScope) {
     var scope = $rootScope.$new();
     scope.onSelect = function() {};
@@ -42,20 +31,29 @@ describe('TypeaheadController', function() {
     expect(vm.selected).toBe(true);
   }));
 
-  it('handleSelection calls the scope onSelect function', inject(function($controller, $rootScope) {
+  it('handleSelection calls the scope onSelect function and passes the item', inject(function($controller, $rootScope) {
     var scope = $rootScope.$new();
     var onSelectCalled = false
-    scope.onSelect = function() { onSelectCalled = true; };
+    var selectedItem = undefined;
+    scope.onSelect = function(selected) {
+        onSelectCalled = true;
+        selectedItem = selected.selectedItem;
+    };
 
     var vm = $controller('TypeaheadController', {$scope: scope});
 
     vm.handleSelection(option1);
 
     expect(onSelectCalled).toBe(true);
+    expect(selectedItem).toBe(option1);
   }));
 
   it('unSelect sets selected to false', inject(function($controller, $rootScope) {
     var scope = $rootScope.$new();
+    var unSelectCalled = false
+    scope.unSelect = function() {
+        unSelectCalled = true;
+    };
 
     var vm = $controller('TypeaheadController', {$scope: scope});
 
@@ -64,17 +62,21 @@ describe('TypeaheadController', function() {
     expect(vm.selected).toBe(false);
   }));
 
-  it('unSelect undefines the selectedItem', inject(function($controller, $rootScope) {
+  it('unSelect calls the parent unSelect fuction', inject(function($controller, $rootScope) {
     var scope = $rootScope.$new();
+    var unSelectCalled = false
+    scope.unSelect = function() {
+        unSelectCalled = true;
+    };
 
     var vm = $controller('TypeaheadController', {$scope: scope});
 
     vm.unSelect();
 
-    expect(scope.selectedItem).toBe(undefined);
+    expect(unSelectCalled).toBe(true);
   }));
 
-  it('unSelect undefines the selectedItem', inject(function($controller, $rootScope) {
+  it('onNoOptions calls the function from the parent', inject(function($controller, $rootScope) {
     var scope = $rootScope.$new();
     var onNoOptionsCalled = false;
     scope.onNoOptions = function() { onNoOptionsCalled = true; };

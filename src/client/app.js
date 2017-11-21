@@ -10,8 +10,8 @@
     function config($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
-                controller: 'HomeController',
-                templateUrl: 'app-view/page/home/home.view.html',
+                controller: 'CheckInOutController',
+                templateUrl: 'app-view/page/checkInOut/checkInOut.view.html',
                 controllerAs: 'vm'
             })
 
