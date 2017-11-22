@@ -41,6 +41,11 @@
             return user2;
         }
 
+        // Get all users the current signed in user has access too
+        function getUsers() {
+            return [user1, user2, user3, user4];
+        }
+
         // Sign Out User
         function signOutUser() {
             return $http({
@@ -87,8 +92,9 @@
         }
 
         return {
-            signOutUser: signOutUser,
             getCurrentUser: getCurrentUser,
+            getUsers: getUsers,
+            signOutUser: signOutUser,
             uploadStudents: uploadStudents,
             uploadPeerLeaders: uploadPeerLeaders,
             uploadAdministrators: uploadAdministrators

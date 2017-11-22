@@ -73,4 +73,19 @@ describe('UserService', function() {
     expect(typeof promise).toBe('object');
   }));
 
+  it('service should contain a function called getUsers', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+
+    expect(UserService.getUsers).not.toBe(undefined);
+    expect(typeof UserService.getUsers).toBe('function');
+
+  }));
+
+  it('getUsers should return a list', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+    var users = UserService.getUsers();
+
+    expect(Array.isArray(users)).toBe(true);
+
+  }));
 });

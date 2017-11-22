@@ -14,7 +14,18 @@
         vm.currentActivity = ActivityService.currentUserActivity(vm.currentUser.id);
 
         // Initialize partner list
-        vm.partners = PartnerService.getPartners();
+        function getActivePartners() {
+            var partners = PartnerService.getPartners();
+            vm.partners = [];
+
+            for (var i = 0; i < partners.length; i++) {
+                if (partners[i].active) {
+                    vm.partners.push(partners[i]);
+                }
+            }
+        }
+        vm.getActivePartners = getActivePartners;
+        vm.getActivePartners();
 
         // Initialize the map
         var defaultMapCenter = {lat: 42.360082, lng: -71.058880};
@@ -25,7 +36,7 @@
         // If there is currently an activity in process
         function initCurrentActivity(activity) {
             if (!!activity) {
-                for (var i = 0; i <  vm.partners.length; i++) {
+                for (var i = 0; i < vm.partners.length; i++) {
                     if (vm.partners[i].id === activity.partnerId) {
                         vm.selectedPartner = vm.partners[i];
                         continue;
@@ -98,14 +109,19 @@
                 var currLocation = selectedItem.locations[id];
                 currLocation.id = parseInt(id);
 
-                vm.locations.push(currLocation);
+                if (currLocation.active) {
+                    vm.locations.push(currLocation);
+                }
+
             }
 
             for (var id in selectedItem.contacts) {
                 var currContact = selectedItem.contacts[id];
                 currContact.id = parseInt(id);
 
-                vm.contacts.push(currContact);
+                if (currContact.active) {
+                    vm.contacts.push(currContact);
+                }
             }
         }
 

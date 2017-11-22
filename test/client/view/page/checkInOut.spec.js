@@ -28,22 +28,26 @@ var google = {
 var contact1 = {
     name: 'Katherine McDonough',
     email: 'mcdonough.kat@husky.neu.edu',
-    phone: '6175550129'
+    phone: '6175550129',
+    active: true
 };
 var contact2 = {
     name: 'Jennifer LaPierre',
     email: 'lapierre.j@husky.neu.edu',
-    phone: '6175558726'
+    phone: '6175558726',
+    active: false
 };
 var contact3 = {
     name: 'Lawrence Lim',
     email: 'lim.law@husky.neu.edu',
-    phone: '6175558217'
+    phone: '6175558217',
+    active: true
 };
 var contact4 = {
     name: 'Jonathon Northcott',
     email: 'northcott.j@husky.neu.edu',
-    phone: '6175552625'
+    phone: '6175552625',
+    active: true
 };
 
 // Example Locations
@@ -53,7 +57,8 @@ var location1 = {
     state: 'MA',
     zipcode: '02115',
     location: {lat: 42.341423, lng: -71.091129},
-    name: '165 Hemenway Street, Boston MA, 02115'
+    name: '165 Hemenway Street, Boston MA, 02115',
+    active: true
 };
 var location2 = {
     street: '171 Hemenway Street',
@@ -61,7 +66,8 @@ var location2 = {
     state: 'MA',
     zipcode: '02115',
     location: {lat: 42.341309, lng: -71.091202},
-    name: '171 Hemenway Street, Boston MA, 02115'
+    name: '171 Hemenway Street, Boston MA, 02115',
+    active: true
 };
 var location3 = {
     street: '360 Huntington Ave',
@@ -69,7 +75,8 @@ var location3 = {
     state: 'MA',
     zipcode: '02115',
     location: {lat: 42.340496, lng: -71.087897},
-    name: '360 Huntington Ave, Boston MA, 02115'
+    name: '360 Huntington Ave, Boston MA, 02115',
+    active: true
 };
 var location4 = {
     street: '633 Clark Street',
@@ -77,7 +84,8 @@ var location4 = {
     state: 'IL',
     zipcode: '60208',
     location: {lat: 42.050626, lng: -87.679727},
-    name: '633 Clark Street, Evanston IL, 60208'
+    name: '633 Clark Street, Evanston IL, 60208',
+    active: false
 };
 
 // Example Partners
@@ -86,21 +94,32 @@ var partner1 = {
     name: 'Partner 1',
     contacts: {1: contact1},
     locations: {1: location1, 2: location2},
-    core: true
+    core: true,
+    active: true
 };
 var partner2 = {
     id: 2,
     name: 'Partner 2',
     contacts: {},
     locations: {3: location3},
-    core: false
+    core: false,
+    active: true
 };
 var partner3 = {
     id: 3,
     name: 'Partner 3',
     contacts: {2: contact2, 3: contact3, 4: contact4},
     locations: {2: location2, 3: location3, 4: location4},
-    core: true
+    core: true,
+    active: true
+};
+var partner4 = {
+    id: 4,
+    name: 'Partner 4',
+    contacts: {2: contact2, 4: contact4},
+    locations: {2: location2, 4: location4},
+    core: false,
+    active: false
 };
 
 // Activity Examples
@@ -115,12 +134,39 @@ var activity3 = {
     comment: 'Assisted with organization of an event'
 };
 
+var vm;
+
 describe('CheckInOutController', function() {
 
   beforeEach(module('app'));
 
+  beforeEach(inject(function ($rootScope, $controller) {
+
+    function mockGetPartners () {
+        return [partner1, partner2, partner3, partner4];
+    }
+
+    var mockPartnerService = {
+        getPartners: mockGetPartners
+    }
+
+    var scope = $rootScope.$new();
+    vm = $controller('CheckInOutController', {PartnerService: mockPartnerService});
+
+  }));
+
+  it('getActivePartners only returns the list of active partners', inject(function($controller) {
+
+    vm.getActivePartners();
+
+    expect(vm.partners.length).toBe(3);
+    expect(vm.partners[0]).toBe(partner1);
+    expect(vm.partners[1]).toBe(partner2);
+    expect(vm.partners[2]).toBe(partner3);
+
+  }));
+
   it('onPartnerSelect sets the selected partner to the given item', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onPartnerSelect(partner1);
 
@@ -128,29 +174,45 @@ describe('CheckInOutController', function() {
   }));
 
   it('onPartnerSelect sets locations to the locations of the partner', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onPartnerSelect(partner1);
 
     expect(vm.locations.length).toBe(2);
     expect(vm.locations[0]).toBe(location1);
     expect(vm.locations[1]).toBe(location2);
+
   }));
 
-  it('onPartnerSelect sets contacts to the contacts of the partner', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
+  it('onPartnerSelect sets locations only to active locations of the partner', inject(function($controller) {
 
     vm.onPartnerSelect(partner3);
 
-    expect(vm.contacts.length).toBe(3);
-    expect(vm.contacts[0]).toBe(contact2);
-    expect(vm.contacts[1]).toBe(contact3);
-    expect(vm.contacts[2]).toBe(contact4);
+    expect(vm.locations.length).toBe(2);
+    expect(vm.locations[0]).toBe(location2);
+    expect(vm.locations[1]).toBe(location3);
+
+  }));
+
+  it('onPartnerSelect sets contacts to the contacts of the partner', inject(function($controller) {
+
+    vm.onPartnerSelect(partner1);
+
+    expect(vm.contacts.length).toBe(1);
+    expect(vm.contacts[0]).toBe(contact1);
+
+  }));
+
+  it('onPartnerSelect sets contacts only to active contacts of the partner', inject(function($controller) {
+
+    vm.onPartnerSelect(partner3);
+
+    expect(vm.contacts.length).toBe(2);
+    expect(vm.contacts[0]).toBe(contact3);
+    expect(vm.contacts[1]).toBe(contact4);
 
   }));
 
   it('partnerUnSelect unsets the selected partner', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onPartnerSelect(partner3);
     vm.partnerUnSelect();
@@ -160,7 +222,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('onLocationSelect sets the selected location to the given item', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onLocationSelect(location1);
 
@@ -169,7 +230,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('onLocationSelect gives Google the appropriate values', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onLocationSelect(location1);
 
@@ -180,7 +240,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('locationUnSelect unsets the selected location', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onLocationSelect(location1);
     vm.locationUnSelect();
@@ -190,7 +249,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('locationUnSelect gives Google the appropriate values', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onLocationSelect(location1);
     vm.locationUnSelect();
@@ -204,7 +262,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('onContactSelect sets the selected contact to the given item', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onContactSelect(contact1);
 
@@ -213,7 +270,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('contactUnSelect unsets the selected contact', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.onContactSelect(contact1);
     vm.contactUnSelect();
@@ -223,7 +279,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('can set up an current activity correctly', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.initCurrentActivity(activity3);
 
@@ -234,7 +289,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('can set up an current activity correctly with the Google map', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.initCurrentActivity(activity3);
 
@@ -247,7 +301,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('when there is no current activity correct button is check in', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.currentActivity = undefined;
 
@@ -258,7 +311,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('when there is a current activity correct button is check ouy', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.currentActivity = activity3;
 
@@ -269,7 +321,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('when there is no current activity current activity is created when checked in', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.currentActivity = undefined;
     vm.onPartnerSelect(partner3);
@@ -286,7 +337,6 @@ describe('CheckInOutController', function() {
   }));
 
   it('when there is a current activity current activity cleared', inject(function($controller) {
-    var vm = $controller('CheckInOutController');
 
     vm.currentActivity = activity3;
 

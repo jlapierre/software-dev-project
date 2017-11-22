@@ -262,6 +262,11 @@ body {
     background-color: #fafafa;
 }
 
+.excel-button-position {
+    width: 100%;
+    height: 4em;
+}
+
 .excel-button {
     width: 25%;
     float: right;
@@ -277,4 +282,129 @@ body {
 
 .file-selector {
     display: none;
+}
+
+.community-partner {
+    width: 85%;
+    margin: 10px auto;
+}
+
+.partner-title {
+    width: 100%;
+    height: 1em;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    padding: 10px 10px;
+    background-color: #f2f2f2;
+}
+
+.partner-title:hover, .partner-selected {
+    background-color: #990017;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.arrow-down {
+    float: right;
+    margin-top: -1.5em;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.partner-element {
+    margin: 10px 0px;
+}
+
+.partner-info {
+    width: 100%;
+    padding: 20px 0px 20px 20px;
+    background-color: #f2f2f2;
+}
+
+.partner-header {
+    width: 100%;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+}
+
+.partner-label {
+    float: left;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+}
+
+.partner-input {
+    overflow: hidden;
+    display: block;
+    padding: 0 4px 0 10px
+}
+
+.partner-text {
+    width: 90%;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    background-color: #ffffff;
+}
+
+.partner-location, .partner-contact {
+    width: 100%;
+    margin: 10px;
+}
+
+.delete-element {
+    width: 15%;
+    background-color: #990017;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    padding: 5px;
+    text-align: center;
+    float: right;
+    margin-top: -2em;
+    margin-right: 10%;
+}
+
+.element-divider {
+    width: 90%;
+    height: 0;
+    border-bottom: 1px solid #cccccc;
+}
+
+.element-buttons {
+    padding: 0px 0px 20px 0px;
+}
+
+.element-button {
+    width: 45%;
+    background-color: #990017;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    padding: 5px;
+    text-align: center;
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.add-button-position {
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+
+.add-button-internal-position {
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+
+.add-button {
+    width: 1em;
+    background-color: #990017;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    padding: 0px 5px 5px 5px;
+    text-align: center;
 }

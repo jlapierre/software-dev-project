@@ -8,38 +8,162 @@
     <div class="manage-tabs">
       <div class="manage-tab"
            ng-class="{'manage-tab-selected': vm.selectedTab === 'Community Partners'}"
-           ng-click="vm.selectedTab = 'Community Partners'">
+           ng-click="vm.setTab('Community Partners')">
         Community Partners
       </div>
       <div class="manage-tab"
            ng-class="{'manage-tab-selected': vm.selectedTab === 'Students'}"
-           ng-click="vm.selectedTab = 'Students'">
+           ng-click="vm.setTab('Students')">
         Students
       </div>
       <div class="manage-tab"
            ng-class="{'manage-tab-selected': vm.selectedTab === 'Peer Leaders'}"
-           ng-click="vm.selectedTab = 'Peer Leaders'">
+           ng-click="vm.setTab('Peer Leaders')">
         Peer Leaders
       </div>
       <div class="manage-tab"
            ng-class="{'manage-tab-selected': vm.selectedTab === 'Administrators'}"
-           ng-click="vm.selectedTab = 'Administrators'">
+           ng-click="vm.setTab('Administrators')">
         Administrators
       </div>
     </div>
 
-    <button class="excel-button">
-      <label>
-        Add from Excel File
-        <input type="file"
-               id="files"
-               name="files"
-               accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-               class="file-selector" file-handler>
-      </label>
-    </button>
+    <div class="excel-button-position">
+      <button class="excel-button">
+        <label>
+          Add from Excel File
+          <input type="file"
+                 id="files"
+                 name="files"
+                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                 class="file-selector" file-handler>
+        </label>
+      </button>
+    </div>
 
-    <div>{{vm.type}}</div>
+    <div ng-if="vm.selectedTab === 'Community Partners'">
+      <ul class="community-partner" ng-repeat="partner in vm.partners">
+
+        <div class="partner-title" ng-click="vm.expandElement(partner)"
+             ng-class="{'partner-selected': partner.expanded}">
+          {{ partner.name }}
+        </div>
+
+        <i class="arrow-down"></i>
+
+        <div class="partner-info" ng-if="partner.expanded">
+          <div class="partner-element">
+            <label class="partner-label"> Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="partner.name">
+            </span>
+          </div>
+
+
+          <div class="partner-element">
+            <label class="partner-label"> Core Community Partner: </label>
+            <span class="partner-input">
+              <input type="checkbox" ng-model="partner.core">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Active: </label>
+            <span class="partner-input">
+              <input type="checkbox" ng-model="partner.active">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-header"> Locations: </label>
+
+            <div class="add-button-internal-position">
+              <div class="add-button" ng-click="vm.addLocation($parent.$index)"> + </div>
+            </div>
+
+            <ul class="partner-location" ng-repeat="(id, location) in partner.locations">
+              <span class="partner-input">
+                <input class="partner-text" type="text" autocomplete="off" ng-model="location.name">
+              </span>
+
+              <div class="partner-element">
+                <label class="partner-label"> Active: </label>
+                <span class="partner-input">
+                  <input type="checkbox" ng-model="location.active">
+                </span>
+              </div>
+
+              <div class="element-divider"></div>
+
+              <div class="delete-element"
+                   ng-click="vm.removePartnerLocation($parent.$index, id)">
+                Delete
+              </div>
+
+            </ul>
+          </div>
+
+          <div class="element-divider" ng-if="vm.noLocations(partner.locations)"></div>
+
+          <div class="partner-element">
+            <label class="partner-header"> Contacts: </label>
+
+            <div class="add-button-internal-position">
+              <div class="add-button" ng-click="vm.addContact($parent.$index)"> + </div>
+            </div>
+
+            <ul class="partner-contact" ng-repeat="(id, contact) in partner.contacts">
+              <div class="partner-element">
+                <label class="partner-label"> Name: </label>
+                <span class="partner-input">
+                  <input class="partner-text" type="text" autocomplete="off" ng-model="contact.name">
+                </span>
+              </div>
+
+              <div class="partner-element">
+                <label class="partner-label"> Phone: </label>
+                <span class="partner-input">
+                  <input class="partner-text" type="text" autocomplete="off" ng-model="contact.phone">
+                </span>
+              </div>
+
+              <div class="partner-element">
+                <label class="partner-label"> Email: </label>
+                <span class="partner-input">
+                  <input class="partner-text" type="text" autocomplete="off" ng-model="contact.email">
+                </span>
+              </div>
+
+              <div class="partner-element">
+                <label class="partner-label"> Active: </label>
+                <span class="partner-input">
+                  <input type="checkbox" ng-model="contact.active">
+                </span>
+              </div>
+
+              <div class="delete-element"
+                   ng-click="vm.removePartnerContact($parent.$index, id)">
+                Delete
+              </div>
+
+              <div class="element-divider"></div>
+
+            </ul>
+          </div>
+
+          <div class="element-buttons">
+            <div class="element-button" ng-click="vm.savePartner($index)">Save Partner</div>
+            <div class="element-button" ng-click="vm.deletePartner($index)">Delete Partner</div>
+          </div>
+
+        </div>
+
+      </ul>
+    </div>
+
+    <div class="add-button-position">
+      <div class="add-button" ng-click="vm.addElement()"> + </div>
+    </div>
 
   </div>
 </div>
