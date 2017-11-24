@@ -2,23 +2,31 @@ pipeline {
     agent any
 
     stages {
-        stage('Building Test Env') {
+        stage('Run Python Unit Tests') {
             steps {
-                sh 'ls'
-                sh 'ssh -tt -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.143<<EOT'
-                sh 'mkdir chicken_scat'
-                sh 'ls'
-                sh 'EOT'
+                ./test/python_feature_tests.sh
             }
         }
-        stage('Test') {
+        stage('Run Karma Tests') {
             steps {
-                echo 'Testing..'
+                ./test/karma_setup.sh
+                sh 'karma start'
             }
         }
-        stage('Deploy') {
+        stage('Deploy Test Environment') {
             steps {
-                echo 'Deploying....'
+                sh 'ssh -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.143'
+                echo 'add -tt and pipe in script later'
+            }
+        }
+        stage('Run Integration Tests') {
+            steps {
+
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+
             }
         }
     }
