@@ -21,12 +21,12 @@ pipeline {
         }
         stage('Run Integration Tests') {
             steps {
-
+                echo 'This is where API calls will go...'
             }
         }
         stage('Deploy to Production') {
             steps {
-
+                echo 'This is where sh file to deploy to prod will go...'
             }
         }
     }
