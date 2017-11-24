@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+        stage('Install needed Linux packages') {
+            steps {
+                sh "apt-get install python-pip"
+                sh "apt-get install virtualenv"
+            }
+        }
         stage('Run Python Unit Tests') {
             steps {
                 sh "bash test/python_feature_tests.sh"
