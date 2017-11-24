@@ -4,12 +4,12 @@ pipeline {
     stages {
         stage('Run Python Unit Tests') {
             steps {
-                ./test/python_feature_tests.sh
+                sh "./test/python_feature_tests.sh"
             }
         }
         stage('Run Karma Tests') {
             steps {
-                ./test/karma_setup.sh
+                sh "./test/karma_setup.sh"
                 sh 'karma start'
             }
         }
