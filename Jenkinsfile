@@ -1,22 +1,8 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
-            sshagent(['fcf9b555-157a-4a9b-826c-0bfd00a5c836']) {
+node {
+  stage('Building Test Env') {
+    sshagent(['fcf9b555-157a-4a9b-826c-0bfd00a5c836']) {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@128.31.25.143'
                 sh 'mkdir chicken_scat'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
     }
+  }
 }
