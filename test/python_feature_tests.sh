@@ -4,7 +4,7 @@ source $(dirname $0)/ensure_workspace.sh
 PYENV_HOME=$WORKSPACE/.pyenv/
 
 # Clean workspace
-bash -e tests/clean.sh
+bash -e test/clean.sh
 
 # Create virtualenv and install necessary packages
 virtualenv $PYENV_HOME -p python2.7

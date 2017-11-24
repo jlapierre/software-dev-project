@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Install needed Linux packages') {
+        stage('Setup Test Environment') {
             steps {
-                sh "sudo apt-get install python-pip"
-                sh "sudo apt-get install virtualenv"
+                sh "bash test/start_test_env.sh"
             }
         }
         stage('Run Python Unit Tests') {
@@ -15,7 +14,6 @@ pipeline {
         }
         stage('Run Karma Tests') {
             steps {
-                sh "bash test/karma_setup.sh"
                 sh 'karma start'
             }
         }
