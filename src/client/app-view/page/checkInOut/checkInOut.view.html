@@ -1,0 +1,45 @@
+<aces-header show-menu="vm.showMenu"></aces-header>
+<div class="page-with-menu">
+  <aces-menu ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
+  <div class="page">
+    <aces-typeahead options="vm.partners"
+                    selected-item="vm.selectedPartner"
+                    on-select="vm.onPartnerSelect(selectedItem)"
+                    un-select="vm.partnerUnSelect()"
+                    on-no-options="vm.noop()"
+                    no-options="Add a New Community Partner"
+                    placeholder="Select a Community Partner"
+                    disabled="vm.currentActivity"></aces-typeahead>
+
+    <aces-typeahead options="vm.locations"
+                    selected-item="vm.selectedLocation"
+                    on-select="vm.onLocationSelect(selectedItem)"
+                    un-select="vm.locationUnSelect()"
+                    on-no-options="vm.noop()"
+                    no-options="Add a New Location"
+                    placeholder="Select a Location"
+                    disabled="!vm.selectedPartner || vm.currentActivity"></aces-typeahead>
+
+    <aces-typeahead options="vm.contacts"
+                    selected-item="vm.selectedContact"
+                    on-select="vm.onContactSelect(selectedItem)"
+                    un-select="vm.contactUnSelect()"
+                    on-no-options="vm.noop()"
+                    no-options="Add a New Contact"
+                    placeholder="Select a Contact"
+                    disabled="!vm.selectedPartner || vm.currentActivity"></aces-typeahead>
+
+    <div id="map" class="map"></div>
+
+    <div class="check-in-out-button"
+         ng-class="{'check-in-out-button-disabled': !vm.selectedPartner, 'check-in-out-button-enabled': !!vm.selectedPartner}"
+         ng-click="vm.checkInOrOut()">
+      {{ vm.correctButton() }}
+    </div>
+  </div>
+</div>
+
+
+
+
+

@@ -6,6 +6,41 @@
         .factory('UserService', UserService);
 
     function UserService($http, $window) {
+        // User Examples
+        var user1 = {
+            id: 1,
+            firstName: 'Katherine',
+            lastName: 'McDonough',
+            email: 'mcdonough.kat@husky.neu.edu',
+            authRole: 'student'
+        };
+        var user2 = {
+            id: 2,
+            firstName: 'Jennifer',
+            lastName: 'LaPierre',
+            email: 'lapierre.j@husky.neu.edu',
+            authRole: 'peer'
+        };
+        var user3 = {
+            id: 3,
+            firstName: 'Lawrence',
+            lastName: 'Lim',
+            email: 'lim.law@husky.neu.edu',
+            authRole: 'admin'
+        };
+        var user4 = {
+            id: 4,
+            firstName: 'Jonathon',
+            lastName: 'Northcott',
+            email: 'northcott.j@husky.neu.edu',
+            authRole: 'student'
+        };
+
+        // Current Signed In User
+        function getCurrentUser() {
+            return user1;
+        }
+
         // Sign Out User
         function signOutUser() {
             return $http({
@@ -19,7 +54,8 @@
         }
 
         return {
-            signOutUser: signOutUser
+            signOutUser: signOutUser,
+            getCurrentUser: getCurrentUser
         };
     }
 

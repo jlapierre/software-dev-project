@@ -10,11 +10,7 @@
   </head>
 
   <body>
-    <aces-header hide-menu="vm.hideMenu"></aces-header>
-    <div class="page">
-      <aces-menu hide-menu="vm.hideMenu"></aces-menu>
-      <div ng-view></div>
-    </div>
+    <div ng-view></div>
 
     <!--Angular JS Files-->
     <script src="js/angular.min.js"></script>
@@ -22,9 +18,16 @@
 
     <script src="app.js"></script>
     <script src="app-services/user.service.js"></script>
+    <script src="app-services/activity.service.js"></script>
+    <script src="app-services/partner.service.js"></script>
     <script src="app-view/directives/header/header.directive.js"></script>
     <script src="app-view/directives/menu/menu.directive.js"></script>
-    <script src="app-view/page/home/home.controller.js"></script>
+    <script src="app-view/directives/typeahead/typeahead.directive.js"></script>
+    <script src="app-view/page/checkInOut/checkInOut.controller.js"></script>
+
+    <!--Google Maps API-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcZzsQsu_mkjSOYx6RcS34UG4TCC9mDM&libraries=places">
+    </script>
 
   </body>
 </html>

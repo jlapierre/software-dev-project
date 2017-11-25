@@ -8,25 +8,25 @@ describe('HeaderController', function() {
     var scope = $rootScope.$new();
     var vm = $controller('HeaderController', {$scope: scope});
 
-    expect(scope.hideMenu).toBe(undefined);
+    expect(scope.showMenu).toBe(undefined);
 
     vm.toggleMenu();
 
-    expect(scope.hideMenu).toBe(true);
+    expect(scope.showMenu).toBe(true);
   }));
 
   it('expect toggleMenu to swap hideMenu to false', inject(function($controller, $rootScope) {
     var scope = $rootScope.$new();
     var vm = $controller('HeaderController', {$scope: scope});
 
-    expect(scope.hideMenu).toBe(undefined);
+    expect(scope.showMenu).toBe(undefined);
 
     vm.toggleMenu();
 
-    expect(scope.hideMenu).toBe(true);
+    expect(scope.showMenu).toBe(true);
 
     vm.toggleMenu();
 
-    expect(scope.hideMenu).toBe(false);
+    expect(scope.showMenu).toBe(false);
   }));
 });
