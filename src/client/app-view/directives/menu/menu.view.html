@@ -1,7 +1,7 @@
 <div class="menu" ng-class="{'hide-menu': hideMenu}">
-    <ul class="menu-color">
-        <li class="menu-color menu-item" ng-repeat="page in vm.pages">
-            {{page}}
-        </li>
-    </ul>
+  <ul class="menu-color">
+    <li class="menu-color menu-item" ng-repeat="page in vm.pages" ng-click="page.onClick()">
+      {{page.name}}
+    </li>
+  </ul>
 </div>

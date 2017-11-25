@@ -7,7 +7,7 @@ describe('MenuController', function() {
   it('should have a list of seven pages', inject(function($controller) {
     var vm = $controller('MenuController');
 
-    expect(vm.pages.length).toBe(7);
+    expect(vm.pages.length).toBe(8);
   }));
 
 });
