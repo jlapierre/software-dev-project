@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Setup Test Environment') {
             steps {
+                echo ""${env.BRANCH_NAME}"
                 sh "bash test/start_test_env.sh"
             }
         }
