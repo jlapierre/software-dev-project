@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    overflow-x: scroll;
+    background-color: #fafafa;
+    height: 100%;
+}
+
+.login-background, .login, .login-header, .login-button {
+    background-color: #d9001f;
+}
+
+.login {
+    height: 100%;
+    width: 100%;
+ }
+
+.login-header {
+    color: #ffffff;
+    font-size: 3em;
+    text-align: center;
+    margin-top: 2em;
+    height: 1.5em;
+    font-family: garamond;
+}
+
+.login-button {
+    margin-left: -95px;
+    padding-left: 50%;
+    height: 46px;
+}

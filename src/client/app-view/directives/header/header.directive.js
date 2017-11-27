@@ -10,7 +10,7 @@
         return {
             restrict: 'E',
             scope: {
-                hideMenu: '='
+                showMenu: '='
             },
             templateUrl: 'app-view/directives/header/header.view.html',
             controller: 'HeaderController as vm'
@@ -21,7 +21,7 @@
         var vm = this;
 
         vm.toggleMenu = function() {
-            $scope.hideMenu = !$scope.hideMenu;
+            $scope.showMenu = !$scope.showMenu;
         }
     }
 

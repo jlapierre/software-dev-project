@@ -1,14 +1,14 @@
 * {
     margin: 0;
     padding: 0;
-    border: 0;
     outline: 0;
     font-size: 100%;
     vertical-align: baseline;
     background: transparent;
-    overflow-x: scroll;
-    background-color: #fafafa;
-    height: 100%;
+}
+
+li {
+    display: list-item;
 }
 
 .header {
@@ -26,7 +26,16 @@
     background-color: #d9001f;
 }
 
+body {
+    background-color: #f2f2f2;
+}
+
 @media only screen and (max-width: 900px) {
+    .page {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
     .menu-button {
         height: 4em;
         width: 75px;
@@ -52,39 +61,58 @@
         background-color: #8d0014;
     }
 
+    .show-menu {
+        z-index: 99;
+        position: absolute;
+        right: 0;
+        width: 75%;
+    }
+
     .hide-menu {
         display: none;
     }
 
     .menu {
         height: 100%;
-        width: 75%;
-        float: right;
-        background-color: #f0f0f0;
-        z-index: 1;
+        width: 100%;
+        background-color: #f2f2f2;
+    }
+
+    .typeahead-options {
+        width: 44%;
     }
 
 }
 
-
-.page {
+.page-with-menu {
     top: 4em;
 }
 
+.page {
+    background-color: #fafafa;
+    height: 100%;
+}
+
 @media only screen and (min-width: 900px) {
-    .menu-button, menu-bars, menu-bar {
-        display: none
+    .page {
+        width: calc(100% - 200px);
+        overflow-x: scroll;
+        float: right;
     }
 
-    .hide-menu {
-        display: block;
+    .menu-button, menu-bars, menu-bar {
+        display: none
     }
 
     .menu {
         height: 100%;
         width: 200px;
         float: left;
-        background-color: #f0f0f0;
+        background-color: #f2f2f2;
+    }
+
+    .typeahead-options {
+        width: calc(45% - 100px);
     }
 }
 
@@ -100,16 +128,105 @@
 }
 
 .menu-color {
-    background-color: #f0f0f0;
+    background-color: #f2f2f2;
 }
-
-li {
-    display: list-item;
-}
-
-
 
 .menu-item:hover {
     background-color: #dddddd;
 }
 
+.typeahead {
+    height: initial;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.typeahead-textbox-position {
+    width: 100%;
+    height: initial;
+    margin: 0 auto;
+}
+
+.typeahead-textbox {
+    width: 90%;
+    border: 2px solid #990017;
+    border-radius: 20px;
+    margin: 10px 10px 0px 10px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.typeahead-textbox-disabled {
+    background-color: #dedede;
+}
+
+.typeahead-option-position {
+    width: 90%;
+    margin: 0 20px;
+}
+
+.typeahead-options {
+    border-bottom: 2px solid #cccccc;
+    border-left: 2px solid #cccccc;
+    border-right: 2px solid #cccccc;
+    position: absolute;
+    height: initial;
+    margin 0 auto;
+    margin-left: 5px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.typeahead-option {
+    width: calc(100% - 20px);
+    padding: 10px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    color: #5a5a5a;
+    border-top: 2px solid #cccccc;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    list-style: none;
+}
+
+.typeahead-option-text {
+    background-color: inherit;
+    color: inherit;
+}
+
+.typeahead-option:hover {
+    background-color: #990017;
+    color: #ffffff;
+}
+
+.map {
+    height: 400px;
+    width: 60%;
+    margin: 20px auto;
+}
+
+.check-in-out-button {
+    height: 2em;
+    width: 60%;
+    margin: 20px auto;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+
+    text-align: center;
+    padding: 15px 10px 0px 10px;
+    font-size: 1.5em;
+
+}
+
+.check-in-out-button-disabled {
+    background-color: #888888;
+    color: #dedede;
+    cursor: default;
+}
+
+.check-in-out-button-enabled {
+    background-color: #990017;
+    cursor: pointer;
+    color: #ffffff;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+    box-shadow:         3px 3px 5px 6px #ccc;
+}

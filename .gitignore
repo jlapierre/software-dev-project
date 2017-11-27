@@ -5,3 +5,5 @@ client/bower_components
 dist
 private.py
 .DS_Store
+Prototypes/*
+node_modules/*

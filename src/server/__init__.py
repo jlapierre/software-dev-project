@@ -11,3 +11,7 @@ ROOT_PATH = os.path.abspath(os.path.join(app.root_path, '..'))
 
 # Add example api routes
 app.register_blueprint(example_api)
+
+# Add CORS
+app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+app.config['CORS_HEADERS'] = 'Content-Type'

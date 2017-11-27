@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html ng-app="app">
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="description" content="Responsive website for managing students in NU ACES" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>NU|ACES</title>
-        <link href="app-content/app.css" rel="stylesheet" type="text/css" />
-    </head>
+  <head>
+  <meta charset="utf-8">
+  <meta name="description" content="Responsive website for managing students in NU ACES">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NU|ACES</title>
+  <link href="app-content/app.css" rel="stylesheet">
+  </head>
 
-    <body>
-        <div ng-view></div>
+  <body>
+    <div ng-view></div>
 
-        <!--Angular JS Files-->
-        <script src="js/angular.min.js"></script>
-        <script src="js/angular-route.min.js"></script>
+    <!--Angular JS Files-->
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
 
-        <script src="app.js"></script>
-        <script src="app-view/directives/header/header.directive.js"></script>
-        <script src="app-view/directives/menu/menu.directive.js"></script>
-        <script src="app-view/page/home/home.controller.js"></script>
+    <script src="app.js"></script>
+    <script src="app-services/user.service.js"></script>
+    <script src="app-services/activity.service.js"></script>
+    <script src="app-services/partner.service.js"></script>
+    <script src="app-view/directives/header/header.directive.js"></script>
+    <script src="app-view/directives/menu/menu.directive.js"></script>
+    <script src="app-view/directives/typeahead/typeahead.directive.js"></script>
+    <script src="app-view/page/checkInOut/checkInOut.controller.js"></script>
 
-    </body>
+    <!--Google Maps API-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcZzsQsu_mkjSOYx6RcS34UG4TCC9mDM&libraries=places">
+    </script>
+
+  </body>
 </html>
