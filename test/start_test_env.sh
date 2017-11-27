@@ -8,11 +8,13 @@ sudo rm -rf 108
 echo "Cloning 108 repo..."
 git clone git@github.ccs.neu.edu:CS4500/108.git
 cd ~/108
-echo "Pulling and checking out the new branch addition..."
-git pull origin adding-jenkins
-git checkout adding-jenkins
+echo "Pulling and checking out $1..."
+git pull origin $1
+git checkout $1
 echo "Installing requirements.txt..."
 sudo -H pip install -r requirements.txt
+cp ~/private.py ~/108/src/server/config/private.py
+python ~/108/src/dev_seed.py
 bash ~/108/test/karma_setup.sh
 exit
 EOSSH

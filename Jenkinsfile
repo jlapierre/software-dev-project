@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Setup Test Environment') {
             steps {
-                echo "${env.BRANCH_NAME}"
-                sh "bash test/start_test_env.sh"
+                sh "bash test/start_test_env.sh ${env.BRANCH_NAME}"
             }
         }
         stage('Run Python Unit Tests') {
