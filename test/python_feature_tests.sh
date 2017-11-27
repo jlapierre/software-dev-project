@@ -4,6 +4,7 @@ source $(dirname $0)/ensure_workspace.sh
 PYENV_HOME=$WORKSPACE/.pyenv/
 
 # Clean workspace
+# Adding generic comment to trigger build
 bash -e test/clean.sh
 
 # Create virtualenv and install necessary packages
