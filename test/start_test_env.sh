@@ -1,4 +1,4 @@
-ssh -tt -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 << 'EOF'
+ssh -tt -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 << EOF
 sudo apt-get install python-pip
 sudo apt-get install virtualenv
 sudo rm -r 108
