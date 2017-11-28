@@ -1,10 +1,10 @@
-from server.auth.auth_service import GOOGLE
-from flask import Blueprint, send_from_directory, render_template
+from server.auth.auth_service import GOOGLE, require_login
+from flask import Blueprint, send_from_directory
 
-example_api = Blueprint('example_api', __name__)
+frontend_api = Blueprint('frontend_api', __name__)
 
 
-@example_api.after_request
+@frontend_api.after_request
 def add_header(req):
     """
     Add headers to both force latest IE rendering engine or Chrome Frame,
@@ -18,11 +18,9 @@ def add_header(req):
 
 
 # Serves all content within the client folder as the root /
-@example_api.route('/<path:path>')
+@frontend_api.route('/<path:path>')
 @GOOGLE.authorized_handler
+@require_login
 def serve_frontend(resp, path):
-    access_token = get_access_token()
-    if access_token is None:
-        return render_template('login.view.html')
     from server import ROOT_PATH
     return send_from_directory(ROOT_PATH + '/client/', path)

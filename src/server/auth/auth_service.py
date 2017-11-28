@@ -1,12 +1,7 @@
-from flask import Blueprint, session, redirect, url_for
-from flask.ext.cors import CORS
+from flask import session, redirect, url_for, render_template
 from flask_oauth import OAuth
 from functools import wraps
 from server.config.private import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
-
-example_api = Blueprint('example_api', __name__)
-
-CORS = CORS(example_api, resources={r"*": {"origins": "http://127.0.0.1:5000"}})
 
 OAUTH = OAuth()
 GOOGLE = OAUTH.remote_app(
@@ -28,8 +23,23 @@ GOOGLE = OAUTH.remote_app(
 def require_access_token(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        access_token = session.get('access_token')
+        access_token = get_access_token()
         if access_token is None:
             return redirect(url_for('sso_api.login'))
         return f(*args, **kwargs)
     return decorated
+
+
+def require_login(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        access_token = get_access_token()
+        if access_token is None:
+            return render_template('login.view.html')
+        return f(*args, **kwargs)
+    return decorated
+
+
+@GOOGLE.tokengetter
+def get_access_token():
+    return session.get('access_token')
