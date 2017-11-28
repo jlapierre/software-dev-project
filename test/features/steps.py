@@ -1,11 +1,12 @@
+import copy
 import datetime
 
-import copy
 from lettuce import *
+
+from server.api.activity.controller.activity_controller import *
+from server.api.partner.controller.partner_controller import *
+from server.api.user.controller.user_controller import *
 from test.data.MockDb import *
-from src.server.api.users import *
-from src.server.api.partners import *
-from src.server.api.activities import *
 
 
 def fields_match(expected, actual):
