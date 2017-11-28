@@ -9,8 +9,7 @@ echo "Cloning 108 repo..."
 git clone git@github.ccs.neu.edu:CS4500/108.git
 cd ~/108
 echo "Pulling and checking out $1..."
-git pull origin $1
-git checkout $1
+git checkout --track origin/$1
 echo "Installing requirements.txt..."
 sudo -H pip install -r requirements.txt
 cp ~/private.py ~/108/src/server/config/private.py
