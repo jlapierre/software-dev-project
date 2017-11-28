@@ -1,18 +1,13 @@
-# if workspace does not exist, create in root of project dir
-source $(dirname $0)/ensure_workspace.sh
-
-PYENV_HOME=$WORKSPACE/.pyenv/
-
-# Clean workspace
-# Adding generic comment to trigger build
-bash -e test/clean.sh
-
-# Create virtualenv and install necessary packages
-virtualenv $PYENV_HOME -p python2.7
-. $PYENV_HOME/bin/activate
-pip install --quiet -r requirements.txt
-
-coverage run --source=src $(which lettuce) -v 3 --with-xunit tests/features/
-echo $(coverage xml -o coverage2.xml || true)
-# if coverage produced empty .xml FIX invalid xml build fail for cobertura
-if [ ! -s coverage2.xml ]; then rm coverage2.xml; fi
+ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 <<EOSSH
+cd ~/108
+git checkout $1
+echo "Starting a virtualenv..."
+virtualenv .pyenv -p python2.7
+. .pyenv/bin/activate
+echo "Installing pip requirements..."
+sudo -H pip install --quiet -r requirements.txt
+echo "Starting feature tests..."
+lettuce test
+coverage report
+exit
+EOSSH

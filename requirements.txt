@@ -4,3 +4,4 @@ flask
 flask_oauth
 lettuce
 flask-cors
+coverage

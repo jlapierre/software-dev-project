@@ -9,12 +9,12 @@ pipeline {
         }
         stage('Run Python Unit Tests') {
             steps {
-                sh "bash test/python_feature_tests.sh"
+                sh "bash test/python_feature_tests.sh ${env.BRANCH_NAME}"
             }
         }
         stage('Run Karma Tests') {
             steps {
-                sh 'karma start'
+                sh 'bash test/angular_karma_tests.sh ${env.BRANCH_NAME}'
             }
         }
         stage('Deploy Test Environment') {
