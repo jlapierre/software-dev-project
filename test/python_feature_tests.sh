@@ -7,6 +7,7 @@ virtualenv .pyenv -p python2.7
 echo "Installing pip requirements..."
 sudo -H pip install --quiet -r requirements.txt
 echo "Starting feature tests..."
+export PYTHONPATH="${PYTHONPATH}:/home/ubuntu/108/src"
 lettuce test
 coverage report
 exit
