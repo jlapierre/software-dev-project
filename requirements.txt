@@ -2,3 +2,4 @@ pymongo
 bson
 flask
 flask_oauth
+flask-cors

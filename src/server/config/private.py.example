@@ -4,9 +4,6 @@ MONGO_DB_URL = ''
 # Mongo Database name
 MONGO_DB_NAME = ''
 
-# Token to authenticate Slack webhook
-SLACK_TOKEN = ''
-
 # Google API 
 GOOGLE_CLIENT_ID = ''
 GOOGLE_CLIENT_SECRET = ''
