@@ -5,4 +5,3 @@ def get_partners(database):
 
 def upsert_partner(database, partner):
     """add or update the given partner in the database"""
-    
