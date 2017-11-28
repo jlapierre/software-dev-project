@@ -6,14 +6,14 @@ class MockDb:
         self.data = {}
 
     """obj must have ID"""
-    def addData(self, collection, obj):
+    def add_data(self, collection, obj):
         if not self.data.get(collection, False):
             self.data[collection] = {}
         self.data[collection][obj['ID']] = obj
 
-    def addDataMulti(self, collection, objs):
+    def add_data_multi(self, collection, objs):
         for obj in objs:
-            self.addData(collection, obj)
+            self.add_data(collection, obj)
 
-    def getData(self, collection, ID):
+    def get_data(self, collection, ID):
         return self.data[collection][ID]
