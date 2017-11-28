@@ -1,0 +1,15 @@
+{ "name": "nu-aces",
+  "description": "NU|ACES Civic Activity and Volunteering Application",
+  "version": "0.0.1",
+  "devDependencies": {
+    "angular": "^1.6.7",
+    "angular-mocks": "^1.6.7",
+    "angular-route": "^1.6.7",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-verbose-reporter": "0.0.6"
+  }
+}
