@@ -13,7 +13,9 @@ git checkout --track origin/$1
 echo "Installing requirements.txt..."
 sudo -H pip install -r requirements.txt
 cp ~/private.py ~/108/src/server/config/private.py
-python ~/108/src/dev_seed.py
+python ~/108/src/dev_seed.py <<EOF
+y
+EOF
 bash ~/108/test/karma_setup.sh
 exit
 EOSSH
