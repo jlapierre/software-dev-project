@@ -9,7 +9,6 @@
     "karma": "^1.7.1",
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
-    "karma-phantomjs-launcher": "^1.0.4",
     "karma-verbose-reporter": "0.0.6"
   }
 }
