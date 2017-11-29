@@ -14,23 +14,23 @@ pipeline {
         }
         stage('Run Karma Tests') {
             steps {
-                sh 'bash test/angular_karma_tests.sh ${env.BRANCH_NAME}'
+                sh "bash test/angular_karma_tests.sh ${env.BRANCH_NAME}"
             }
         }
         stage('Deploy Test Environment') {
             steps {
-                sh 'ssh -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.143'
-                echo 'add -tt and pipe in script later'
+                sh "ssh -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.143"
+                echo "add -tt and pipe in script later"
             }
         }
         stage('Run Integration Tests') {
             steps {
-                echo 'This is where API calls will go...'
+                echo "This is where API calls will go..."
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo 'This is where sh file to deploy to prod will go...'
+                echo "This is where sh file to deploy to prod will go..."
             }
         }
     }
