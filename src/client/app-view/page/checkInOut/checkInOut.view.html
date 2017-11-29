@@ -5,7 +5,7 @@
              ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
   <div class="page">
     <aces-typeahead options="vm.partners"
-                    selected-item="vm.selectedPartner"
+                    selected-text="{{ vm.selectedPartner.name }}"
                     on-select="vm.onPartnerSelect(selectedItem)"
                     un-select="vm.partnerUnSelect()"
                     on-no-options="vm.noop()"
@@ -14,7 +14,7 @@
                     disabled="vm.currentActivity"></aces-typeahead>
 
     <aces-typeahead options="vm.locations"
-                    selected-item="vm.selectedLocation"
+                    selected-text="{{ vm.selectedLocation.name }}"
                     on-select="vm.onLocationSelect(selectedItem)"
                     un-select="vm.locationUnSelect()"
                     on-no-options="vm.noop()"
@@ -23,7 +23,7 @@
                     disabled="!vm.selectedPartner || vm.currentActivity"></aces-typeahead>
 
     <aces-typeahead options="vm.contacts"
-                    selected-item="vm.selectedContact"
+                    selected-text="{{ vm.selectedContact.name }}"
                     on-select="vm.onContactSelect(selectedItem)"
                     un-select="vm.contactUnSelect()"
                     on-no-options="vm.noop()"

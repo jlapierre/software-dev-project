@@ -12,28 +12,46 @@
             firstName: 'Katherine',
             lastName: 'McDonough',
             email: 'mcdonough.kat@husky.neu.edu',
-            authRole: 'Student'
+            peerLeaders: [2],
+            authRole: 'Student',
+            pronouns: 'she',
+            uStartYear: 2013,
+            aStartYear: 2013,
+            active: true
         };
         var user2 = {
             id: 2,
             firstName: 'Jennifer',
             lastName: 'LaPierre',
             email: 'lapierre.j@husky.neu.edu',
-            authRole: 'Peer Leader'
+            authRole: 'Peer Leader',
+            pronouns: 'she',
+            uStartYear: 2014,
+            aStartYear: 2015,
+            active: true
         };
         var user3 = {
             id: 3,
             firstName: 'Lawrence',
             lastName: 'Lim',
             email: 'lim.law@husky.neu.edu',
-            authRole: 'Administrator'
+            authRole: 'Administrator',
+            pronouns: 'he',
+            uStartYear: 2016,
+            aStartYear: 2016,
+            active: true
         };
         var user4 = {
             id: 4,
             firstName: 'Jonathon',
             lastName: 'Northcott',
             email: 'northcott.j@husky.neu.edu',
-            authRole: 'Student'
+            authRole: 'Student',
+            pronouns: 'he',
+            corePartnerId: 3,
+            uStartYear: 2013,
+            aStartYear: 2015,
+            active: true
         };
 
         // Current Signed In User
@@ -44,6 +62,16 @@
         // Get all users the current signed in user has access too
         function getUsers() {
             return [user1, user2, user3, user4];
+        }
+
+        // Saves the current user
+        function upsertUser(user) {
+            return true;
+        }
+
+        // Saves the current user
+        function deleteUser(user) {
+            return true;
         }
 
         // Sign Out User
@@ -94,6 +122,8 @@
         return {
             getCurrentUser: getCurrentUser,
             getUsers: getUsers,
+            upsertUser: upsertUser,
+            deleteUser: deleteUser,
             signOutUser: signOutUser,
             uploadStudents: uploadStudents,
             uploadPeerLeaders: uploadPeerLeaders,

@@ -13,7 +13,7 @@
                 placeholder: '@',
                 noOptions: '@',
                 options: '=',
-                selectedItem: '=',
+                selectedText: '@',
                 onSelect: '&',
                 unSelect: '&',
                 onNoOptions: '&',
@@ -34,18 +34,18 @@
 
         // Update the text displayed when the selection changes
         // or is cleared
-        function updateText(selectedItem) {
-            if (selectedItem) {
-                vm.selectedText = selectedItem.name;
+        function updateText(selectedText) {
+            if (selectedText) {
+                vm.selectedText = selectedText;
             } else {
                 vm.selectedText = '';
             }
         }
 
-        $scope.$watch('selectedItem', updateText);
+        $scope.$watch('selectedText', updateText);
 
         function handleSelection(selectedItem) {
-            vm.updateText(selectedItem);
+            vm.updateText(selectedItem.name);
             vm.selected = true;
             $scope.onSelect({selectedItem: selectedItem});
         }

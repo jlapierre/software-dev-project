@@ -13,6 +13,22 @@ describe('UserService', function() {
 
   }));
 
+  it('service should contain a function called upsertUser', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+
+    expect(UserService.upsertUser).not.toBe(undefined);
+    expect(typeof UserService.upsertUser).toBe('function');
+
+  }));
+
+  it('service should contain a function called deleteUser', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+
+    expect(UserService.deleteUser).not.toBe(undefined);
+    expect(typeof UserService.deleteUser).toBe('function');
+
+  }));
+
   it('service should contain a function called getCurrentUser', inject(function($injector) {
     var UserService = $injector.get('UserService');
 

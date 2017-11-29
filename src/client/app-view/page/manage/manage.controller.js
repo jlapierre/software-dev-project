@@ -5,7 +5,7 @@
         .module('app')
         .controller('ManageController', ManageController);
 
-    function ManageController(UserService, PartnerService) {
+    function ManageController(UserService, PartnerService, $scope) {
         var vm = this;
         vm.showMenu = false;
 
@@ -15,9 +15,11 @@
         function setTab(tab) {
             vm.selectedTab = tab;
 
-            if (vm.selectedTab === 'Community Partners' && !vm.partners) {
+            if (vm.selectedTab != 'Administrators' && !vm.partners) {
                 vm.partners = PartnerService.getPartners();
-            } else if (!vm.users) {
+            }
+
+            if (vm.selectedTab != 'Community Partners' && !vm.users) {
                 vm.users = UserService.getUsers();
             }
         }
@@ -36,11 +38,19 @@
         function addElement() {
             if (vm.selectedTab === 'Community Partners') {
                 vm.partners.push({locations: {}, contacts: {}, added: true, expanded: true, active: true});
+            } if (vm.selectedTab === 'Students') {
+                vm.users.push({authRole: 'Student', expanded: true, active: true});
             }
         }
         vm.addElement = addElement;
 
         // Functions for managing a partner
+        vm.addLocation = addLocation;
+        vm.addContact = addContact;
+        vm.removePartnerLocation = removePartnerLocation;
+        vm.removePartnerContact = removePartnerContact;
+        vm.savePartner = savePartner;
+        vm.deletePartner = deletePartner;
 
         // Check if there are locations
         function noLocations(locations) {
@@ -128,12 +138,140 @@
             vm.partners.splice(pIndex, 1);
         }
 
-        vm.addLocation = addLocation;
-        vm.addContact = addContact;
-        vm.removePartnerLocation = removePartnerLocation;
-        vm.removePartnerContact = removePartnerContact;
-        vm.savePartner = savePartner;
-        vm.deletePartner = deletePartner;
+        // Functions for managing all users
+        vm.saveUser = saveUser;
+        vm.deleteUser = deleteUser;
+
+        // Save changes to a user
+        function saveUser(user) {
+            UserService.upsertUser(user);
+        }
+
+        // Delete a user
+        function deleteUser(user) {
+            var uIndex = vm.users.indexOf(user);
+
+            UserService.deleteUser(user);
+            vm.users.splice(uIndex, 1);
+        }
+
+        // Functions for managing a student
+
+        // Functions Needed for typeaheads
+
+        // Functions for setting the lists for the options
+        // for core partners and peer leaders
+        vm.setCorePartners = setCorePartners;
+        vm.setPeerLeaders = setPeerLeaders;
+
+        $scope.$watch('vm.partners', vm.setCorePartners, true);
+        $scope.$watch('vm.users', vm.setPeerLeaders, true);
+
+        // Compile list of active core partners
+        function setCorePartners(partners) {
+            vm.corePartners = [];
+
+            if (!!partners) {
+                for (var i = 0; i < partners.length; i++) {
+                    if (partners[i].active && partners[i].core) {
+                        vm.corePartners.push(partners[i]);
+                    }
+                }
+            }
+        }
+
+        // Compile list of active peer leaders
+        function setPeerLeaders(users) {
+            vm.peerLeaders = [];
+
+            if (!!users) {
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].authRole === 'Peer Leader' && users[i].active) {
+                        var peerLeader = users[i];
+                        peerLeader.name = peerLeader.firstName.concat(" ".concat(peerLeader.lastName));
+                        vm.peerLeaders.push(peerLeader);
+                    }
+                }
+            }
+        }
+
+        // Functions for displaying the selected item name
+        // in the typeaheads for community partners and peer leaders
+        vm.getPartnerName = getPartnerName;
+        vm.getPeerLeaderName = getPeerLeaderName;
+
+        // Get the name of the partner with the given id
+        function getPartnerName(partnerId) {
+            if (!!vm.partners) {
+                for (var i = 0; i < vm.partners.length; i++) {
+                    if (vm.partners[i].id === partnerId) {
+                        return vm.partners[i].name;
+                    }
+                }
+            }
+
+            return '';
+        }
+
+        // Get the name of the peer leader with the given id
+        function getPeerLeaderName(peerLeaderId) {
+            var name = '';
+
+            if (!!vm.peerLeaders) {
+                for (var i = 0; i < vm.peerLeaders.length; i++) {
+                    if (vm.peerLeaders[i].id === peerLeaderId) {
+                        name = vm.peerLeaders[i].name;
+                    }
+                }
+            }
+
+            return name;
+        }
+
+        // Functions for when an option is selected
+        // in the typeaheads for community partners and peer leaders
+        vm.selectCoreCommunityPartner = selectCoreCommunityPartner;
+        vm.unSelectCoreCommunityPartner = unSelectCoreCommunityPartner;
+        vm.selectPeerLeader = selectPeerLeader;
+        vm.unSelectPeerLeader = unSelectPeerLeader;
+
+        // Set the core partner id for the given student
+        function selectCoreCommunityPartner(selectedItem, student) {
+            student.corePartnerId = selectedItem.id;
+        }
+
+        // Remove the core partner selected
+        function unSelectCoreCommunityPartner(student) {
+            student.corePartnerId = undefined;
+        }
+
+        // Update the peer leader at the specific location in the list
+        function selectPeerLeader(selectedItem, student, peerLeaderIndex) {
+            student.peerLeaders[peerLeaderIndex] = selectedItem.id;
+        }
+
+        // Place an empty peer leader at that place in the group
+        function unSelectPeerLeader(student, peerLeaderIndex) {
+            student.peerLeaders[peerLeaderIndex] = -1;
+        }
+
+        // Functions for adding and deleting peer leaders to a student
+        vm.addPeerLeader = addPeerLeader;
+        vm.removePeerLeader = removePeerLeader;
+
+        // Add an empty peer leader to the peer leader list or make one
+        function addPeerLeader(student) {
+            if (!student.peerLeaders) {
+                student.peerLeaders = [-1];
+            } else {
+                student.peerLeaders.push(-1);
+            }
+        }
+
+        // Remove the peer leader from the peer leader list
+        function removePeerLeader(student, peerLeaderIndex) {
+           student.peerLeaders.splice(peerLeaderIndex,1);
+        }
 
         // Uploading Excel Files
         document.getElementById('files').addEventListener('change', handleFileSelect);
@@ -166,6 +304,9 @@
         }
 
         vm.handleFileSelect = handleFileSelect;
+
+        function noop() {}
+        vm.noop = noop;
 
     }
 
