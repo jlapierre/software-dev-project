@@ -3,6 +3,6 @@ cd ~/108
 git checkout $1
 echo "Starting karma tests..."
 ./node_modules/karma/bin/karma start
-find . -name 'karma_coverage.txt cat {} \;
+find . -name 'karma_coverage.txt' cat {} \;
 exit
 EOSSH
