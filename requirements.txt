@@ -2,4 +2,6 @@ pymongo
 bson
 flask
 flask_oauth
+lettuce
 flask-cors
+coverage
