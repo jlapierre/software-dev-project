@@ -10,6 +10,7 @@ sudo rm -rf ~/108
 echo "Creating 108 folder and untarring files..."
 mkdir ~/108
 mv remote ~/108
+cd ~/108
 tar -zxvf remote
 echo "Installing requirements.txt..."
 sudo -H pip install -r requirements.txt
