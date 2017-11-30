@@ -42,4 +42,5 @@ def require_login(f):
 
 @GOOGLE.tokengetter
 def get_access_token():
+    print str(session)
     return session.get('access_token')
