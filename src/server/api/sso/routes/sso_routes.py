@@ -1,5 +1,5 @@
 from server.auth.auth_service import GOOGLE, require_access_token, get_access_token
-from flask.ext.cors import cross_origin, CORS
+from flask_cors import cross_origin, CORS
 from flask import Blueprint, session, redirect, url_for
 from server.config.private import GOOGLE_REDIRECT_URI
 
