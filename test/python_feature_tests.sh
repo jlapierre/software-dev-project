@@ -8,7 +8,6 @@ echo "Installing pip requirements..."
 sudo -H pip install --quiet -r requirements.txt
 echo "Starting feature tests..."
 export PYTHONPATH="${PYTHONPATH}:/home/ubuntu/108/src"
-if [ "$(find /home/ubuntu/108/test -type f -name \*.feature -type f -printf '.' | wc -c)" != "0" ]; then lettuce test; else echo "No lettuce features to run!"; fi
-coverage report
+if [ "$(find /home/ubuntu/108/test -type f -name \*.feature -type f -printf '.' | wc -c)" != "0" ]; then lettuce test && coverage report; else echo "No lettuce features to run!"; fi
 exit
 EOSSH
