@@ -1,4 +1,4 @@
-# Feature: Get users
+Feature: Get users
 
     Scenario: student is logged in
         Given the following users are in the database:

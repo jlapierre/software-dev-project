@@ -1,5 +1,5 @@
 # Created by Jenny at 11/25/2017
-# Feature: current user activity
+Feature: current user activity
 
   Scenario: student, own id, has current activity
     Given the following users are in the database:

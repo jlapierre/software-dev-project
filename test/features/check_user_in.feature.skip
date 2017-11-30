@@ -1,5 +1,5 @@
 # Created by Jenny at 11/24/2017
-# Feature: Check user in
+Feature: Check user in
 
   Scenario: valid check-in with location and contact
     Given the following partners are in the database:
