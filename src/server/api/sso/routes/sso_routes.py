@@ -1,14 +1,14 @@
 from server.auth.auth_service import GOOGLE, require_access_token, get_access_token
 from flask.ext.cors import cross_origin, CORS
 from flask import Blueprint, session, redirect, url_for
-from server.config.private import GOOGLE_REDIRECT_URI
+from server.config.private import GOOGLE_REDIRECT_URI, GOOGLE_CALLBACK_IP, GOOGLE_CALLBACK_URI
 
 sso_api = Blueprint('sso_api', __name__)
-CORS = CORS(sso_api, resources={r"*": {"origins": "http://127.0.0.1:5000"}})
+CORS = CORS(sso_api, resources={r"*": {"origins": GOOGLE_CALLBACK_URI}})
 
 
 @sso_api.route('/login')
-@cross_origin(origin='127.0.0.1', headers=['Content-Type', 'Authorization'])
+@cross_origin(origin=GOOGLE_CALLBACK_IP, headers=['Content-Type', 'Authorization'])
 def login():
     callback = url_for('sso_api.authorized', _external=True)
     return GOOGLE.authorize(callback=callback)
@@ -29,7 +29,7 @@ def google_logout():
 
 
 @sso_api.route('/api/googleauth')
-@cross_origin(origin='127.0.0.1', headers=['Content-Type', 'Authorization'])
+@cross_origin(origin=GOOGLE_CALLBACK_IP, headers=['Content-Type', 'Authorization'])
 @require_access_token
 def googleauth():
     access_token = get_access_token()
