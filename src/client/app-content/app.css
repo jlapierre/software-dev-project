@@ -33,7 +33,6 @@ body {
 @media only screen and (max-width: 900px) {
     .page {
         width: 100%;
-        overflow-x: scroll;
     }
 
     .menu-button {
@@ -97,7 +96,6 @@ body {
 @media only screen and (min-width: 900px) {
     .page {
         width: calc(100% - 200px);
-        overflow-x: scroll;
         float: right;
     }
 
@@ -146,19 +144,37 @@ body {
     margin: 0 auto;
 }
 
+.typeahead-relaxed {
+    width: 100%;
+}
+
 .typeahead-textbox-position {
     width: 100%;
     height: initial;
     margin: 0 auto;
 }
 
+.typeahead-textbox-position-relaxed {
+    width: 100%;
+}
+
 .typeahead-textbox {
-    width: 90%;
+    width: 100%;
     border: 2px solid #990017;
     border-radius: 20px;
     margin: 10px 10px 0px 10px;
     padding: 10px;
     display: inline-block;
+}
+
+.typeahead-textbox-relaxed {
+    width: 100%;
+    display: inline-block;
+    background-color: #ffffff;
+    margin: 0 5px;
+    padding: 0 10px;
+    height: 2em;
+    font-size: 0.75em;
 }
 
 .typeahead-textbox-disabled {
@@ -170,13 +186,18 @@ body {
     margin: 0 20px;
 }
 
+.typeahead-option-position-relaxed {
+    width: 90%;
+    margin: 0 0px;
+}
+
 .typeahead-options {
     border-bottom: 2px solid #cccccc;
     border-left: 2px solid #cccccc;
     border-right: 2px solid #cccccc;
     position: absolute;
     height: initial;
-    margin 0 auto;
+    margin: 0 auto;
     margin-left: 5px;
     text-decoration: none;
     z-index: 100;
@@ -327,11 +348,15 @@ body {
 .partner-header {
     width: 100%;
     font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    font-size: 0.75em;
+    margin: 5px;
 }
 
 .partner-label {
     float: left;
     font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    font-size: 0.75em;
+    margin: 0.5em;
 }
 
 .partner-input {
@@ -340,10 +365,19 @@ body {
     padding: 0 4px 0 10px
 }
 
+.partner-checkbox {
+    font-size: 0.5em;
+    margin-top: 0.9em;
+}
+
 .partner-text {
     width: 90%;
     font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
     background-color: #ffffff;
+    padding: 0 10px;
+    height: 2em;
+    font-size: 0.75em;
+    margin: 0 5px;
 }
 
 .partner-location, .partner-contact {
@@ -362,6 +396,18 @@ body {
     float: right;
     margin-top: -2em;
     margin-right: 10%;
+}
+
+.delete-peer-leader {
+    width: 15%;
+    background-color: #990017;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    padding: 5px;
+    text-align: center;
+    margin-top: 5px;
+    margin-left: 77%;
 }
 
 .element-divider {
@@ -406,5 +452,123 @@ body {
     cursor: pointer;
     font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
     padding: 0px 5px 5px 5px;
+    text-align: center;
+}
+
+.log-labels {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #fafafa;
+}
+
+.log-label {
+    float: left;
+    height: 2em;
+    font-size; 1em;
+    color: #990017;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    display: block;
+    overflow-x: hidden;
+    text-align: center;
+    padding-top: 10px;
+    background-color: inherit;
+}
+
+.tiny-label {
+    width: 10%;
+}
+
+.small-label {
+    width: 18%;
+}
+
+.medium-label {
+    width: 25%;
+}
+
+.large-label {
+    width: 35%;
+}
+
+.tiny-input {
+    width: calc(10% - 15px);
+    float: left;
+    height: 2em;
+    margin-right: 15px;
+}
+
+.small-input {
+    width: calc(18% - 15px);
+    float: left;
+    height: 2em;
+    margin-right: 15px;
+}
+
+.typeahead-margin {
+    width: calc(100% - 15px);
+}
+
+.date-input {
+    width: calc(18% - 34px);
+    padding: 0 10px;
+    border-width: 2px;
+    font-size: 0.75em;
+    margin: 0 5px;
+}
+
+.date-input-enabled {
+     background-color: #ffffff;
+}
+
+.date-input-disabled {
+     background-color: #dedede;
+}
+
+.huge-input {
+    width: calc(100% - 34px);
+    padding: 0 10px;
+    border-width: 2px;
+    font-size: 0.75em;
+    margin: 5px 5px;
+    background-color: #ffffff;
+}
+
+.input-divider {
+    width: calc(100% - 10px);
+    height: 0;
+    margin: 5px 5px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.delete-activity {
+    width: 15%;
+    background-color: #990017;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    text-align: center;
+    margin-left: calc(85% - 15px);
+    padding: 5px;
+}
+
+.activity-add-position {
+     float: right;
+     margin-bottom: 10px;
+     margin-right: 5px;
+}
+
+.activity-save-position {
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.save-activity-button {
+    width: 75px;
+    background-color: #990017;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "Helvetica Neue",Helvetica,Arial,Verdana,Tahoma;
+    padding: 5px;
     text-align: center;
 }

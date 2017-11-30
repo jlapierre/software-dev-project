@@ -63,14 +63,14 @@
           <div class="partner-element">
             <label class="partner-label"> Core Community Partner: </label>
             <span class="partner-input">
-              <input type="checkbox" ng-model="partner.core">
+              <input class="partner-checkbox" type="checkbox" ng-model="partner.core">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input type="checkbox" ng-model="partner.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="partner.active">
             </span>
           </div>
 
@@ -89,7 +89,7 @@
               <div class="partner-element">
                 <label class="partner-label"> Active: </label>
                 <span class="partner-input">
-                  <input type="checkbox" ng-model="location.active">
+                  <input class="partner-checkbox" type="checkbox" ng-model="location.active">
                 </span>
               </div>
 
@@ -137,7 +137,7 @@
               <div class="partner-element">
                 <label class="partner-label"> Active: </label>
                 <span class="partner-input">
-                  <input type="checkbox" ng-model="contact.active">
+                  <input class="partner-checkbox" type="checkbox" ng-model="contact.active">
                 </span>
               </div>
 
@@ -209,8 +209,9 @@
                               on-select="vm.selectNewAuthRole(selectedItem, student)"
                               un-select="vm.unSelectNewAuthRole(student)"
                               on-no-options="vm.noop()"
-                              no-options="No role to match your search"
-                              placeholder="Select a Role"></aces-typeahead>
+                              no-options="'No role to match your search'"
+                              placeholder="'Select a Role'"
+                              relaxed="true"></aces-typeahead>
             </span>
           </div>
 
@@ -222,8 +223,9 @@
                               on-select="vm.selectCoreCommunityPartner(selectedItem, student)"
                               un-select="vm.unSelectCoreCommunityPartner(student)"
                               on-no-options="vm.noop()"
-                              no-options="No core community partners match your search"
-                              placeholder="Select a Core Community Partner"></aces-typeahead>
+                              no-options="'No core community partners match your search'"
+                              placeholder="'Select a Core Community Partner'"
+                              relaxed="true"></aces-typeahead>
             </span>
           </div>
 
@@ -241,11 +243,11 @@
                               on-select="vm.selectPeerLeader(selectedItem, student, $index)"
                               un-select="vm.unselectPeerLeader(student, $index)"
                               on-no-options="vm.noop()"
-                              no-options="No peer leaders match your search"
-                              placeholder="Select a Peer Leader"></aces-typeahead>
+                              no-options="'No peer leaders match your search'"
+                              placeholder="'Select a Peer Leader'"
+                              relaxed="true"></aces-typeahead>
 
-
-              <div class="delete-element"
+              <div class="delete-peer-leader"
                    ng-click="vm.removePeerLeader(student, $index)">
                 Delete
               </div>
@@ -270,7 +272,7 @@
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input type="checkbox" ng-model="student.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="student.active">
             </span>
           </div>
 
@@ -332,8 +334,9 @@
                               on-select="vm.selectNewAuthRole(selectedItem, leader)"
                               un-select="vm.unSelectNewAuthRole(leader)"
                               on-no-options="vm.noop()"
-                              no-options="No role to match your search"
-                              placeholder="Select a Role"></aces-typeahead>
+                              no-options="'No role to match your search'"
+                              placeholder="'Select a Role'"
+                              relaxed="true"></aces-typeahead>
             </span>
           </div>
 
@@ -345,8 +348,9 @@
                               on-select="vm.selectCoreCommunityPartner(selectedItem, leader)"
                               un-select="vm.unSelectCoreCommunityPartner(leader)"
                               on-no-options="vm.noop()"
-                              no-options="No core community partners match your search"
-                              placeholder="Select a Core Community Partner"></aces-typeahead>
+                              no-options="'No core community partners match your search'"
+                              placeholder="'Select a Core Community Partner'"
+                              relaxed="true"></aces-typeahead>
             </span>
           </div>
 
@@ -367,7 +371,7 @@
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input type="checkbox" ng-model="leader.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="leader.active">
             </span>
           </div>
 
@@ -430,8 +434,9 @@
                               on-select="vm.selectNewAuthRole(selectedItem, admin)"
                               un-select="vm.unSelectNewAuthRole(admin)"
                               on-no-options="vm.noop()"
-                              no-options="No role to match your search"
-                              placeholder="Select a Role"></aces-typeahead>
+                              no-options="'No role to match your search'"
+                              placeholder="'Select a Role'"
+                              relaxed="true"></aces-typeahead>
             </span>
           </div>
 
@@ -452,7 +457,7 @@
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input type="checkbox" ng-model="admin.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="admin.active">
             </span>
           </div>
 

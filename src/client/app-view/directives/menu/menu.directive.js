@@ -72,7 +72,7 @@
         };
         var log = {
             name: 'Civic Log',
-            onClick: noop
+            onClick: vm.changeLocation('/civicLog')
         };
         var signOut = {
             name: 'Sign Out',

@@ -19,6 +19,11 @@
                 templateUrl: 'app-view/page/manage/manage.view.html',
                 controllerAs: 'vm'
             })
+            .when('/civicLog', {
+                controller: 'CivicLogController',
+                templateUrl: 'app-view/page/civicLog/civicLog.view.html',
+                controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/checkInOut' });
     }

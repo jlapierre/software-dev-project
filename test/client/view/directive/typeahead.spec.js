@@ -112,4 +112,43 @@ describe('TypeaheadController', function() {
     expect(vm.selectedText).toBe('');
   }));
 
+  it('clearText will set the text to nothing if no options', inject(function($controller, $rootScope) {
+    var scope = $rootScope.$new();
+    var selectedText = 'selected';
+    scope.onSelect = function() {};
+
+    var vm = $controller('TypeaheadController', {$scope: scope});
+
+    vm.updateText(selectedText);
+    vm.clearText([]);
+
+    expect(vm.selectedText).toBe('');
+  }));
+
+  it('clearText will not change the text if options are not defined', inject(function($controller, $rootScope) {
+    var scope = $rootScope.$new();
+    var selectedText = 'selected';
+    scope.onSelect = function() {};
+
+    var vm = $controller('TypeaheadController', {$scope: scope});
+
+    vm.updateText(selectedText);
+    vm.clearText(undefined);
+
+    expect(vm.selectedText).toBe('selected');
+  }));
+
+  it('clearText will not change the text if options are longer that 0', inject(function($controller, $rootScope) {
+    var scope = $rootScope.$new();
+    var selectedText = 'selected';
+    scope.onSelect = function() {};
+
+    var vm = $controller('TypeaheadController', {$scope: scope});
+
+    vm.updateText(selectedText);
+    vm.clearText(['option']);
+
+    expect(vm.selectedText).toBe('selected');
+  }));
+
 });

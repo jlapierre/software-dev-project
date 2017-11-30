@@ -6,6 +6,33 @@
         .factory('UserService', UserService);
 
     function UserService($http, $window, $q) {
+        // Activity Examples
+        var activity2 = {
+            type: 'Partner',
+            partnerId: 2,
+            locationId: 3,
+            startTime: 1510837200000,
+            manual: false
+        };
+        var activity3 = {
+            type: 'Partner',
+            partnerId: 3,
+            contactId: 2,
+            locationId: 2,
+            startTime: 1510833600000,
+            endTime: 1510840800000,
+            manual: true,
+            comment: 'Assisted with organization of an event'
+        };
+        var activity4 = {
+            type: 'Civic/Alliance',
+            startTime: 1510833600000,
+            civicCategory: 'Voting',
+            manual: true,
+            comment: 'Voted in the city mayoral election'
+        };
+
+
         // User Examples
         var user1 = {
             id: 1,
@@ -28,7 +55,8 @@
             pronouns: 'she',
             uStartYear: 2014,
             aStartYear: 2015,
-            active: true
+            active: true,
+            activities: {2: activity2, 3: activity3, 4: activity4}
         };
         var user3 = {
             id: 3,

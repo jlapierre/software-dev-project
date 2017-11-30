@@ -10,14 +10,15 @@
         return {
             restrict: 'E',
             scope: {
-                placeholder: '@',
-                noOptions: '@',
+                placeholder: '=',
+                noOptions: '=',
                 options: '=',
                 selectedText: '@',
                 onSelect: '&',
                 unSelect: '&',
                 onNoOptions: '&',
-                disabled: '='
+                disabled: '=',
+                relaxed: '='
             },
             templateUrl: 'app-view/directives/typeahead/typeahead.view.html',
             controller: 'TypeaheadController as vm'
@@ -26,9 +27,6 @@
 
     function TypeaheadController($scope) {
         var vm = this;
-
-        vm.placeholder = $scope.placeholder;
-        vm.noOptions = $scope.noOptions;
 
         vm.selected = true; // hides list initially
 
@@ -42,7 +40,15 @@
             }
         }
 
+        // Clear the text if there are 0 options
+        function clearText(options) {
+            if (!!options && options.length == 0) {
+                updateText('');
+            }
+        }
+
         $scope.$watch('selectedText', updateText);
+        $scope.$watch('options', clearText);
 
         function handleSelection(selectedItem) {
             vm.updateText(selectedItem.name);
@@ -56,6 +62,7 @@
         }
 
         vm.updateText = updateText;
+        vm.clearText = clearText;
         vm.handleSelection = handleSelection;
         vm.unSelect = unSelect;
         vm.onNoOptions = $scope.onNoOptions;

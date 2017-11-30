@@ -9,8 +9,8 @@
                     on-select="vm.onPartnerSelect(selectedItem)"
                     un-select="vm.partnerUnSelect()"
                     on-no-options="vm.noop()"
-                    no-options="Add a New Community Partner"
-                    placeholder="Select a Community Partner"
+                    no-options="'Add a New Community Partner'"
+                    placeholder="'Select a Community Partner'"
                     disabled="vm.currentActivity"></aces-typeahead>
 
     <aces-typeahead options="vm.locations"
@@ -18,8 +18,8 @@
                     on-select="vm.onLocationSelect(selectedItem)"
                     un-select="vm.locationUnSelect()"
                     on-no-options="vm.noop()"
-                    no-options="Add a New Location"
-                    placeholder="Select a Location"
+                    no-options="'Add a New Location'"
+                    placeholder="'Select a Location'"
                     disabled="!vm.selectedPartner || vm.currentActivity"></aces-typeahead>
 
     <aces-typeahead options="vm.contacts"
@@ -27,8 +27,8 @@
                     on-select="vm.onContactSelect(selectedItem)"
                     un-select="vm.contactUnSelect()"
                     on-no-options="vm.noop()"
-                    no-options="Add a New Contact"
-                    placeholder="Select a Contact"
+                    no-options="'Add a New Contact'"
+                    placeholder="'Select a Contact'"
                     disabled="!vm.selectedPartner || vm.currentActivity"></aces-typeahead>
 
     <div id="map" class="map"></div>
