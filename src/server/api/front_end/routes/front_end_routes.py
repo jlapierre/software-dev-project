@@ -1,5 +1,5 @@
 from server.auth.auth_service import GOOGLE, require_login
-from flask import Blueprint, send_from_directory
+from flask import Blueprint, send_from_directory, send_file
 
 frontend_api = Blueprint('frontend_api', __name__)
 
@@ -24,3 +24,12 @@ def add_header(req):
 def serve_frontend(resp, path):
     from server import ROOT_PATH
     return send_from_directory(ROOT_PATH + '/client/', path)
+
+
+# Serves the index file if not specified
+@frontend_api.route('/')
+@GOOGLE.authorized_handler
+@require_login
+def serve_index(resp):
+    from server import ROOT_PATH
+    return send_file(ROOT_PATH + '/client/' + 'index.html')
