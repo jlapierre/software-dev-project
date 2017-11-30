@@ -1,16 +1,16 @@
-<div class="typeahead">
-  <form class="typeahead-textbox-position">
-    <input class="typeahead-textbox"
+<div ng-class="{'typeahead': !relaxed, 'typeahead-relaxed': relaxed}">
+  <form ng-class="{'typeahead-textbox-position': !relaxed, 'typeahead-textbox-position-relaxed': relaxed}">
+    <input ng-class="{'typeahead-textbox': !relaxed, 'typeahead-textbox-relaxed': relaxed, 'typeahead-textbox-disabled': disabled}"
            type="text" autocomplete="off"
            ng-model="vm.selectedText"
-           placeholder="{{ vm.placeholder }}"
+           placeholder="{{ placeholder }}"
            ng-keydown="vm.unSelect()"
-           ng-disabled="disabled"
-           ng-class="{'typeahead-textbox-disabled': disabled}">
+           ng-disabled="disabled">
   </form>
 
-  <div class="typeahead-option-position">
-    <div class="typeahead-options" ng-hide="!vm.selectedText.length || vm.selected">
+  <div ng-class="{'typeahead-option-position': !relaxed, 'typeahead-option-position-relaxed': relaxed}">
+    <div class="typeahead-options"
+         ng-hide="!vm.selectedText.length || vm.selected">
 
       <ul class="typeahead-option"
           ng-repeat="option in filteredOptions = (options | filter:{name: vm.selectedText})"
@@ -21,7 +21,7 @@
       <div class="typeahead-option"
            ng-show="!filteredOptions.length"
            ng-click="vm.onNoOptions()">
-        {{ vm.noOptions }}
+        {{ noOptions }}
       </div>
 
     </div>

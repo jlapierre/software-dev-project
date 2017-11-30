@@ -1,0 +1,484 @@
+<aces-header show-menu="vm.showMenu"></aces-header>
+<div class="page-with-menu">
+  <aces-menu auth-role="{{ vm.currentUser.authRole }}"
+             page-name="Manage"
+             ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
+  <div class="page">
+
+    <div class="manage-tabs">
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Community Partners'}"
+           ng-click="vm.setTab('Community Partners')">
+        Community Partners
+      </div>
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Students'}"
+           ng-click="vm.setTab('Students')">
+        Students
+      </div>
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Peer Leaders'}"
+           ng-click="vm.setTab('Peer Leaders')">
+        Peer Leaders
+      </div>
+      <div class="manage-tab"
+           ng-class="{'manage-tab-selected': vm.selectedTab === 'Administrators'}"
+           ng-click="vm.setTab('Administrators')">
+        Administrators
+      </div>
+    </div>
+
+    <div class="excel-button-position">
+      <button class="excel-button">
+        <label>
+          Add from Excel File
+          <input type="file"
+                 id="files"
+                 name="files"
+                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                 class="file-selector" file-handler>
+        </label>
+      </button>
+    </div>
+
+    <div ng-if="vm.selectedTab === 'Community Partners'">
+      <ul class="community-partner" ng-repeat="partner in vm.partners">
+
+        <div class="partner-title" ng-click="vm.expandElement(partner)"
+             ng-class="{'partner-selected': partner.expanded}">
+          {{ partner.name }}
+        </div>
+
+        <i class="arrow-down"></i>
+
+        <div class="partner-info" ng-if="partner.expanded">
+          <div class="partner-element">
+            <label class="partner-label"> Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="partner.name">
+            </span>
+          </div>
+
+
+          <div class="partner-element">
+            <label class="partner-label"> Core Community Partner: </label>
+            <span class="partner-input">
+              <input class="partner-checkbox" type="checkbox" ng-model="partner.core">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Active: </label>
+            <span class="partner-input">
+              <input class="partner-checkbox" type="checkbox" ng-model="partner.active">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-header"> Locations: </label>
+
+            <div class="add-button-internal-position">
+              <div class="add-button" ng-click="vm.addLocation($parent.$index)"> + </div>
+            </div>
+
+            <ul class="partner-location" ng-repeat="(id, location) in partner.locations">
+              <span class="partner-input">
+                <input class="partner-text" type="text" autocomplete="off" ng-model="location.name">
+              </span>
+
+              <div class="partner-element">
+                <label class="partner-label"> Active: </label>
+                <span class="partner-input">
+                  <input class="partner-checkbox" type="checkbox" ng-model="location.active">
+                </span>
+              </div>
+
+              <div class="element-divider"></div>
+
+              <div class="delete-element"
+                   ng-click="vm.removePartnerLocation($parent.$index, id)">
+                Delete
+              </div>
+
+            </ul>
+          </div>
+
+          <div class="element-divider" ng-if="vm.noLocations(partner.locations)"></div>
+
+          <div class="partner-element">
+            <label class="partner-header"> Contacts: </label>
+
+            <div class="add-button-internal-position">
+              <div class="add-button" ng-click="vm.addContact($parent.$index)"> + </div>
+            </div>
+
+            <ul class="partner-contact" ng-repeat="(id, contact) in partner.contacts">
+              <div class="partner-element">
+                <label class="partner-label"> Name: </label>
+                <span class="partner-input">
+                  <input class="partner-text" type="text" autocomplete="off" ng-model="contact.name">
+                </span>
+              </div>
+
+              <div class="partner-element">
+                <label class="partner-label"> Phone: </label>
+                <span class="partner-input">
+                  <input class="partner-text" type="text" autocomplete="off" ng-model="contact.phone">
+                </span>
+              </div>
+
+              <div class="partner-element">
+                <label class="partner-label"> Email: </label>
+                <span class="partner-input">
+                  <input class="partner-text" type="text" autocomplete="off" ng-model="contact.email">
+                </span>
+              </div>
+
+              <div class="partner-element">
+                <label class="partner-label"> Active: </label>
+                <span class="partner-input">
+                  <input class="partner-checkbox" type="checkbox" ng-model="contact.active">
+                </span>
+              </div>
+
+              <div class="delete-element"
+                   ng-click="vm.removePartnerContact($parent.$index, id)">
+                Delete
+              </div>
+
+              <div class="element-divider"></div>
+
+            </ul>
+          </div>
+
+          <div class="element-buttons">
+            <div class="element-button" ng-click="vm.savePartner($index)">Save Partner</div>
+            <div class="element-button" ng-click="vm.deletePartner($index)">Delete Partner</div>
+          </div>
+
+        </div>
+
+      </ul>
+    </div>
+
+    <div ng-if="vm.selectedTab === 'Students'">
+      <ul class="community-partner"
+          ng-repeat="student in vm.users | filter:{authRole: 'Student'}">
+
+        <div class="partner-title" ng-click="vm.expandElement(student)"
+             ng-class="{'partner-selected': student.expanded}">
+          {{ student.firstName.concat(" ".concat(student.lastName)) }}
+        </div>
+
+        <i class="arrow-down"></i>
+
+        <div class="partner-info" ng-if="student.expanded">
+          <div class="partner-element">
+            <label class="partner-label"> First Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="student.firstName">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Last Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="student.lastName">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Email: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="student.email">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Pronouns: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="student.pronouns">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Role: </label>
+            <span class="partner-input">
+              <aces-typeahead options="vm.authRoles"
+                              selected-text="{{ student.authRole }}"
+                              on-select="vm.selectNewAuthRole(selectedItem, student)"
+                              un-select="vm.unSelectNewAuthRole(student)"
+                              on-no-options="vm.noop()"
+                              no-options="'No role to match your search'"
+                              placeholder="'Select a Role'"
+                              relaxed="true"></aces-typeahead>
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Core Community Partner: </label>
+            <span class="partner-input">
+              <aces-typeahead options="vm.corePartners"
+                              selected-text="{{ vm.getPartnerName(student.corePartnerId) }}"
+                              on-select="vm.selectCoreCommunityPartner(selectedItem, student)"
+                              un-select="vm.unSelectCoreCommunityPartner(student)"
+                              on-no-options="vm.noop()"
+                              no-options="'No core community partners match your search'"
+                              placeholder="'Select a Core Community Partner'"
+                              relaxed="true"></aces-typeahead>
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-header"> Peer Leaders: </label>
+
+            <div class="add-button-internal-position">
+              <div class="add-button" ng-click="vm.addPeerLeader(student)"> + </div>
+            </div>
+
+            <ul class="partner-location" ng-repeat="leader in student.peerLeaders track by $index">
+
+              <aces-typeahead options="vm.peerLeaders"
+                              selected-text="{{ vm.getPeerLeaderName(leader) }}"
+                              on-select="vm.selectPeerLeader(selectedItem, student, $index)"
+                              un-select="vm.unselectPeerLeader(student, $index)"
+                              on-no-options="vm.noop()"
+                              no-options="'No peer leaders match your search'"
+                              placeholder="'Select a Peer Leader'"
+                              relaxed="true"></aces-typeahead>
+
+              <div class="delete-peer-leader"
+                   ng-click="vm.removePeerLeader(student, $index)">
+                Delete
+              </div>
+
+            </ul>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> University Start Year: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="student.uStartYear">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> ACES Start Year: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="student.aStartYear">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Active: </label>
+            <span class="partner-input">
+              <input class="partner-checkbox" type="checkbox" ng-model="student.active">
+            </span>
+          </div>
+
+          <div class="element-buttons">
+            <div class="element-button" ng-click="vm.saveUser(student)">Save Student</div>
+            <div class="element-button" ng-click="vm.deleteUser(student)">Delete Student</div>
+          </div>
+
+        </div>
+
+      </ul>
+    </div>
+
+    <div ng-if="vm.selectedTab === 'Peer Leaders'">
+      <ul class="community-partner"
+          ng-repeat="leader in vm.users | filter:{authRole: 'Peer Leader'}">
+
+        <div class="partner-title" ng-click="vm.expandElement(leader)"
+             ng-class="{'partner-selected': leader.expanded}">
+          {{ leader.firstName.concat(" ".concat(leader.lastName)) }}
+        </div>
+
+        <i class="arrow-down"></i>
+
+        <div class="partner-info" ng-if="leader.expanded">
+          <div class="partner-element">
+            <label class="partner-label"> First Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.firstName">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Last Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.lastName">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Email: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.email">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Pronouns: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.pronouns">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Role: </label>
+            <span class="partner-input">
+              <aces-typeahead options="vm.authRoles"
+                              selected-text="{{ leader.authRole }}"
+                              on-select="vm.selectNewAuthRole(selectedItem, leader)"
+                              un-select="vm.unSelectNewAuthRole(leader)"
+                              on-no-options="vm.noop()"
+                              no-options="'No role to match your search'"
+                              placeholder="'Select a Role'"
+                              relaxed="true"></aces-typeahead>
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Core Community Partner: </label>
+            <span class="partner-input">
+              <aces-typeahead options="vm.corePartners"
+                              selected-text="{{ vm.getPartnerName(leader.corePartnerId) }}"
+                              on-select="vm.selectCoreCommunityPartner(selectedItem, leader)"
+                              un-select="vm.unSelectCoreCommunityPartner(leader)"
+                              on-no-options="vm.noop()"
+                              no-options="'No core community partners match your search'"
+                              placeholder="'Select a Core Community Partner'"
+                              relaxed="true"></aces-typeahead>
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> University Start Year: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="leader.uStartYear">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> ACES Start Year: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="leader.aStartYear">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Active: </label>
+            <span class="partner-input">
+              <input class="partner-checkbox" type="checkbox" ng-model="leader.active">
+            </span>
+          </div>
+
+          <div class="element-buttons">
+            <div class="element-button" ng-click="vm.saveUser(leader)">Save Peer Leader</div>
+            <div class="element-button" ng-click="vm.deleteUser(leader)">Delete Peer Leader</div>
+          </div>
+
+        </div>
+
+      </ul>
+    </div>
+
+
+    <div ng-if="vm.selectedTab === 'Administrators'">
+      <ul class="community-partner"
+          ng-repeat="admin in vm.users | filter:{authRole: 'Administrator'}">
+
+        <div class="partner-title" ng-click="vm.expandElement(admin)"
+             ng-class="{'partner-selected': admin.expanded}">
+          {{ admin.firstName.concat(" ".concat(admin.lastName)) }}
+        </div>
+
+        <i class="arrow-down"></i>
+
+        <div class="partner-info" ng-if="admin.expanded">
+          <div class="partner-element">
+            <label class="partner-label"> First Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.firstName">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Last Name: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.lastName">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Email: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.email">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Pronouns: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.pronouns">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Role: </label>
+            <span class="partner-input">
+              <aces-typeahead options="vm.authRoles"
+                              selected-text="{{ admin.authRole }}"
+                              on-select="vm.selectNewAuthRole(selectedItem, admin)"
+                              un-select="vm.unSelectNewAuthRole(admin)"
+                              on-no-options="vm.noop()"
+                              no-options="'No role to match your search'"
+                              placeholder="'Select a Role'"
+                              relaxed="true"></aces-typeahead>
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> University Start Year: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="admin.uStartYear">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> ACES Start Year: </label>
+            <span class="partner-input">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="admin.aStartYear">
+            </span>
+          </div>
+
+          <div class="partner-element">
+            <label class="partner-label"> Active: </label>
+            <span class="partner-input">
+              <input class="partner-checkbox" type="checkbox" ng-model="admin.active">
+            </span>
+          </div>
+
+          <div class="element-buttons">
+            <div class="element-button" ng-click="vm.saveUser(admin)">Save Administrator</div>
+            <div class="element-button" ng-click="vm.deleteUser(admin)">Delete Administrator</div>
+          </div>
+
+        </div>
+
+      </ul>
+    </div>
+
+    <div class="add-button-position">
+      <div class="add-button" ng-click="vm.addElement()"> + </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+

@@ -10,14 +10,15 @@
         return {
             restrict: 'E',
             scope: {
-                placeholder: '@',
-                noOptions: '@',
+                placeholder: '=',
+                noOptions: '=',
                 options: '=',
-                selectedItem: '=',
+                selectedText: '@',
                 onSelect: '&',
                 unSelect: '&',
                 onNoOptions: '&',
-                disabled: '='
+                disabled: '=',
+                relaxed: '='
             },
             templateUrl: 'app-view/directives/typeahead/typeahead.view.html',
             controller: 'TypeaheadController as vm'
@@ -27,25 +28,30 @@
     function TypeaheadController($scope) {
         var vm = this;
 
-        vm.placeholder = $scope.placeholder;
-        vm.noOptions = $scope.noOptions;
-
         vm.selected = true; // hides list initially
 
         // Update the text displayed when the selection changes
         // or is cleared
-        function updateText(selectedItem) {
-            if (selectedItem) {
-                vm.selectedText = selectedItem.name;
+        function updateText(selectedText) {
+            if (selectedText) {
+                vm.selectedText = selectedText;
             } else {
                 vm.selectedText = '';
             }
         }
 
-        $scope.$watch('selectedItem', updateText);
+        // Clear the text if there are 0 options
+        function clearText(options) {
+            if (!!options && options.length == 0) {
+                updateText('');
+            }
+        }
+
+        $scope.$watch('selectedText', updateText);
+        $scope.$watch('options', clearText);
 
         function handleSelection(selectedItem) {
-            vm.updateText(selectedItem);
+            vm.updateText(selectedItem.name);
             vm.selected = true;
             $scope.onSelect({selectedItem: selectedItem});
         }
@@ -56,6 +62,7 @@
         }
 
         vm.updateText = updateText;
+        vm.clearText = clearText;
         vm.handleSelection = handleSelection;
         vm.unSelect = unSelect;
         vm.onNoOptions = $scope.onNoOptions;

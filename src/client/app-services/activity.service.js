@@ -33,6 +33,25 @@
             manual: true,
             comment: 'Assisted with organization of an event'
         };
+        var activity4 = {
+            type: 'Civic/Alliance',
+            startTime: 1510833600,
+            civicCategory: 'Voting',
+            manual: true,
+            comment: 'Voted in the city mayoral election'
+        };
+        var activityTypes = [{name: 'Partner'}, {name: 'Civic'}, {name: 'Alliance'}, {name: 'Civic/Alliance'}];
+        var civicCategories = [{name: 'Voting'}, {name: 'Rally'}, {name: 'Community Meeting'}, {name: 'Other'}];
+
+        // Returns all the activity types
+        function getActivityTypes() {
+            return activityTypes;
+        }
+
+        // Returns all the activity types
+        function getCivicCategories() {
+            return civicCategories;
+        }
 
         // Current User Activity Examples
         var currentUserActivities = {1: activity1, 2: activity2};
@@ -62,6 +81,8 @@
         }
 
         return {
+            getActivityTypes: getActivityTypes,
+            getCivicCategories: getCivicCategories,
             currentUserActivity: currentUserActivity,
             checkUserIn: checkUserIn,
             checkUserOut: checkUserOut

@@ -11,14 +11,39 @@
             restrict: 'E',
             templateUrl: 'app-view/directives/menu/menu.view.html',
             controller: 'MenuController as vm',
-            scope: {}
+            scope: {
+                authRole: '@',
+                pageName: '@'
+            }
         }
     }
 
-    function MenuController(UserService) {
+    function MenuController(UserService, $scope, $location) {
         var vm = this;
 
-        function noop() {}
+        // Set the pages to the pages appropriate for the user
+        function setPages(authRole) {
+            if (authRole === 'Administrator') {
+                vm.pages = [reports, students, manage, signOut];
+            } else if (authRole === 'Peer Leader') {
+                vm.pages = [checkIn, activities, overview, log, reports, students, manage, signOut];
+            } else {
+                vm.pages = [checkIn, activities, overview, log, signOut];
+            }
+        }
+
+        vm.setPages = setPages;
+
+        function noop() {};
+
+        // Function for the action on clicking a selection on the menu
+        function changeLocation(path) {
+            return function() {
+                $location.path(path);
+            };
+        }
+
+        vm.changeLocation = changeLocation;
 
         // Pages
         var reports = {
@@ -31,11 +56,11 @@
         };
         var manage = {
             name: 'Manage',
-            onClick: noop
+            onClick: vm.changeLocation('/manage')
         };
         var checkIn = {
             name: 'Service Check In',
-            onClick: noop
+            onClick: vm.changeLocation('/checkInOut')
         };
         var activities = {
             name: 'Civic Activities',
@@ -47,15 +72,14 @@
         };
         var log = {
             name: 'Civic Log',
-            onClick: noop
+            onClick: vm.changeLocation('/civicLog')
         };
         var signOut = {
             name: 'Sign Out',
             onClick: UserService.signOutUser
         };
 
-        vm.pages = [reports, students, manage, checkIn, activities, overview, log, signOut];
-
+        vm.setPages($scope.authRole);
     }
 
 })();

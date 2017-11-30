@@ -5,40 +5,108 @@
         .module('app')
         .factory('UserService', UserService);
 
-    function UserService($http, $window) {
+    function UserService($http, $window, $q) {
+        // Activity Examples
+        var activity2 = {
+            type: 'Partner',
+            partnerId: 2,
+            locationId: 3,
+            startTime: 1510837200000,
+            manual: false
+        };
+        var activity3 = {
+            type: 'Partner',
+            partnerId: 3,
+            contactId: 2,
+            locationId: 2,
+            startTime: 1510833600000,
+            endTime: 1510840800000,
+            manual: true,
+            comment: 'Assisted with organization of an event'
+        };
+        var activity4 = {
+            type: 'Civic/Alliance',
+            startTime: 1510833600000,
+            civicCategory: 'Voting',
+            manual: true,
+            comment: 'Voted in the city mayoral election'
+        };
+
+
         // User Examples
         var user1 = {
             id: 1,
             firstName: 'Katherine',
             lastName: 'McDonough',
             email: 'mcdonough.kat@husky.neu.edu',
-            authRole: 'student'
+            peerLeaders: [2],
+            authRole: 'Student',
+            pronouns: 'she',
+            uStartYear: 2013,
+            aStartYear: 2013,
+            active: true
         };
         var user2 = {
             id: 2,
             firstName: 'Jennifer',
             lastName: 'LaPierre',
             email: 'lapierre.j@husky.neu.edu',
-            authRole: 'peer'
+            authRole: 'Peer Leader',
+            pronouns: 'she',
+            uStartYear: 2014,
+            aStartYear: 2015,
+            active: true,
+            activities: {2: activity2, 3: activity3, 4: activity4}
         };
         var user3 = {
             id: 3,
             firstName: 'Lawrence',
             lastName: 'Lim',
             email: 'lim.law@husky.neu.edu',
-            authRole: 'admin'
+            authRole: 'Administrator',
+            pronouns: 'he',
+            uStartYear: 2016,
+            aStartYear: 2016,
+            active: true
         };
         var user4 = {
             id: 4,
             firstName: 'Jonathon',
             lastName: 'Northcott',
             email: 'northcott.j@husky.neu.edu',
-            authRole: 'student'
+            authRole: 'Student',
+            pronouns: 'he',
+            corePartnerId: 3,
+            uStartYear: 2013,
+            aStartYear: 2015,
+            active: true
         };
+        var authRoles = [{name: 'Student'}, {name: 'Peer Leader'}, {name: 'Administrator'}];
+
+
+        // Returns the potential user Auth Roles
+        function getAuthRoles() {
+            return authRoles;
+        }
 
         // Current Signed In User
         function getCurrentUser() {
-            return user1;
+            return user2;
+        }
+
+        // Get all users the current signed in user has access too
+        function getUsers() {
+            return [user1, user2, user3, user4];
+        }
+
+        // Saves the current user
+        function upsertUser(user) {
+            return true;
+        }
+
+        // Saves the current user
+        function deleteUser(user) {
+            return true;
         }
 
         // Sign Out User
@@ -53,9 +121,49 @@
                 });
         }
 
+        // Upload a new set of students
+        function uploadStudents(file) {
+            var fileFormData = new FormData();
+            fileFormData.append('file', file);
+
+            return $http({
+                method: 'POST',
+                url: '/api/upload_from_file',
+                data: {file: fileFormData, type: 'Students'}});
+        }
+
+        // Upload a new set of peer leaders
+        function uploadPeerLeaders(file) {
+            var fileFormData = new FormData();
+            fileFormData.append('file', file);
+
+            return $http({
+                method: 'POST',
+                url: '/api/upload_from_file',
+                data: {file: fileFormData, type: 'Peer Leaders'}});
+        }
+
+        // Upload a new set of administrators
+        function uploadAdministrators(file) {
+            var fileFormData = new FormData();
+            fileFormData.append('file', file);
+
+            return $http({
+                method: 'POST',
+                url: '/api/upload_from_file',
+                data: {file: fileFormData, type: 'Administrators'}});
+        }
+
         return {
+            getAuthRoles: getAuthRoles,
+            getCurrentUser: getCurrentUser,
+            getUsers: getUsers,
+            upsertUser: upsertUser,
+            deleteUser: deleteUser,
             signOutUser: signOutUser,
-            getCurrentUser: getCurrentUser
+            uploadStudents: uploadStudents,
+            uploadPeerLeaders: uploadPeerLeaders,
+            uploadAdministrators: uploadAdministrators
         };
     }
 

@@ -1,6 +1,9 @@
 <div class="menu">
   <ul class="menu-color">
-    <li class="menu-color menu-item" ng-repeat="page in vm.pages" ng-click="page.onClick()">
+    <li class="menu-color menu-item"
+        ng-repeat="page in vm.pages"
+        ng-click="page.onClick()"
+        ng-class="{'menu-selected': pageName === page.name}">
       {{page.name}}
     </li>
   </ul>
