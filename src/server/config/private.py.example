@@ -8,6 +8,8 @@ MONGO_DB_NAME = ''
 GOOGLE_CLIENT_ID = ''
 GOOGLE_CLIENT_SECRET = ''
 GOOGLE_REDIRECT_URI = '/oauth2callback'
+GOOGLE_CALLBACK_IP = ''
+GOOGLE_CALLBACK_URI = 'http://{0}'.format(GOOGLE_CALLBACK_IP)
 
 # flask app
 APP_SECRET_KEY = 'secret'
