@@ -75,7 +75,7 @@ def step_setup_some_scenario(scenario):
 
 @step('the following users are in the database')
 def step_put_users_in_database(step):
-    world.db.add_data_multi("user", step.hashes)
+    world.db.add_data_multi("users", step.hashes)
 
 
 @step('user (\d+) is logged in')
