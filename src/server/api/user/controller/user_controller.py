@@ -1,8 +1,8 @@
+import json
 
-
-def get_current_user(database):
-    """return the user who is currently logged in"""
-    return {}
+def get_user_with_email(database, email):
+    """return the user associated with the given email"""
+    return database["users"].find_one({"email":email})
 
 
 def get_users(database):

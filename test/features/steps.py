@@ -11,7 +11,7 @@ from test.data.MockDb import *
 
 def fields_match(expected, actual):
     match = True
-    for k, v in expected:
+    for k, v in expected.iteritems():
         match = match and actual[k] == v
     return match
 
@@ -75,7 +75,7 @@ def step_setup_some_scenario(scenario):
 
 @step('the following users are in the database')
 def step_put_users_in_database(step):
-    world.db.add_data_multi("user", step.hashes)
+    world.db.add_data_multi("users", step.hashes)
 
 
 @step('user (\d+) is logged in')
@@ -88,10 +88,10 @@ def step_get_users(step):
     world.result = get_users(world.db)
 
 
-@step('I get the current user')
-def step_get_current_user(step):
+@step('I get the user with email (.+)')
+def step_get_user_with_email(step, email):
     """need to implement function"""
-    world.result = get_current_user(world.db)
+    world.result = get_user_with_email(world.db, email)
 
 
 @step('it should return an empty list')
