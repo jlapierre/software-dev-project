@@ -1,7 +1,7 @@
 echo "Removing old 108 folder..."
 ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 'sudo rm -rf ~/108'
 echo "Copying all files onto remote server..."
-scp -r . -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123:~/108
+scp -r . -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123:~/108
 ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 <<EOSSH
 echo "Installing pip..."
 sudo apt-get -qq install python-pip
