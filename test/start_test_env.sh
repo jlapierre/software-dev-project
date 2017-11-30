@@ -1,21 +1,9 @@
 ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 <<EOSSH
-echo "Installing pip..."
-sudo apt-get install python-pip
-echo "Installing virtualenv..."
-sudo apt-get install virtualenv
-echo "Removing old 108 folder..."
-sudo rm -rf 108
-echo "Cloning 108 repo..."
-git clone git@github.ccs.neu.edu:CS4500/108.git
 cd ~/108
-echo "Pulling and checking out $1..."
-git checkout --track origin/$1
-echo "Installing requirements.txt..."
-sudo -H pip install -r requirements.txt
-cp ~/private.py ~/108/src/server/config/private.py
-python ~/108/src/dev_seed.py <<EOF
-y
-EOF
-bash ~/108/test/karma_setup.sh
+git checkout $1
+echo "Updating app.run() to listen on port 80..."
+sed -i 's/app.run(debug=True)/app.run(host="0.0.0.0", port=80, debug=False)/g' ~/108/src/run.py
+echo "Starting the python server..."
+sudo python ~/108/src/run.py &
 exit
 EOSSH

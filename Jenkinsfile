@@ -4,12 +4,12 @@ pipeline {
     stages {
         stage('Setup Test Environment') {
             steps {
-                sh "bash test/start_test_env.sh ${env.BRANCH_NAME}"
+                sh "bash test/setup_test_env.sh ${env.BRANCH_NAME}"
             }
         }
         stage('Run Python Unit Tests') {
             steps {
-                echo "bash test/python_feature_tests.sh ${env.BRANCH_NAME}"
+                sh "bash test/python_feature_tests.sh ${env.BRANCH_NAME}"
             }
         }
         stage('Run Karma Tests') {
@@ -19,8 +19,7 @@ pipeline {
         }
         stage('Deploy Test Environment') {
             steps {
-                sh "ssh -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.143"
-                echo "add -tt and pipe in script later"
+                sh "bash test/start_test_env.sh ${env.BRANCH_NAME}"
             }
         }
         stage('Run Integration Tests') {
