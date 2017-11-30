@@ -1,8 +1,8 @@
 ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 <<EOSSH
 echo "Installing pip..."
-sudo apt-get install python-pip
+sudo apt-get -qq install python-pip
 echo "Installing virtualenv..."
-sudo apt-get install virtualenv
+sudo apt-get -qq install virtualenv
 echo "Killing any python scripts currently running..."
 sudo pkill python
 echo "Removing old 108 folder..."
