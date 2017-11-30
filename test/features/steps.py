@@ -11,7 +11,7 @@ from test.data.MockDb import *
 
 def fields_match(expected, actual):
     match = True
-    for k, v in expected:
+    for k, v in expected.iteritems():
         match = match and actual[k] == v
     return match
 
