@@ -1,3 +1,7 @@
+echo "Removing old 108 folder..."
+ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 'sudo rm -rf ~/108'
+echo "Copying all files onto remote server..."
+scp -r . -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123:~/108
 ssh -T -o StrictHostKeyChecking=no -i ~/.ssh/cs4500-admin.pem ubuntu@128.31.25.123 <<EOSSH
 echo "Installing pip..."
 sudo apt-get -qq install python-pip
@@ -5,13 +9,9 @@ echo "Installing virtualenv..."
 sudo apt-get -qq install virtualenv
 echo "Killing any python scripts currently running..."
 sudo pkill python
-echo "Removing old 108 folder..."
-sudo rm -rf 108
-echo "Cloning 108 repo..."
-git clone git@github.ccs.neu.edu:CS4500/108.git
+echo "Cd'ing into 108"
+ls ~/
 cd ~/108
-echo "Pulling and checking out $1..."
-git checkout --track origin/$1
 echo "Installing requirements.txt..."
 sudo -H pip install -r requirements.txt
 cp ~/private.py ~/108/src/server/config/private.py
