@@ -10,7 +10,6 @@ echo "Starting feature tests..."
 export PYTHONPATH="${PYTHONPATH}:/home/ubuntu/108/src"
 export NUM_FEATURES=$(find test -type f -name \*.feature -type f -printf '.' | wc -c)
 if [ $NUM_FEATURES -gt 0 ]; then lettuce test; else echo "No lettuce features to run!"; fi
-lettuce test
 coverage report
 exit
 EOSSH
