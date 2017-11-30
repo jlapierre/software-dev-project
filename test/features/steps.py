@@ -88,10 +88,10 @@ def step_get_users(step):
     world.result = get_users(world.db)
 
 
-@step('I get the current user')
-def step_get_current_user(step):
+@step('I get the user with email (.+)')
+def step_get_user_with_email(step, email):
     """need to implement function"""
-    world.result = get_current_user(world.db)
+    world.result = get_user_with_email(world.db, email)
 
 
 @step('it should return an empty list')
