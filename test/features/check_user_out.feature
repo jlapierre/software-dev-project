@@ -1,5 +1,5 @@
 # Created by Jenny at 11/27/2017
-Feature: Check user out
+# Feature: Check user out
 
   Scenario: valid checkout
     Given the following users are in the database:

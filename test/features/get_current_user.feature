@@ -1,5 +1,5 @@
 # Created by Jenny at 11/23/2017
-Feature: Get current user
+# Feature: Get current user
 
   Scenario: Get current user            |
     Given the following users are in the database:

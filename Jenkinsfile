@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Run Python Unit Tests') {
             steps {
-                echo "bash test/python_feature_tests.sh ${env.BRANCH_NAME}"
+                sh "bash test/python_feature_tests.sh ${env.BRANCH_NAME}"
             }
         }
         stage('Run Karma Tests') {

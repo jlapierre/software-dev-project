@@ -1,5 +1,5 @@
 # Created by Jenny at 11/24/2017
-Feature: get_partners
+# Feature: get_partners
 
   Scenario: no partners in db
     Given there are no partners in the database
