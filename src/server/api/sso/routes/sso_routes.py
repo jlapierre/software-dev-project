@@ -18,7 +18,7 @@ def login():
 @GOOGLE.authorized_handler
 def authorized(resp):
     access_token = resp['access_token']
-    session['access_token'] = access_token, ''
+    session['access_token'] = access_token
     return redirect('/index.html')
 
 
