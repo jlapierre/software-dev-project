@@ -5,6 +5,24 @@ describe('UserService', function() {
   beforeEach(module('app'));
 
 
+  it('service should contain a function called getAuthRoles', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+
+    expect(UserService.getAuthRoles).not.toBe(undefined);
+    expect(typeof UserService.getAuthRoles).toBe('function');
+
+  }));
+
+  it('getAuthRoles ahould return the defined user auth roles', inject(function($injector) {
+    var UserService = $injector.get('UserService');
+
+    var authRoles = UserService.getAuthRoles();
+
+    expect(authRoles).toEqual([{name: 'Student'}, {name: 'Peer Leader'}, {name: 'Administrator'}]);
+
+  }));
+
+
   it('service should contain a function called signOutUser', inject(function($injector) {
     var UserService = $injector.get('UserService');
 

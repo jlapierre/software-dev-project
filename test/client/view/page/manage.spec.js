@@ -213,6 +213,10 @@ describe('ManageController', function() {
         deleteUserCalled = user;
     }
 
+    function mockGetAuthRoles() {
+        return [{name: 'Student'}, {name: 'Peer Leader'}, {name: 'Administrator'}];
+    }
+
     var mockPartnerService = {
         getPartners: mockGetPartners,
         addPartner: mockAddPartner,
@@ -228,7 +232,8 @@ describe('ManageController', function() {
         deleteUser: mockDeleteUser,
         uploadStudents: mockUpload,
         uploadPeerLeaders: mockUpload,
-        uploadAdministrators: mockUpload
+        uploadAdministrators: mockUpload,
+        getAuthRoles: mockGetAuthRoles
     }
 
     var scope = $rootScope.$new();
@@ -324,6 +329,30 @@ describe('ManageController', function() {
 
   }));
 
+  it('when peer leaders is selected add peer leader element to users list', inject(function($controller) {
+
+    vm.setTab('Peer Leaders');
+    vm.users = [user1, user2, user3, user4];
+
+    vm.addElement();
+
+    expect(vm.users.length).toBe(5);
+    expect(vm.users[4]).toEqual({authRole: 'Peer Leader', expanded: true, active: true});
+
+  }));
+
+  it('when administrators is selected add administrator element to users list', inject(function($controller) {
+
+    vm.setTab('Administrators');
+    vm.users = [user1, user2, user3, user4];
+
+    vm.addElement();
+
+    expect(vm.users.length).toBe(5);
+    expect(vm.users[4]).toEqual({authRole: 'Administrator', expanded: true, active: true});
+
+  }));
+
   it('toggles element expanded attribute', inject(function($controller) {
     var el = {};
 
@@ -361,6 +390,7 @@ describe('ManageController', function() {
     vm.savePartner(0);
 
     expect(updatePartnerCalled).toBe(partner1);
+    expect(updatePartnerCalled.added).toBe(undefined);
 
   }));
 
@@ -426,6 +456,32 @@ describe('ManageController', function() {
     vm.saveUser(user1);
 
     expect(upsertUserCalled).toBe(user1);
+
+  }));
+
+  it('saveUser will call UserService.upsertUser and switch the authRole', inject(function($controller) {
+    user3.newAuthRole = 'Student';
+
+    vm.saveUser(user3);
+
+    expect(upsertUserCalled).toBe(user3);
+    expect(user3.authRole).toBe('Student');
+
+  }));
+
+  it('selectNewAuthRole adds a newAuthRole to user', inject(function($controller) {
+
+    vm.selectNewAuthRole({name: 'Administrator'}, user4);
+
+    expect(user4.newAuthRole).toBe('Administrator');
+
+  }));
+
+  it('unSelectNewAuthRole sets newAuthRole to undefined', inject(function($controller) {
+
+    vm.unSelectNewAuthRole(user4);
+
+    expect(user4.newAuthRole).toBe(undefined);
 
   }));
 

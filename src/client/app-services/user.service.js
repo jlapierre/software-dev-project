@@ -53,6 +53,13 @@
             aStartYear: 2015,
             active: true
         };
+        var authRoles = [{name: 'Student'}, {name: 'Peer Leader'}, {name: 'Administrator'}];
+
+
+        // Returns the potential user Auth Roles
+        function getAuthRoles() {
+            return authRoles;
+        }
 
         // Current Signed In User
         function getCurrentUser() {
@@ -120,6 +127,7 @@
         }
 
         return {
+            getAuthRoles: getAuthRoles,
             getCurrentUser: getCurrentUser,
             getUsers: getUsers,
             upsertUser: upsertUser,

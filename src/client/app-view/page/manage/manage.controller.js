@@ -12,6 +12,9 @@
         // Get current user
         vm.currentUser = UserService.getCurrentUser();
 
+        // Get potential user auth roles
+        vm.authRoles = UserService.getAuthRoles();
+
         function setTab(tab) {
             vm.selectedTab = tab;
 
@@ -38,8 +41,12 @@
         function addElement() {
             if (vm.selectedTab === 'Community Partners') {
                 vm.partners.push({locations: {}, contacts: {}, added: true, expanded: true, active: true});
-            } if (vm.selectedTab === 'Students') {
+            } else if (vm.selectedTab === 'Students') {
                 vm.users.push({authRole: 'Student', expanded: true, active: true});
+            } else if (vm.selectedTab === 'Peer Leaders') {
+                vm.users.push({authRole: 'Peer Leader', expanded: true, active: true});
+            } else if (vm.selectedTab === 'Administrators') {
+                vm.users.push({authRole: 'Administrator', expanded: true, active: true});
             }
         }
         vm.addElement = addElement;
@@ -120,6 +127,7 @@
         // Save the changes to a partner
         function savePartner(pIndex) {
             var partner = vm.partners[pIndex];
+            delete partner.expanded;
 
             if (partner.added) {
                 delete partner.added;
@@ -128,6 +136,7 @@
                 PartnerService.updatePartner(partner);
             }
 
+            partner.expanded = true;
         }
 
         // Deletes a partner
@@ -141,10 +150,25 @@
         // Functions for managing all users
         vm.saveUser = saveUser;
         vm.deleteUser = deleteUser;
+        vm.selectNewAuthRole = selectNewAuthRole;
+        vm.unSelectNewAuthRole = unSelectNewAuthRole;
 
         // Save changes to a user
         function saveUser(user) {
+            var switched = false;
+
+            if (user.newAuthRole) {
+                switched = true;
+                user.authRole = user.newAuthRole;
+                delete user.newAuthRole;
+            }
+
+            delete user.expanded;
             UserService.upsertUser(user);
+
+            if (!switched) {
+                user.expanded = true;
+            }
         }
 
         // Delete a user
@@ -155,7 +179,15 @@
             vm.users.splice(uIndex, 1);
         }
 
-        // Functions for managing a student
+        function selectNewAuthRole(selectedItem, user) {
+            user.newAuthRole = selectedItem.name;
+        }
+
+        function unSelectNewAuthRole(user) {
+            user.newAuthRole = undefined;
+        }
+
+        // Functions for managing a student and peer leaders
 
         // Functions Needed for typeaheads
 
