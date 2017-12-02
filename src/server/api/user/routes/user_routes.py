@@ -22,9 +22,9 @@ def get_user_with_email(email):
 def get_users():
     return user_controller.get_users(db)
 
-@user_api.route('/api/upsert_user', methods=['POST'])
+@user_api.route('/api/create_student', methods=['POST'])
 #@requiresomepermission
-def upsert_user(user):
+def create_student():
     user = {
         "email": request.form["email"],
         "checked_in": False,
@@ -41,6 +41,15 @@ def upsert_user(user):
         "aces_start": request.form["aces_start"],
         "badge": None,
         "is_active": True
+    }
+    return user_controller.upsert_user(db, user)
+
+@user_api.route('/api/update_user', methods=['POST'])
+#@requiresomepermission
+def update_user():
+    user = {
+        "email": request.form["email"],
+        # "attr1": val1 ...
     }
     return user_controller.upsert_user(db, user)
 
