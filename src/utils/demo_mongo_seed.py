@@ -271,7 +271,8 @@ def populate_partners():
                 "active": True
             }
         },
-        "core_partner": True
+        "core_partner": True,
+        "is_active": True
     }
     ABCD = {
         "_id": ObjectId("5126bc054aed4daf9e2ab779"),
@@ -294,7 +295,8 @@ def populate_partners():
                 "active": True
             }
         },
-        "core_partner": True
+        "core_partner": True,
+        "is_active": True
     }
     partners = [Boston826, ABCD]
     for p in partners:
