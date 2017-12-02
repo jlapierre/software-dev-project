@@ -53,8 +53,7 @@ def update_user():
     }
     return user_controller.upsert_user(db, user)
 
-@user_api.route('/api/delete_user/<user_id>')
+@user_api.route('/api/delete_user/<user_id>', methods=['POST'])
 #@requiresomepermission
 def delete_user(user_id):
     return user_controller.delete_user(db, user_id)
-
