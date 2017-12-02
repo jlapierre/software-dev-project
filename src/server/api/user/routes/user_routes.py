@@ -57,3 +57,27 @@ def update_user():
 #@requiresomepermission
 def delete_user(user_id):
     return user_controller.delete_user(db, user_id)
+
+@user_api.route('/api/check_in', methods=['POST'])
+def user_check_in():
+    user_id = get_current_user()["_id"]
+    partner_id = request.form["partner_id"]
+    location = request.form["location"] # not currently used in controller
+    contact = request.form["contact"] # not currently used in controller
+    return user_controller.check_user_in(db, user_id, partner_id, location, contact)
+
+@user_api.route('/api/check_out', methods=['POST'])
+def user_check_out():
+    user_id = get_current_user()["_id"]
+    return user_controller.check_user_out(db, user_id)
+
+
+@user_api.route('/api/user_activity', methods=['POST'])
+def current_user_activity():
+    user_id = get_current_user()["_id"]
+    return user_controller.check_user_out(db, user_id)
+
+
+@user_api.route('/api/user_activity/<_id>', methods=['POST'])
+def user_activity_by_user_id(_id):
+    return user_controller.check_user_out(db, _id)
