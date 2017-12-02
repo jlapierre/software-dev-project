@@ -20,7 +20,7 @@ def create_partner():
         "core_partner": False,
         "is_active": True
     }
-    return dumps(partner_controller.upsert_partner(db, partner))
+    return dumps(partner_controller.upsert_partner(db, partner).raw_result)
 
 @partner_api.route('/api/update_partner', methods=["POST"])
 def update_partner():
@@ -28,11 +28,11 @@ def update_partner():
         "name": request.form["name"]
         # "attr1": val1 ...
     }
-    return dumps(partner_controller.upsert_partner(db, partner))
+    return dumps(partner_controller.upsert_partner(db, partner).raw_result)
 
 @partner_api.route('/api/delete_partner/<partner_id>', methods=["POST"])
 def delete_partner(partner_id):
-    return dumps(partner_controller.remove_partner(db, partner_id))
+    return dumps(partner_controller.remove_partner(db, partner_id).raw_result)
 
 @partner_api.route('/api/add_location/', methods=["POST"])
 def add_location():
@@ -46,7 +46,7 @@ def add_location():
         },
         "active": True
     }
-    return dumps(partner_controller.add_location(db, partner_id, location))
+    return dumps(partner_controller.add_location(db, partner_id, location).raw_result)
 
 @partner_api.route('/api/add_contact/', methods=["POST"])
 def add_contact():
@@ -57,4 +57,4 @@ def add_contact():
         "phone": request.form["phone"],
         "active": True
     }
-    return (partner_controller.add_contact(db, partner_id, contact))
+    return (partner_controller.add_contact(db, partner_id, contact).raw_result)
