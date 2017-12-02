@@ -29,6 +29,6 @@ def update_partner():
     }
     return partner_controller.upsert_partner(db, partner)
 
-@partner_api.route('/api/delete_partner/<partner_id>')
+@partner_api.route('/api/delete_partner/<partner_id>', methods=["POST"])
 def delete_partner(partner_id):
     return partner_controller.remove_partner(db, partner_id)
