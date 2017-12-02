@@ -21,5 +21,8 @@ def upsert_user(database, user):
 
 
 def remove_user(database, user_id):
-    """delete user with given id"""
-    return database["users"].delete_one({"_id": user_id})
+    """deactivate user with given id"""
+    return database["users"].update_one(
+        {"_id": user_id}, # find user with matching id
+        {"$set": {"is_active": False}}
+    )
