@@ -48,7 +48,7 @@ def add_location():
     return partner_controller.add_location(db, partner_id, location)
 
 @partner_api.route('/api/add_contact/', methods=["POST"])
-def add_location():
+def add_contact():
     partner_id = request.form["partner_id"]
     contact = {
         "name": request.form["name"],
