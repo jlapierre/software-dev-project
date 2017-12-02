@@ -53,7 +53,7 @@ def add_location():
     contact = {
         "name": request.form["name"],
         "email": request.form["email"],
-        "phone": request.form["phone"]
+        "phone": request.form["phone"],
         "active": True
     }
     return partner_controller.add_contact(db, partner_id, contact)
