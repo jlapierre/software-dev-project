@@ -1,5 +1,6 @@
 from flask_cors import CORS
-from flask import Blueprint, request, session, json
+from flask import Blueprint, request
+from bson.json_util import dumps
 from server.api.partner.controller import partner_controller
 from utils.db_handler import db
 
@@ -8,7 +9,7 @@ CORS = CORS(partner_api, resources={r"*": {"origins": "http://127.0.0.1:5000"}})
 
 @partner_api.route('/api/all_partners')
 def get_partners():
-    return partner_controller.get_partners(db)
+    return dumps(partner_controller.get_partners(db))
 
 @partner_api.route('/api/create_partner', methods=["POST"])
 def create_partner():
@@ -19,7 +20,7 @@ def create_partner():
         "core_partner": False,
         "is_active": True
     }
-    return partner_controller.upsert_partner(db, partner)
+    return dumps(partner_controller.upsert_partner(db, partner))
 
 @partner_api.route('/api/update_partner', methods=["POST"])
 def update_partner():
@@ -27,11 +28,11 @@ def update_partner():
         "name": request.form["name"]
         # "attr1": val1 ...
     }
-    return partner_controller.upsert_partner(db, partner)
+    return dumps(partner_controller.upsert_partner(db, partner))
 
 @partner_api.route('/api/delete_partner/<partner_id>', methods=["POST"])
 def delete_partner(partner_id):
-    return partner_controller.remove_partner(db, partner_id)
+    return dumps(partner_controller.remove_partner(db, partner_id))
 
 @partner_api.route('/api/add_location/', methods=["POST"])
 def add_location():
@@ -45,7 +46,7 @@ def add_location():
         },
         "active": True
     }
-    return partner_controller.add_location(db, partner_id, location)
+    return dumps(partner_controller.add_location(db, partner_id, location))
 
 @partner_api.route('/api/add_contact/', methods=["POST"])
 def add_contact():
@@ -56,4 +57,4 @@ def add_contact():
         "phone": request.form["phone"],
         "active": True
     }
-    return partner_controller.add_contact(db, partner_id, contact)
+    return (partner_controller.add_contact(db, partner_id, contact))

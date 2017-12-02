@@ -1,5 +1,6 @@
 from flask_cors import CORS
 from flask import Blueprint, request, session, json
+from bson.json_util import dumps
 from server.api.user.controller import user_controller
 from ...sso.routes.sso_routes import googleauth
 from utils.db_handler import db
@@ -12,15 +13,15 @@ def get_current_user():
     token = session.get('access_token')
     if token is None: return None
     auth = json.loads(googleauth().data)
-    return user_controller.get_user_with_email(db, auth["email"])
+    return dumps(user_controller.get_user_with_email(db, auth["email"]))
 
 @user_api.route('/api/get_user_with_email/<email>')
 def get_user_with_email(email):
-    return user_controller.get_user_with_email(db, email)
+    return dumps(user_controller.get_user_with_email(db, email))
 
 @user_api.route('/api/all_users')
 def get_users():
-    return user_controller.get_users(db)
+    return dumps(user_controller.get_users(db))
 
 @user_api.route('/api/create_student', methods=['POST'])
 #@requiresomepermission
@@ -42,7 +43,7 @@ def create_student():
         "badge": None,
         "is_active": True
     }
-    return user_controller.upsert_user(db, user)
+    return dumps(user_controller.upsert_user(db, user))
 
 @user_api.route('/api/update_user', methods=['POST'])
 #@requiresomepermission
@@ -51,12 +52,12 @@ def update_user():
         "email": request.form["email"],
         # "attr1": val1 ...
     }
-    return user_controller.upsert_user(db, user)
+    return dumps(user_controller.upsert_user(db, user))
 
 @user_api.route('/api/delete_user/<user_id>', methods=['POST'])
 #@requiresomepermission
 def delete_user(user_id):
-    return user_controller.delete_user(db, user_id)
+    return dumps(user_controller.delete_user(db, user_id))
 
 @user_api.route('/api/check_in', methods=['POST'])
 def user_check_in():
@@ -64,20 +65,20 @@ def user_check_in():
     partner_id = request.form["partner_id"]
     location = request.form["location"] # not currently used in controller
     contact = request.form["contact"] # not currently used in controller
-    return user_controller.check_user_in(db, user_id, partner_id, location, contact)
+    return dumps(user_controller.check_user_in(db, user_id, partner_id, location, contact))
 
 @user_api.route('/api/check_out', methods=['POST'])
 def user_check_out():
     user_id = get_current_user()["_id"]
-    return user_controller.check_user_out(db, user_id)
+    return dumps(user_controller.check_user_out(db, user_id))
 
 
 @user_api.route('/api/user_activity', methods=['POST'])
 def current_user_activity():
     user_id = get_current_user()["_id"]
-    return user_controller.check_user_out(db, user_id)
+    return dumps(user_controller.check_user_out(db, user_id))
 
 
 @user_api.route('/api/user_activity/<_id>', methods=['POST'])
 def user_activity_by_user_id(_id):
-    return user_controller.check_user_out(db, _id)
+    return dumps(user_controller.check_user_out(db, _id))
