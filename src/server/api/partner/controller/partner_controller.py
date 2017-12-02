@@ -14,7 +14,7 @@ def upsert_partner(database, partner):
 
 
 def remove_partner(database, partner_id):
-    """delete partner with given id"""
+    """deactivate partner with given id"""
     return database["partners"].update_one(
         {"_id": partner_id}, # find partner with matching id
         {"$set": {"is_active": False}}
