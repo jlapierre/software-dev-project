@@ -32,3 +32,28 @@ def update_partner():
 @partner_api.route('/api/delete_partner/<partner_id>', methods=["POST"])
 def delete_partner(partner_id):
     return partner_controller.remove_partner(db, partner_id)
+
+@partner_api.route('/api/add_location/', methods=["POST"])
+def add_location():
+    partner_id = request.form["partner_id"]
+    location = {
+        "address": {
+            "street": request.form["street"],
+            "city": request.form["city"],
+            "state": request.form["state"],
+            "zipcode": request.form["zipcode"]
+        },
+        "active": True
+    }
+    return partner_controller.add_location(db, partner_id, location)
+
+@partner_api.route('/api/add_contact/', methods=["POST"])
+def add_location():
+    partner_id = request.form["partner_id"]
+    contact = {
+        "name": request.form["name"],
+        "email": request.form["email"],
+        "phone": request.form["phone"]
+        "active": True
+    }
+    return partner_controller.add_contact(db, partner_id, contact)
