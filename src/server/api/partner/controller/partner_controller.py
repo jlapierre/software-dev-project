@@ -1,3 +1,5 @@
+import uuid
+
 def get_partners(database):
     """return all partners the current partner has access to"""
     return database["partners"].find({})
@@ -23,9 +25,17 @@ def remove_partner(database, partner_id):
 
 def add_location(database, partner_id, location):
     """add location to given partner"""
-    return database["partners"].find_one({"_id": partner_id})["locations"].insert(location)
+    lid = "locations." + str(uuid.uuid1())
+    return database["partners"].find_one_and_update(
+        {"_id": partner_id},
+        {"$set": {lid: location}}
+    )
 
 
 def add_contact(database, partner_id, contact):
     """add contact to given partner"""
-    return database["partners"].find_one({"_id": partner_id})["contacts"].insert(contact)
+    cid = "contacts." + str(uuid.uuid1())
+    return database["partners"].find_one_and_update(
+        {"_id": partner_id},
+        {"$set": {cid: contact}}
+    )

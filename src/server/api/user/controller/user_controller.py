@@ -1,4 +1,5 @@
 import datetime
+import uuid
 
 
 def get_user_with_email(database, email):
@@ -40,14 +41,25 @@ def check_user_in(database, user_id, partner_id, location, contact):
         "manually_edited": False,
         "comment": ""
     }
-    return database["users"].find_one({"_id":user_id})["activities"].insert(activity)
+    aid = "activities."+str(uuid.uuid1())
+    return database["users"].find_one_and_update(
+        {"_id":user_id},
+        {"$set": {aid: activity}}
+    )
 
 
 def check_user_out(database, user_id):
     """check out the current user's open activity by adding an end time"""
-    return database["users"].find_one({"_id":user_id})["activities"].find_one_and_update(
-        {"end_time":None}, # find an activity with no end time
-        {"$set": {"end_time": datetime.datetime.now()}} # set the end time to the current time
+    #lmfao this is awful
+    #todo: do this in a sane way
+    act = database["users"].find_one({"_id":user_id})["activities"]
+    for k,v in act.iteritems():
+        if v["end_time"] is None:
+            v["end_time"] = datetime.datetime.now()
+            break
+    return database["users"].find_one_and_update(
+        {"_id": user_id},
+        {"$set": {"activities": act}}
     )
 
 

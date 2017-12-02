@@ -1,6 +1,7 @@
 from flask_cors import CORS
 from flask import Blueprint, request
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 from server.api.partner.controller import partner_controller
 from utils.db_handler import db
 
@@ -32,7 +33,7 @@ def update_partner():
 
 @partner_api.route('/api/delete_partner/<partner_id>', methods=["POST"])
 def delete_partner(partner_id):
-    return dumps(partner_controller.remove_partner(db, partner_id).raw_result)
+    return dumps(partner_controller.remove_partner(db, ObjectId(partner_id)).raw_result)
 
 @partner_api.route('/api/add_location/', methods=["POST"])
 def add_location():
@@ -46,7 +47,7 @@ def add_location():
         },
         "active": True
     }
-    return dumps(partner_controller.add_location(db, partner_id, location).raw_result)
+    return dumps(partner_controller.add_location(db, ObjectId(partner_id), location))
 
 @partner_api.route('/api/add_contact/', methods=["POST"])
 def add_contact():
@@ -57,4 +58,4 @@ def add_contact():
         "phone": request.form["phone"],
         "active": True
     }
-    return (partner_controller.add_contact(db, partner_id, contact).raw_result)
+    return dumps(partner_controller.add_contact(db, ObjectId(partner_id), contact))

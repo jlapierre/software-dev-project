@@ -1,6 +1,7 @@
 from flask_cors import CORS
 from flask import Blueprint, request, session, json
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 from server.api.user.controller import user_controller
 from ...sso.routes.sso_routes import googleauth
 from utils.db_handler import db
@@ -57,28 +58,34 @@ def update_user():
 @user_api.route('/api/delete_user/<user_id>', methods=['POST'])
 #@requiresomepermission
 def delete_user(user_id):
-    return dumps(user_controller.delete_user(db, user_id))
+    return dumps(user_controller.remove_user(db, ObjectId(user_id)).raw_result)
 
 @user_api.route('/api/check_in', methods=['POST'])
 def user_check_in():
     user_id = get_current_user()["_id"]
     partner_id = request.form["partner_id"]
-    location = request.form["location"] # not currently used in controller
-    contact = request.form["contact"] # not currently used in controller
-    return dumps(user_controller.check_user_in(db, user_id, partner_id, location, contact).raw_result)
+    location = {} # not currently used in controller
+    contact = {} # not currently used in controller
+    return dumps(user_controller.check_user_in(
+        db,
+        ObjectId(user_id),
+        ObjectId(partner_id),
+        location,
+        contact
+    ))
 
 @user_api.route('/api/check_out', methods=['POST'])
 def user_check_out():
     user_id = get_current_user()["_id"]
-    return dumps(user_controller.check_user_out(db, user_id).raw_result)
+    return dumps(user_controller.check_user_out(db, ObjectId(user_id)))
 
 
-@user_api.route('/api/user_activity', methods=['POST'])
+@user_api.route('/api/user_activity')
 def current_user_activity():
     user_id = get_current_user()["_id"]
-    return dumps(user_controller.check_user_out(db, user_id).raw_result)
+    return dumps(user_controller.get_user_activity(db, ObjectId(user_id)))
 
 
-@user_api.route('/api/user_activity/<_id>', methods=['POST'])
+@user_api.route('/api/user_activity/<_id>')
 def user_activity_by_user_id(_id):
-    return dumps(user_controller.check_user_out(db, _id).raw_result)
+    return dumps(user_controller.get_user_activity(db, ObjectId(_id)))
