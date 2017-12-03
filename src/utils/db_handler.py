@@ -1,7 +1,7 @@
 import pymongo
+import uuid
 from server.config.private import MONGO_DB_URL
 from server.config.private import MONGO_DB_NAME
-from bson import ObjectId
 
 print "Connecting to {0}...".format(MONGO_DB_URL)
 client = pymongo.MongoClient(MONGO_DB_URL)
@@ -44,10 +44,13 @@ def get_civic_log(user_id):
         return []
 
 
-def add_civic_log_entry(user_id, entry):
+def add_civic_log_entry(user_id, activity):
+    aid = "activities."+str(uuid.uuid1())
     """add entry to the given user's civic log"""
-    new_log = get_civic_log(user_id).append(entry)
-    db["users"].find_one_and_update({"_id": user_id}, {"$set": {"activities": new_log}})
+    db["users"].find_one_and_update(
+        {"_id": user_id},
+        {"$set": {aid: activity}}
+    )
 
 
 def update_civic_log_entry(user_id, activity_id, new_entry):

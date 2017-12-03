@@ -1,6 +1,6 @@
 import datetime
 import uuid
-
+from utils.db_handler import *
 
 def get_user_with_email(database, email):
     """return the user associated with the given email"""
@@ -41,11 +41,7 @@ def check_user_in(database, user_id, partner_id, location, contact):
         "manually_edited": False,
         "comment": ""
     }
-    aid = "activities."+str(uuid.uuid1())
-    return database["users"].find_one_and_update(
-        {"_id":user_id},
-        {"$set": {aid: activity}}
-    )
+    return add_civic_log_entry(user_id, activity)
 
 
 def check_user_out(database, user_id):

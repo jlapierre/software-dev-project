@@ -1,5 +1,5 @@
 from lettuce import *
-from server.api.activity.controller.activity_controller import *
+#from server.api.activity.controller.activity_controller import *
 from server.api.partner.controller.partner_controller import *
 from server.api.user.controller.user_controller import *
 from utils.demo_mongo_seed import *
@@ -149,18 +149,18 @@ def step_assert_partners_in_db(step):
     assert world.result == step.hashes
 
 
-@step("I check in with the following info:")
-def step_check_in(step):
+@step("user (\d+) checks in with the following info:")
+def step_check_in(step, user_id):
     checkin = step.hashes[0]
     location = make_location(checkin)
     contact = make_contact(checkin)
-    check_user_in(db, checkin["partner_id"], location, contact)
+    check_user_in(db, user_id, checkin["partner_id"], location, contact)
 
 
 @step("an entry should be created under user (\d+) with the following fields:")
 def step_engagement_entry_created(step, user):
-    activities = get_civic_log(user)
-    assert any(map(lambda engagement: fields_match(step.hashes[0], engagement), activities))
+    activities = get_civic_log(user).itervalues()
+    assert any(map(lambda engagement: fields_match(step.hashes[0], flatten_object(engagement)), activities))
 
 
 @step("the most recent entry under user (\d+) should have a check-in time of roughly the current time")
@@ -188,11 +188,14 @@ def step_put_entries_in_log(step, user):
         contact = make_contact(entry)
         location = make_location(entry)
         new_entry = {
+            "partner": entry["partner_id"],
             "contact": contact,
             "location": location
         }
         add_civic_log_entry(user, new_entry)
-    world.civic_log_before = get_civic_log(user)
+    world.civic_log_before = []
+    if get_civic_log(user):
+        world.civic_log_before = get_civic_log(user)
 
 
 @step("the most recent entry under user (\d+) has a check-in time of roughly the current time")
