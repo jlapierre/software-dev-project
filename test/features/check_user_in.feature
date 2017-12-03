@@ -3,10 +3,10 @@ Feature: Check user in
 
   Scenario: valid check-in with location and contact
     Given the following partners are in the database:
-    | ID  | name      | core_community_partner |
+    | _id | name      | core_community_partner |
     | 444 | Partner 1 | True                   |
     And the following users are in the database:
-    | ID  | auth_role   |
+    | _id | auth_role   |
     | 123 | STUDENT     |
     And user 123 is logged in
     When I check in with the following info:
@@ -20,10 +20,10 @@ Feature: Check user in
 
   Scenario: valid check-in without location and contact
     Given the following partners are in the database:
-    | ID  | name      | core_community_partner |
+    | _id | name      | core_community_partner |
     | 444 | Partner 1 | True                   |
     And the following users are in the database:
-    | ID  | auth_role   |
+    | _id | auth_role   |
     | 123 | STUDENT     |
     And user 123 is logged in
     When I check in with the following info:
@@ -37,10 +37,10 @@ Feature: Check user in
 
   Scenario: invalid partner id
     Given the following partners are in the database:
-    | ID  | name      | core_community_partner |
+    | _id | name      | core_community_partner |
     | 444 | Partner 1 | True                   |
     And the following users are in the database:
-    | ID  | auth_role   |
+    | _id | auth_role   |
     | 123 | STUDENT     |
     And user 123 is logged in
     When I check in with the following info:
@@ -50,10 +50,10 @@ Feature: Check user in
 
   Scenario: open entry already exists
     Given the following partners are in the database:
-    | ID  | name      | core_community_partner |
+    | _id | name      | core_community_partner |
     | 444 | Partner 1 | True                   |
     And the following users are in the database:
-    | ID  | auth_role   |
+    | _id | auth_role   |
     | 123 | STUDENT     |
     And user 123 is logged in
     When I check in with the following info:

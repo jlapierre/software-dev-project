@@ -1,29 +1,31 @@
-import copy
-import datetime
-
 from lettuce import *
-
 from server.api.activity.controller.activity_controller import *
 from server.api.partner.controller.partner_controller import *
 from server.api.user.controller.user_controller import *
-from test.data.MockDb import *
+from utils.demo_mongo_seed import *
+from utils.db_handler import *
 
 
 def fields_match(expected, actual):
     match = True
     for k, v in expected.iteritems():
-        match = match and actual[k] == v
+        if actual and k in actual:
+            match = match and actual[k] == v
+        else:
+            match = False
     return match
 
 
 def flatten_object(obj):
     """make object one-dimensional to check against test table
     e.g. the location object becomes location_street location_zip etc"""
+    if not obj:
+        return None
     result = {}
-    for k, v in obj:
+    for k, v in obj.iteritems():
         if isinstance(v, dict):
             flat_obj = flatten_object(v)
-            for nk, nv in flat_obj:
+            for nk, nv in flat_obj.iteritems():
                 flat_key = k + "_" + nk
                 result[flat_key] = nv
         else:
@@ -31,67 +33,70 @@ def flatten_object(obj):
     return result
 
 
-def get_most_recent_entry(user, db):
+def get_most_recent_entry(user):
     """return the newest entry in the civic log"""
-    if not db:
-        db = world.db
-    return sorted(db["users"][user]["civic_log"], key=lambda entry: entry.check_in, reverse=True)[0]
-
-
-def copy_db():
-    world.db_before = copy.deepcopy(world.db)
+    return sorted(get_user(user)["activities"], key=lambda entry: entry.check_in, reverse=True)[0]
 
 
 def make_location(checkin):
-    return {
-        "street": checkin["location_street"],
-        "city": checkin["location_city"],
-        "state": checkin["location_state"],
-        "zip_code": checkin["location_zip"]
-    }
+    result = {}
+    if "location_street" in checkin:
+        result["street"] = checkin["location_street"]
+    if "location_city" in checkin:
+        result["city"] = checkin["location_city"]
+    if "location_state" in checkin:
+        result["state"] = checkin["location_state"]
+    if "location_zip" in checkin:
+        result["zip_code"] = checkin["location_zip"]
+    return result
 
 
 def make_contact(checkin):
-    return {
-        "street": checkin["location_street"],
-        "city": checkin["location_city"],
-        "state": checkin["location_state"],
-        "zip_code": checkin["location_zip"]
-    }
+    result = {}
+    if "contact_name" in checkin:
+        result["name"] = checkin["contact_name"]
+    if "contact_email" in checkin:
+        result["email"] = checkin["contact_email"]
+    if "contact_phone" in checkin:
+        result["phone"] = checkin["contact_phone"]
+    return result
 
 
 def set_checkin_time(user, time):
-    get_most_recent_entry(user, world.db)["check_in"] = time
+    entry = {"check_in": time}
+    update_user(user, entry)
 
 
 def set_checkout_time(user, time):
-    get_most_recent_entry(user, world.db)["check_out"] = time
+    entry = {"check_out": time}
+    update_user(user, entry)
 
 
 @before.each_scenario
-def step_setup_some_scenario(scenario):
-    world.db = MockDb()
+def clear_db(scenario):
+    """clear the database"""
+    drop_collections()
 
 
 @step('the following users are in the database')
 def step_put_users_in_database(step):
-    world.db.add_data_multi("users", step.hashes)
+    add_users(step.hashes)
 
 
 @step('user (\d+) is logged in')
 def step_user_is_logged_in(step, userId):
-    """need to implement users and sessions"""
+    """todo: actually log user in"""
 
 
 @step('I call get_users')
 def step_get_users(step):
-    world.result = get_users(world.db)
+    world.result = get_users(db)
 
 
 @step('I get the user with email (.+)')
 def step_get_user_with_email(step, email):
     """need to implement function"""
-    world.result = get_user_with_email(world.db, email)
+    world.result = get_user_with_email(db, email)
 
 
 @step('it should return an empty list')
@@ -113,26 +118,28 @@ def step_result_user(step):
 
 @step('the following peer leader relationships exist')
 def step_set_peer_leaders(step):
-    """todo: use actual user editing once implemented"""
-    for user in step.hashes:
-        if not world.db["users"][user["ID"]].peer_leaders:
-            world.db["users"][user["ID"]].peer_leaders = []
-        world.db["users"][user["ID"]].peer_leaders.append(user.peer_leader)
+    for entry in step.hashes:
+        user_id = entry["_id"]
+        user = get_user(user_id)
+        peer_leaders = []
+        if "peer_leaders" in user:
+            peer_leaders.extend(user["peer_leaders"])
+        update_user(user_id, {"peer_leaders": peer_leaders})
 
 
 @step("there are no partners in the database")
 def step_no_partners_in_db(step):
-    world.db["partners"] = []
+    db["partners"].remove({})
 
 
 @step("I get all partners from the database")
 def step_get_partners(step):
-    world.result = get_partners(world.db)
+    world.result = get_partners(db)
 
 
 @step("the following partners are in the database:")
 def step_put_partners_in_db(step):
-    world.db.add_data_multi("partners", step.hashes)
+    add_partners(step.hashes)
 
 
 @step("it should return the following partners")
@@ -144,17 +151,16 @@ def step_assert_partners_in_db(step):
 
 @step("I check in with the following info:")
 def step_check_in(step):
-    copy_db()
     checkin = step.hashes[0]
     location = make_location(checkin)
     contact = make_contact(checkin)
-    check_user_in(world.db, checkin["partner_id"], location, contact)
+    check_user_in(db, checkin["partner_id"], location, contact)
 
 
 @step("an entry should be created under user (\d+) with the following fields:")
 def step_engagement_entry_created(step, user):
-    assert any(map(lambda engagement: fields_match(step.hashes[0], engagement),
-                   world.db.get_data("users", user)["civic_log"]))
+    activities = get_civic_log(user)
+    assert any(map(lambda engagement: fields_match(step.hashes[0], engagement), activities))
 
 
 @step("the most recent entry under user (\d+) should have a check-in time of roughly the current time")
@@ -171,8 +177,9 @@ def step_no_checkout_time(step, user):
 
 @step("no new entry should be created under user (\d+)")
 def step_engagement_entry_not_created(step, user):
-    assert (not world.db["users"][user]["civic_log"]) or \
-           get_most_recent_entry(user, world.db) == get_most_recent_entry(user, world.db_before)
+    civic_log_before = world.civic_log_before
+    civic_log_now = get_civic_log(user)
+    assert len(civic_log_before) == len(civic_log_now)
 
 
 @step("user (\d+) has these entries in their civic log:")
@@ -184,12 +191,15 @@ def step_put_entries_in_log(step, user):
             "contact": contact,
             "location": location
         }
-        world.db.get_data("users", user)["civic log"].append(new_entry)
+        add_civic_log_entry(user, new_entry)
+    world.civic_log_before = get_civic_log(user)
 
 
 @step("the most recent entry under user (\d+) has a check-in time of roughly the current time")
 def step_set_checkin_time_now(step, user):
     set_checkin_time(user, datetime.datetime.now())
+
+
 
 
 @step("the most recent entry under user (\d+) has no check-out time")
@@ -199,7 +209,7 @@ def step_set_checkout_time_to_none(step, user):
 
 @step("I get the current activity for user (\d+)")
 def step_get_current_activity(step, user):
-    world.result = get_user_activity(world.db, user)
+    world.result = get_user_activity(db, user)
 
 
 @step("it should return the following activity:")
@@ -210,17 +220,17 @@ def step_assert_current_activity(step):
 
 @step("the most recent entry under user (\d+) has a check-in time of (\d+) hours ago")
 def step_set_checkin_time_past(step, user, lapse_amt):
-    set_checkin_time(user, datetime.datetime.now() - datetime.timedelta(hours=lapse_amt))
+    set_checkin_time(user, datetime.datetime.now() - datetime.timedelta(hours=int(lapse_amt)))
 
 
 @step("the most recent entry under user (\d+) has a check-out time of (\d+) hours ago")
 def step_set_checkout_time_past(step, user, lapse_amt):
-    set_checkout_time(user, datetime.datetime.now() - datetime.timedelta(hours=lapse_amt))
+    set_checkout_time(user, datetime.datetime.now() - datetime.timedelta(hours=int(lapse_amt)))
 
 
 @step("it should not return an activity")
 def step_assert_no_activity(step):
-    assert not world.result["partner_id"] and not world.result["location"] and not world.result["contact"]
+    assert world.result and not world.result["partner_id"] and not world.result["location"] and not world.result["contact"]
 
 
 @step('it should return an error with the code (\d+) and message "(.*)"')
@@ -231,7 +241,7 @@ def step_assert_error(step, error_code, error_message):
 
 @step("user (\d+) checks out")
 def step_check_user_out(step, user):
-    check_user_out(world.db, user)
+    check_user_out(db, user)
 
 
 @step("the most recent entry under user (\d+) should have a check-out time of roughly the current time")

@@ -3,7 +3,7 @@ Feature: Check user out
 
   Scenario: valid checkout
     Given the following users are in the database:
-    | ID  | auth_role   |
+    | _id | auth_role   |
     | 123 | STUDENT     |
     And user 123 is logged in
     And user 123 has these entries in their civic log:
@@ -16,7 +16,7 @@ Feature: Check user out
 
   Scenario: no current activity
     Given the following users are in the database:
-    | ID  | auth_role   |
+    | _id | auth_role   |
     | 123 | STUDENT     |
     And user 123 is logged in
     And user 123 has these entries in their civic log:
@@ -29,7 +29,7 @@ Feature: Check user out
 
   Scenario: wrong user id
     Given the following users are in the database:
-    | ID  | auth_role   |
+    | _id | auth_role   |
     | 123 | STUDENT     |
     | 456 | STUDENT     |
     And user 456 is logged in
