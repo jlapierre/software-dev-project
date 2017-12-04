@@ -76,7 +76,7 @@ def populate_users():
         "activities": {
             '1': {
                 "activity_type": "Partner",
-                "partner": "5126bc054aed4daf9e2ab772",
+                "partner": ObjectId("5126bc054aed4daf9e2ab772"),
                 "civic_category": "",
                 "start_time": datetime.datetime(2017, 11, 14, 14, 1, 30),
                 "end_time": datetime.datetime(2017, 11, 14, 15, 10, 53),
@@ -85,7 +85,7 @@ def populate_users():
             },
             '2': {
                 "activity_type": "Partner",
-                "partner": "5126bc054aed4daf9e2ab772",
+                "partner": ObjectId("5126bc054aed4daf9e2ab772"),
                 "civic_category": "",
                 "start_time": datetime.datetime(2017, 11, 15, 14, 1, 30),
                 "end_time": None,
@@ -120,7 +120,7 @@ def populate_users():
         "activities": {
             '1': {
                 "activity_type": "Partner",
-                "partner": "5126bc054aed4daf9e2ab779",
+                "partner": ObjectId("5126bc054aed4daf9e2ab779"),
                 "civic_category": "",
                 "start_time": datetime.datetime(2017, 10, 14, 14, 11, 30),
                 "end_time": datetime.datetime(2017, 10, 14, 16, 11, 30),
@@ -159,7 +159,7 @@ def populate_users():
         "activities": {
             '1': {
                 "activity_type": "Partner",
-                "partner": "5126bc054aed4daf9e2ab779",
+                "partner": ObjectId("5126bc054aed4daf9e2ab779"),
                 "civic_category": "",
                 "start_time": datetime.datetime(2017, 10, 14, 14, 11, 30),
                 "end_time": datetime.datetime(2017, 10, 14, 15, 9, 22),

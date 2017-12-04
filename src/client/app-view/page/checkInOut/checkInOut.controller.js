@@ -17,7 +17,10 @@
                 ActivityService.currentUserActivity(vm.currentUser._id).then (
                     function success(actResp) {
                         if (actResp.data != "null") {
-                            vm.currentActivity = actResp.data;
+                            for (var key in actResp.data) {
+                                vm.currentActivity = actResp.data[key];
+                            }
+
 
                             if (vm.partners) {
                                 vm.initCurrentActivity(vm.currentActivity);
@@ -78,7 +81,7 @@
         function initCurrentActivity(activity) {
             if (!!activity) {
                 for (var i = 0; i < vm.partners.length; i++) {
-                    if (vm.partners[i]._id.$oid === activity.partner) {
+                    if (vm.partners[i]._id.$oid === activity.partner.$oid) {
                         vm.selectedPartner = vm.partners[i];
                         continue;
                     }

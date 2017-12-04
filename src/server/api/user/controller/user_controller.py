@@ -19,6 +19,29 @@ def get_users(database):
 #user is a dictionary representing the new user
 def upsert_user(database, user):
     """add or update the given user in the database"""
+    if 'activities' in user and user['activities'] is not None:
+        for k,v in user['activities'].iteritems():
+            if "partner" in v :
+                v["partner"] = ObjectId(v["partner"]["$oid"])
+            if "_id" in v :
+                v["_id"] = ObjectId(v["_id"]["$oid"])
+            if "start_time" in v and v["start_time"] is not None:
+                v["start_time"] = datetime.datetime.fromtimestamp(v["start_time"]["$date"]/1000.0)
+            if "end_time" in v and v["end_time"] is not None:
+                v["end_time"] = datetime.datetime.fromtimestamp(v["end_time"]["$date"]/1000.0)
+            user['activities'][k] = v
+
+    if 'peer_leaders' in user and user['peer_leaders'] is not None:
+        for i, p in enumerate(user['peer_leaders']):
+            if "$id" in p and p['$id'] is not None and '$oid' in p['$id']:
+                user['peer_leaders'][i] = DBRef('users', ObjectId(p['$id']['$oid']))
+
+    if "_id" in user and user["_id"] is not None and "$oid" in user["_id"]:
+        user["_id"] = ObjectId(user["_id"]["$oid"])
+
+    if "core_partner" in user and user["core_partner"] is not None and "$id" in user["core_partner"] and user["core_partner"]["$id"] is not None and "$oid" in user["core_partner"]["$id"]:
+        user["core_partner"] = DBRef('partners', ObjectId(user["core_partner"]["$id"]["$oid"]))
+
     database["users"].update_one(
         {"email": user["email"]}, # find user with matching email
         {"$set": user}, # update with given values

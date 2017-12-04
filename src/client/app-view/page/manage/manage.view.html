@@ -63,7 +63,7 @@
           <div class="partner-element">
             <label class="partner-label"> Core Community Partner: </label>
             <span class="partner-input">
-              <input class="partner-checkbox" type="checkbox" ng-model="partner.core">
+              <input class="partner-checkbox" type="checkbox" ng-model="partner.core_partner">
             </span>
           </div>
 
@@ -331,8 +331,8 @@
             <span class="partner-input">
               <aces-typeahead options="vm.auth_roles"
                               selected-text="{{ leader.auth_role }}"
-                              on-select="vm.selectNewauth_role(selectedItem, leader)"
-                              un-select="vm.unSelectNewauth_role(leader)"
+                              on-select="vm.selectNewAuthRole(selectedItem, leader)"
+                              un-select="vm.unSelectNewAuthRole(leader)"
                               on-no-options="vm.noop()"
                               no-options="'No role to match your search'"
                               placeholder="'Select a Role'"
@@ -431,8 +431,8 @@
             <span class="partner-input">
               <aces-typeahead options="vm.auth_roles"
                               selected-text="{{ admin.auth_role }}"
-                              on-select="vm.selectNewauth_role(selectedItem, admin)"
-                              un-select="vm.unSelectNewauth_role(admin)"
+                              on-select="vm.selectNewAuthRole(selectedItem, admin)"
+                              un-select="vm.unSelectNewAuthRole(admin)"
                               on-no-options="vm.noop()"
                               no-options="'No role to match your search'"
                               placeholder="'Select a Role'"

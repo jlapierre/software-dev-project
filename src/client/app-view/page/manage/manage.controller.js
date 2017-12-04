@@ -264,9 +264,9 @@
 
         // Get the name of the partner with the given id
         function getPartnerName(partner) {
-            if (!!vm.partners) {
+            if (!!vm.partners && partner) {
                 for (var i = 0; i < vm.partners.length; i++) {
-                    if (vm.partners[i].id === partner) {
+                    if (vm.partners[i]._id.$oid === partner.$id.$oid) {
                         return vm.partners[i].name;
                     }
                 }
@@ -281,7 +281,7 @@
 
             if (!!vm.peerLeaders) {
                 for (var i = 0; i < vm.peerLeaders.length; i++) {
-                    if (vm.peerLeaders[i].id === peerLeaderId) {
+                    if (vm.peerLeaders[i]._id.$oid === peerLeaderId.$id.$oid) {
                         name = vm.peerLeaders[i].name;
                     }
                 }
@@ -299,7 +299,7 @@
 
         // Set the core partner id for the given student
         function selectCoreCommunityPartner(selectedItem, student) {
-            student.core_partner = selectedItem.id;
+            student.core_partner = {$id: {$oid: selectedItem._id.$oid}};
         }
 
         // Remove the core partner selected
@@ -309,7 +309,7 @@
 
         // Update the peer leader at the specific location in the list
         function selectPeerLeader(selectedItem, student, peerLeaderIndex) {
-            student.peer_leaders[peerLeaderIndex] = selectedItem.id;
+            student.peer_leaders[peerLeaderIndex] = {$id: {$oid: selectedItem._id.$oid}};
         }
 
         // Place an empty peer leader at that place in the group

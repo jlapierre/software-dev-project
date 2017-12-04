@@ -66,7 +66,7 @@ var location4 = {
 
 // Example Partners
 var partner1 = {
-    id: 1,
+    _id: {$oid: 1},
     name: 'Partner 1',
     contacts: {1: contact1},
     locations: {1: location1, 2: location2},
@@ -74,7 +74,7 @@ var partner1 = {
     is_active: true
 };
 var partner2 = {
-    id: 2,
+    _id: {$oid: 2},
     name: 'Partner 2',
     contacts: {},
     locations: {3: location3},
@@ -83,7 +83,7 @@ var partner2 = {
     added: true
 };
 var partner3 = {
-    id: 3,
+    _id: {$oid: 3},
     name: 'Partner 3',
     contacts: {2: contact2, 3: contact3, 4: contact4},
     locations: {2: location2, 3: location3, 4: location4},
@@ -91,7 +91,7 @@ var partner3 = {
     is_active: true
 };
 var partner4 = {
-    id: 4,
+    _id: {$oid: 4},
     name: 'Partner 4',
     contacts: {2: contact2, 4: contact4},
     locations: {2: location2, 4: location4},
@@ -99,7 +99,7 @@ var partner4 = {
     is_active: false
 };
 var partner5 = {
-    id: 5,
+    _id: {$oid: 5},
     name: 'Partner 5',
     contacts: {4: contact4},
     locations: {1: location1, 3: location3},
@@ -109,7 +109,7 @@ var partner5 = {
 
 // Example User Data
 var user1 = {
-    id: 1,
+    _id: {$oid: 1},
     first_name: 'Katherine',
     last_name: 'McDonough',
     email: 'mcdonough.kat@husky.neu.edu',
@@ -121,7 +121,7 @@ var user1 = {
     is_active: true
 };
 var user2 = {
-    id: 2,
+    _id: {$oid: 2},
     first_name: 'Jennifer',
     last_name: 'LaPierre',
     email: 'lapierre.j@husky.neu.edu',
@@ -132,7 +132,7 @@ var user2 = {
     is_active: true
 };
 var user3 = {
-    id: 3,
+    _id: {$oid: 3},
     first_name: 'Lawrence',
     last_name: 'Lim',
     email: 'lim.law@husky.neu.edu',
@@ -143,7 +143,7 @@ var user3 = {
     is_active: true
 };
 var user4 = {
-    id: 4,
+    _id: {$oid: 4},
     first_name: 'Jonathon',
     last_name: 'Northcott',
     email: 'northcott.j@husky.neu.edu',
@@ -155,7 +155,7 @@ var user4 = {
     is_active: true
 };
 var user5 = {
-    id: 5,
+    _id: {$oid: 5},
     first_name: 'Jennifer',
     last_name: 'McDonough',
     email: 'mcdonough.j@husky.neu.edu',
@@ -504,7 +504,7 @@ describe('ManageController', function() {
   it('returns the partner name for the given partner', inject(function($controller) {
     vm.partners = [partner1, partner2, partner3, partner4, partner5];
 
-    var partnerName = vm.getPartnerName(4);
+    var partnerName = vm.getPartnerName({$id: {$oid: 4}});
 
     expect(partnerName).toBe('Partner 4');
 
@@ -513,7 +513,7 @@ describe('ManageController', function() {
   it('returns the name of the peer leader with the given id', inject(function($controller) {
     vm.setPeerLeaders([user1, user2]);
 
-    var peerLeaderName = vm.getPeerLeaderName(2);
+    var peerLeaderName = vm.getPeerLeaderName({$id: {$oid: 2}});
 
     expect(peerLeaderName).toBe('Jennifer LaPierre');
 
@@ -523,7 +523,7 @@ describe('ManageController', function() {
 
     vm.selectCoreCommunityPartner(partner1, user1);
 
-    expect(user1.core_partner).toBe(1);
+    expect(user1.core_partner).toEqual({$id: {$oid: 1}});
 
   }));
 
@@ -539,7 +539,7 @@ describe('ManageController', function() {
 
     vm.selectPeerLeader(user5, user1, 0);
 
-    expect(user1.peer_leaders).toEqual([5]);
+    expect(user1.peer_leaders).toEqual([{$id: {$oid: 5}}]);
 
   }));
 
