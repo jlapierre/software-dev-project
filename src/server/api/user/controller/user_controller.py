@@ -4,6 +4,7 @@ from bson import DBRef
 from utils.db_handler import *
 
 
+
 def get_user_with_email(database, email):
     """return the user associated with the given email"""
     return database["users"].find_one({"email":email})
