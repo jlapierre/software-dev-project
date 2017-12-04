@@ -204,28 +204,32 @@
           <div class="partner-element">
             <label class="partner-label"> Role: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.auth_roles"
-                              selected-text="{{ student.auth_role }}"
-                              on-select="vm.selectNewAuthRole(selectedItem, student)"
-                              un-select="vm.unSelectNewAuthRole(student)"
-                              on-no-options="vm.noop()"
-                              no-options="'No role to match your search'"
-                              placeholder="'Select a Role'"
-                              relaxed="true"></aces-typeahead>
+              <div class="manage-typeahead">
+                <aces-typeahead options="vm.auth_roles"
+                                selected-text="{{ student.auth_role }}"
+                                on-select="vm.selectNewAuthRole(selectedItem, student)"
+                                un-select="vm.unSelectNewAuthRole(student)"
+                                on-no-options="vm.noop()"
+                                no-options="'No role to match your search'"
+                                placeholder="'Select a Role'"
+                                relaxed="true"></aces-typeahead>
+              </div>
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Core Community Partner: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.corePartners"
-                              selected-text="{{ vm.getPartnerName(student.core_partner) }}"
-                              on-select="vm.selectCoreCommunityPartner(selectedItem, student)"
-                              un-select="vm.unSelectCoreCommunityPartner(student)"
-                              on-no-options="vm.noop()"
-                              no-options="'No core community partners match your search'"
-                              placeholder="'Select a Core Community Partner'"
-                              relaxed="true"></aces-typeahead>
+              <div class="manage-typeahead">
+                <aces-typeahead options="vm.corePartners"
+                                selected-text="{{ vm.getPartnerName(student.core_partner) }}"
+                                on-select="vm.selectCoreCommunityPartner(selectedItem, student)"
+                                un-select="vm.unSelectCoreCommunityPartner(student)"
+                                on-no-options="vm.noop()"
+                                no-options="'No core community partners match your search'"
+                                placeholder="'Select a Core Community Partner'"
+                                relaxed="true"></aces-typeahead>
+                </div>
             </span>
           </div>
 
@@ -238,14 +242,16 @@
 
             <ul class="partner-location" ng-repeat="leader in student.peer_leaders track by $index">
 
-              <aces-typeahead options="vm.peerLeaders"
-                              selected-text="{{ vm.getPeerLeaderName(leader) }}"
-                              on-select="vm.selectPeerLeader(selectedItem, student, $index)"
-                              un-select="vm.unselectPeerLeader(student, $index)"
-                              on-no-options="vm.noop()"
-                              no-options="'No peer leaders match your search'"
-                              placeholder="'Select a Peer Leader'"
-                              relaxed="true"></aces-typeahead>
+              <div class="manage-typeahead">
+                <aces-typeahead options="vm.peerLeaders"
+                                selected-text="{{ vm.getPeerLeaderName(leader) }}"
+                                on-select="vm.selectPeerLeader(selectedItem, student, $index)"
+                                un-select="vm.unselectPeerLeader(student, $index)"
+                                on-no-options="vm.noop()"
+                                no-options="'No peer leaders match your search'"
+                                placeholder="'Select a Peer Leader'"
+                                relaxed="true"></aces-typeahead>
+                </div>
 
               <div class="delete-peer-leader"
                    ng-click="vm.removePeerLeader(student, $index)">
@@ -329,28 +335,32 @@
           <div class="partner-element">
             <label class="partner-label"> Role: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.auth_roles"
-                              selected-text="{{ leader.auth_role }}"
-                              on-select="vm.selectNewAuthRole(selectedItem, leader)"
-                              un-select="vm.unSelectNewAuthRole(leader)"
-                              on-no-options="vm.noop()"
-                              no-options="'No role to match your search'"
-                              placeholder="'Select a Role'"
-                              relaxed="true"></aces-typeahead>
+              <div class="manage-typeahead">
+                <aces-typeahead options="vm.auth_roles"
+                                selected-text="{{ leader.auth_role }}"
+                                on-select="vm.selectNewAuthRole(selectedItem, leader)"
+                                un-select="vm.unSelectNewAuthRole(leader)"
+                                on-no-options="vm.noop()"
+                                no-options="'No role to match your search'"
+                                placeholder="'Select a Role'"
+                                relaxed="true"></aces-typeahead>
+                </div>
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Core Community Partner: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.corePartners"
-                              selected-text="{{ vm.getPartnerName(leader.core_partner) }}"
-                              on-select="vm.selectCoreCommunityPartner(selectedItem, leader)"
-                              un-select="vm.unSelectCoreCommunityPartner(leader)"
-                              on-no-options="vm.noop()"
-                              no-options="'No core community partners match your search'"
-                              placeholder="'Select a Core Community Partner'"
-                              relaxed="true"></aces-typeahead>
+              <div class="manage-typeahead">
+                <aces-typeahead options="vm.corePartners"
+                                selected-text="{{ vm.getPartnerName(leader.core_partner) }}"
+                                on-select="vm.selectCoreCommunityPartner(selectedItem, leader)"
+                                un-select="vm.unSelectCoreCommunityPartner(leader)"
+                                on-no-options="vm.noop()"
+                                no-options="'No core community partners match your search'"
+                                placeholder="'Select a Core Community Partner'"
+                                relaxed="true"></aces-typeahead>
+                </div>
             </span>
           </div>
 
@@ -429,14 +439,16 @@
           <div class="partner-element">
             <label class="partner-label"> Role: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.auth_roles"
-                              selected-text="{{ admin.auth_role }}"
-                              on-select="vm.selectNewAuthRole(selectedItem, admin)"
-                              un-select="vm.unSelectNewAuthRole(admin)"
-                              on-no-options="vm.noop()"
-                              no-options="'No role to match your search'"
-                              placeholder="'Select a Role'"
-                              relaxed="true"></aces-typeahead>
+              <div class="manage-typeahead">
+                <aces-typeahead options="vm.auth_roles"
+                                selected-text="{{ admin.auth_role }}"
+                                on-select="vm.selectNewAuthRole(selectedItem, admin)"
+                                un-select="vm.unSelectNewAuthRole(admin)"
+                                on-no-options="vm.noop()"
+                                no-options="'No role to match your search'"
+                                placeholder="'Select a Role'"
+                                relaxed="true"></aces-typeahead>
+                </div>
             </span>
           </div>
 
