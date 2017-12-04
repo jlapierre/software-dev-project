@@ -1,5 +1,4 @@
 from lettuce import *
-#from server.api.activity.controller.activity_controller import *
 from server.api.partner.controller.partner_controller import *
 from server.api.user.controller.user_controller import *
 from utils.demo_mongo_seed import *
@@ -9,7 +8,9 @@ from utils.db_handler import *
 def fields_match(expected, actual):
     match = True
     for k, v in expected.iteritems():
+        print "comparing: " + k
         if actual and k in actual:
+            print "expected: " + v + " | actual: " + actual[k]
             match = match and actual[k] == v
         else:
             match = False
@@ -18,15 +19,19 @@ def fields_match(expected, actual):
 
 def flatten_object(obj):
     """make object one-dimensional to check against test table
-    e.g. the location object becomes location_street location_zip etc"""
-    if not obj:
-        return None
+    e.g. the location object becomes location_street location_zip etc
+    UNLESS in cases like partner._id, which becomes partner_id"""
+    if not isinstance(obj, dict):
+        return obj
     result = {}
     for k, v in obj.iteritems():
         if isinstance(v, dict):
             flat_obj = flatten_object(v)
             for nk, nv in flat_obj.iteritems():
-                flat_key = k + "_" + nk
+                if nk == "_id":
+                    flat_key = k + nk
+                else:
+                    flat_key = k + "_" + nk
                 result[flat_key] = nv
         else:
             result[k] = v
@@ -35,7 +40,14 @@ def flatten_object(obj):
 
 def get_most_recent_entry(user):
     """return the newest entry in the civic log"""
-    return sorted(get_user(user)["activities"], key=lambda entry: entry.check_in, reverse=True)[0]
+    user = get_user(user)
+    if user is None:
+        return None
+    activities = user["activities"]
+    if activities is None or len(activities) == 0:
+        return None
+    sorted_activities = sorted(activities.itervalues(), key=lambda entry: entry["start_time"], reverse=True)
+    return sorted_activities[0]
 
 
 def make_location(checkin):
@@ -47,7 +59,7 @@ def make_location(checkin):
     if "location_state" in checkin:
         result["state"] = checkin["location_state"]
     if "location_zip" in checkin:
-        result["zip_code"] = checkin["location_zip"]
+        result["zip"] = checkin["location_zip"]
     return result
 
 
@@ -63,13 +75,17 @@ def make_contact(checkin):
 
 
 def set_checkin_time(user, time):
-    entry = {"check_in": time}
-    update_user(user, entry)
+    act = get_current_activity(db, user)
+    activity = act.values()[0]
+    activity["start_time"] = time
+    upsert_civic_log_entry(user, activity, activity_id=act.keys()[0])
 
 
 def set_checkout_time(user, time):
-    entry = {"check_out": time}
-    update_user(user, entry)
+    act = get_current_activity(db, user)
+    activity = act.values()[0]
+    activity["end_time"] = time
+    upsert_civic_log_entry(user, activity, activity_id=act.keys()[0])
 
 
 @before.each_scenario
@@ -84,8 +100,9 @@ def step_put_users_in_database(step):
 
 
 @step('user (\d+) is logged in')
-def step_user_is_logged_in(step, userId):
+def step_user_is_logged_in(step, user_id):
     """todo: actually log user in"""
+    world.civic_log_before = {}
 
 
 @step('I call get_users')
@@ -104,16 +121,11 @@ def step_result_is_empty_list(step):
     assert world.result == []
 
 
-@step('it should return the following users')
+@step("it should return the following users")
 def step_result_is_given_users(step):
     assert len(world.result) == len(step.hashes)
     for user in step.hashes:
         assert any(map(lambda engagement: fields_match(user, engagement), world.result))
-
-
-@step("it should return the following user")
-def step_result_user(step):
-    assert fields_match(step.hashes[0], world.result)
 
 
 @step('the following peer leader relationships exist')
@@ -144,9 +156,9 @@ def step_put_partners_in_db(step):
 
 @step("it should return the following partners")
 def step_assert_partners_in_db(step):
-    """todo: implement partner equal, check for items in list regardless of order, only check provided fields
-    (once we implement partner objects)"""
-    assert world.result == step.hashes
+    assert len(world.result) == len(step.hashes)
+    for partner in step.hashes:
+        assert any(map(lambda engagement: fields_match(partner, engagement), world.result))
 
 
 @step("user (\d+) checks in with the following info:")
@@ -165,14 +177,14 @@ def step_engagement_entry_created(step, user):
 
 @step("the most recent entry under user (\d+) should have a check-in time of roughly the current time")
 def step_checkin_time(step, user):
-    checkin_time = get_most_recent_entry(user)["check_in"]
+    checkin_time = get_most_recent_entry(user)["start_time"]
     diff = datetime.datetime.now() - checkin_time
     assert diff.total_seconds() < 60
 
 
 @step("the most recent entry under user (\d+) should have no check-out time")
 def step_no_checkout_time(step, user):
-    assert not get_most_recent_entry(user)["check_out"]
+    assert not get_most_recent_entry(user)["end_time"]
 
 
 @step("no new entry should be created under user (\d+)")
@@ -187,15 +199,11 @@ def step_put_entries_in_log(step, user):
     for entry in step.hashes:
         contact = make_contact(entry)
         location = make_location(entry)
-        new_entry = {
-            "partner": entry["partner_id"],
-            "contact": contact,
-            "location": location
-        }
-        add_civic_log_entry(user, new_entry)
-    world.civic_log_before = []
+        check_user_in(db, user, entry["partner_id"], location, contact)
     if get_civic_log(user):
         world.civic_log_before = get_civic_log(user)
+        print "civic log before"
+        print world.civic_log_before
 
 
 @step("the most recent entry under user (\d+) has a check-in time of roughly the current time")
@@ -212,13 +220,18 @@ def step_set_checkout_time_to_none(step, user):
 
 @step("I get the current activity for user (\d+)")
 def step_get_current_activity(step, user):
-    world.result = get_user_activity(db, user)
+    activity = get_current_activity(db, user)
+    if activity is None:
+        world.result = None
+    else:
+        world.result = activity.values()[0]
 
 
 @step("it should return the following activity:")
 def step_assert_current_activity(step):
     actual = flatten_object(world.result)
-    assert fields_match(step.hashes[0], actual)
+    expected = step.hashes[0]
+    assert fields_match(expected, actual)
 
 
 @step("the most recent entry under user (\d+) has a check-in time of (\d+) hours ago")
@@ -231,9 +244,9 @@ def step_set_checkout_time_past(step, user, lapse_amt):
     set_checkout_time(user, datetime.datetime.now() - datetime.timedelta(hours=int(lapse_amt)))
 
 
-@step("it should not return an activity")
+@step("it should return None")
 def step_assert_no_activity(step):
-    assert world.result and not world.result["partner_id"] and not world.result["location"] and not world.result["contact"]
+    assert world.result is None
 
 
 @step('it should return an error with the code (\d+) and message "(.*)"')
@@ -249,6 +262,14 @@ def step_check_user_out(step, user):
 
 @step("the most recent entry under user (\d+) should have a check-out time of roughly the current time")
 def step_assert_checkout_now(step, user):
-    checkout_time = get_most_recent_entry(user)["check_out"]
+    entry = get_most_recent_entry(user)
+    if entry is None:
+        assert False # fail
+    checkout_time = entry["end_time"]
     diff = datetime.datetime.now() - checkout_time
     assert diff.total_seconds() < 60
+
+
+@step("it should return the user below:")
+def step_assert_user(step):
+    assert fields_match(step.hashes[0], world.result)

@@ -23,6 +23,8 @@ def get_user(user_id):
 
 def add_users(users):
     """add users to database"""
+    for user in users:
+        user["activities"] = {}
     db["users"].insert(users)
 
 
@@ -44,16 +46,14 @@ def get_civic_log(user_id):
         return []
 
 
-def add_civic_log_entry(user_id, activity):
-    aid = "activities."+str(uuid.uuid1())
-    """add entry to the given user's civic log"""
-    db["users"].find_one_and_update(
+def upsert_civic_log_entry(user_id, activity, activity_id=None):
+    """add or edit entry in the given user's civic log"""
+    if activity_id is None:
+        activity_id = "activities_"+str(uuid.uuid1())
+    log = get_civic_log(user_id)
+    log[activity_id] = activity
+    return db["users"].find_one_and_update(
         {"_id": user_id},
-        {"$set": {aid: activity}}
+        {"$set": {"activities": log}}
     )
 
-
-def update_civic_log_entry(user_id, activity_id, new_entry):
-    """add entry to the given user's civic log"""
-    new_log = get_civic_log(user_id) # todo: update entry in log
-    db["users"].find_one_and_update({"_id": user_id}, {"$set": {"activities": new_log}})

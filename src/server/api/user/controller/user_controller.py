@@ -1,6 +1,6 @@
 import datetime
-import uuid
 from utils.db_handler import *
+
 
 def get_user_with_email(database, email):
     """return the user associated with the given email"""
@@ -9,7 +9,8 @@ def get_user_with_email(database, email):
 
 def get_users(database):
     """return all users the current user has access to"""
-    return database["users"].find({})
+    """note: currently just returns all users"""
+    return list(database["users"].find({}))
 
 
 #user is a dictionary representing the new user
@@ -32,35 +33,38 @@ def remove_user(database, user_id):
 
 def check_user_in(database, user_id, partner_id, location, contact):
     """create an entry without a checkout time for the given user"""
+    partner = database["partners"].find_one({"_id": partner_id})
+    if partner is None:
+        return
     activity = {
         "activity_type": "Partner",
-        "partner": database["partners"].find_one({"_id": partner_id}),
+        "partner": partner,
         "civic_category": "",
         "start_time": datetime.datetime.now(),
         "end_time": None,
         "manually_edited": False,
-        "comment": ""
+        "comment": "",
+        "location": location,
+        "contact": contact
     }
-    return add_civic_log_entry(user_id, activity)
+    return upsert_civic_log_entry(user_id, activity)
 
 
 def check_user_out(database, user_id):
     """check out the current user's open activity by adding an end time"""
-    #lmfao this is awful
-    #todo: do this in a sane way
-    act = database["users"].find_one({"_id":user_id})["activities"]
-    for k,v in act.iteritems():
-        if v["end_time"] is None:
-            v["end_time"] = datetime.datetime.now()
-            break
-    return database["users"].find_one_and_update(
-        {"_id": user_id},
-        {"$set": {"activities": act}}
-    )
+    activity = get_current_activity(database, user_id)
+    if activity is None:
+        return
+    activity_key = activity.keys()[0]
+    activity_value = activity.values()[0]
+    activity_value["end_time"] = datetime.datetime.now()
+    return upsert_civic_log_entry(user_id, activity_value, activity_key)
 
 
-def get_user_activity(database, user_id):
-    """return the current activity for the given user"""
-    r = database["users"].find_one({"_id": user_id})["activities"]
-    if r is None: r = []
-    return r
+def get_current_activity(database, user_id):
+    """return the current activity for the given user with its ID"""
+    activities = get_civic_log(user_id)
+    for k,v in activities.iteritems():
+        if "end_time" in v and v["end_time"] is None:
+            return {k: v}
+    return None

@@ -6,6 +6,6 @@ Feature: Get user from email
     | _id | auth_role   | email               |
     | 777 | STUDENT     | doe.j@husky.neu.edu |
     When I get the user with email doe.j@husky.neu.edu
-    Then it should return the following user
+    Then it should return the user below:
     | _id | auth_role   | email               |
     | 777 | STUDENT     | doe.j@husky.neu.edu |
