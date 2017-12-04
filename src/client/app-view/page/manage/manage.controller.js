@@ -9,22 +9,43 @@
         var vm = this;
         vm.showMenu = false;
 
-        // Get current user
-        vm.currentUser = UserService.getCurrentUser();
+        // Get current user and activity (if applicable)
+        UserService.getCurrentUser().then(
+            function success(resp) {
+                vm.currentUser = resp.data;
+            },
+            function failure() {
+                console.log('Error receiving user');
+                vm.currentUser = {};
+            }
+        );
+
+        // Get Partners
+        PartnerService.getPartners().then(
+            function success(resp) {
+                vm.partners = resp.data;
+            },
+            function failure() {
+                console.log('Error receiving partners');
+                vm.partners = [];
+            }
+        );
+
+        UserService.getUsers().then(
+            function success(resp) {
+                vm.users = resp.data;
+            },
+            function failure() {
+                console.log('Error receiving users');
+                vm.users = [];
+            }
+        );
 
         // Get potential user auth roles
-        vm.authRoles = UserService.getAuthRoles();
+        vm.auth_roles = UserService.getAuthRoles();
 
         function setTab(tab) {
             vm.selectedTab = tab;
-
-            if (vm.selectedTab != 'Administrators' && !vm.partners) {
-                vm.partners = PartnerService.getPartners();
-            }
-
-            if (vm.selectedTab != 'Community Partners' && !vm.users) {
-                vm.users = UserService.getUsers();
-            }
         }
         vm.setTab = setTab;
 
@@ -40,13 +61,13 @@
         // Add an element
         function addElement() {
             if (vm.selectedTab === 'Community Partners') {
-                vm.partners.push({locations: {}, contacts: {}, added: true, expanded: true, active: true});
+                vm.partners.push({locations: {}, contacts: {}, added: true, expanded: true, is_active: true});
             } else if (vm.selectedTab === 'Students') {
-                vm.users.push({authRole: 'Student', expanded: true, active: true});
+                vm.users.push({auth_role: 'Student', expanded: true, is_active: true});
             } else if (vm.selectedTab === 'Peer Leaders') {
-                vm.users.push({authRole: 'Peer Leader', expanded: true, active: true});
+                vm.users.push({auth_role: 'Peer Leader', expanded: true, is_active: true});
             } else if (vm.selectedTab === 'Administrators') {
-                vm.users.push({authRole: 'Administrator', expanded: true, active: true});
+                vm.users.push({auth_role: 'Administrator', expanded: true, is_active: true});
             }
         }
         vm.addElement = addElement;
@@ -85,7 +106,7 @@
                 }
             }
 
-            partner.locations[locId] = {active: true};
+            partner.locations[locId] = {is_active: true};
 
             vm.partners[pIndex] = partner;
         }
@@ -93,33 +114,33 @@
         // Add a contact
         function addContact(pIndex) {
             var partner = vm.partners[pIndex];
-            var contactId = 0;
+            var contact = 0;
 
             for (var id in partner.contacts) {
                 var idInt = parseInt(id);
 
-                if (contactId <= idInt) {
-                    contactId = idInt + 1;
+                if (contact <= idInt) {
+                    contact = idInt + 1;
                 }
             }
 
-            partner.contacts[contactId] = {active: true};
+            partner.contacts[contact] = {is_active: true};
 
             vm.partners[pIndex] = partner;
         }
 
         // Remove a location
-        function removePartnerLocation(pIndex, locationId) {
+        function removePartnerLocation(pIndex, location) {
             var partner = vm.partners[pIndex];
-            delete partner.locations[locationId];
+            delete partner.locations[location];
 
             vm.partners[pIndex] = partner;
         }
 
         // Remove a contact
-        function removePartnerContact(pIndex, contactId) {
+        function removePartnerContact(pIndex, contact) {
             var partner = vm.partners[pIndex];
-            delete partner.contacts[contactId];
+            delete partner.contacts[contact];
 
             vm.partners[pIndex] = partner;
         }
@@ -131,19 +152,28 @@
 
             if (partner.added) {
                 delete partner.added;
-                PartnerService.addPartner(partner);
+                PartnerService.addPartner(partner).then(
+                    function success(resp) {
+                        vm.partners[pIndex] = resp.data;
+                    }
+                );
             } else {
-                PartnerService.updatePartner(partner);
+                PartnerService.updatePartner(partner).then(
+                    function success(resp) {
+                        vm.partners[pIndex] = resp.data;
+                    }
+                );
             }
-
-            partner.expanded = true;
         }
 
         // Deletes a partner
         function deletePartner(pIndex) {
             var partner = vm.partners[pIndex];
 
-            PartnerService.deletePartner(partner);
+            if (partner._id) {
+                PartnerService.deletePartner(partner._id.$oid);
+            }
+
             vm.partners.splice(pIndex, 1);
         }
 
@@ -155,27 +185,27 @@
 
         // Save changes to a user
         function saveUser(user) {
-            var switched = false;
-
             if (user.newAuthRole) {
-                switched = true;
-                user.authRole = user.newAuthRole;
+                user.auth_role = user.newAuthRole
                 delete user.newAuthRole;
             }
 
             delete user.expanded;
-            UserService.upsertUser(user);
-
-            if (!switched) {
-                user.expanded = true;
-            }
+            UserService.upsertUser(user).then(
+                function success(resp) {
+                    user = resp.data;
+                }
+            );
         }
 
         // Delete a user
         function deleteUser(user) {
             var uIndex = vm.users.indexOf(user);
 
-            UserService.deleteUser(user);
+            if (user._id) {
+                UserService.deleteUser(user._id.$oid);
+            }
+
             vm.users.splice(uIndex, 1);
         }
 
@@ -205,7 +235,7 @@
 
             if (!!partners) {
                 for (var i = 0; i < partners.length; i++) {
-                    if (partners[i].active && partners[i].core) {
+                    if (partners[i].is_active && partners[i].core_partner) {
                         vm.corePartners.push(partners[i]);
                     }
                 }
@@ -218,9 +248,9 @@
 
             if (!!users) {
                 for (var i = 0; i < users.length; i++) {
-                    if (users[i].authRole === 'Peer Leader' && users[i].active) {
+                    if (users[i].auth_role === 'Peer Leader' && users[i].is_active) {
                         var peerLeader = users[i];
-                        peerLeader.name = peerLeader.firstName.concat(" ".concat(peerLeader.lastName));
+                        peerLeader.name = peerLeader.first_name.concat(" ".concat(peerLeader.last_name));
                         vm.peerLeaders.push(peerLeader);
                     }
                 }
@@ -233,10 +263,10 @@
         vm.getPeerLeaderName = getPeerLeaderName;
 
         // Get the name of the partner with the given id
-        function getPartnerName(partnerId) {
+        function getPartnerName(partner) {
             if (!!vm.partners) {
                 for (var i = 0; i < vm.partners.length; i++) {
-                    if (vm.partners[i].id === partnerId) {
+                    if (vm.partners[i].id === partner) {
                         return vm.partners[i].name;
                     }
                 }
@@ -269,22 +299,22 @@
 
         // Set the core partner id for the given student
         function selectCoreCommunityPartner(selectedItem, student) {
-            student.corePartnerId = selectedItem.id;
+            student.core_partner = selectedItem.id;
         }
 
         // Remove the core partner selected
         function unSelectCoreCommunityPartner(student) {
-            student.corePartnerId = undefined;
+            student.core_partner = undefined;
         }
 
         // Update the peer leader at the specific location in the list
         function selectPeerLeader(selectedItem, student, peerLeaderIndex) {
-            student.peerLeaders[peerLeaderIndex] = selectedItem.id;
+            student.peer_leaders[peerLeaderIndex] = selectedItem.id;
         }
 
         // Place an empty peer leader at that place in the group
         function unSelectPeerLeader(student, peerLeaderIndex) {
-            student.peerLeaders[peerLeaderIndex] = -1;
+            student.peer_leaders[peerLeaderIndex] = -1;
         }
 
         // Functions for adding and deleting peer leaders to a student
@@ -293,16 +323,16 @@
 
         // Add an empty peer leader to the peer leader list or make one
         function addPeerLeader(student) {
-            if (!student.peerLeaders) {
-                student.peerLeaders = [-1];
+            if (!student.peer_leaders) {
+                student.peer_leaders = [-1];
             } else {
-                student.peerLeaders.push(-1);
+                student.peer_leaders.push(-1);
             }
         }
 
         // Remove the peer leader from the peer leader list
         function removePeerLeader(student, peerLeaderIndex) {
-           student.peerLeaders.splice(peerLeaderIndex,1);
+           student.peer_leaders.splice(peerLeaderIndex,1);
         }
 
         // Uploading Excel Files

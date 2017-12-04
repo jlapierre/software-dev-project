@@ -5,25 +5,25 @@ var contact1 = {
     name: 'Katherine McDonough',
     email: 'mcdonough.kat@husky.neu.edu',
     phone: '6175550129',
-    active: true
+    is_active: true
 };
 var contact2 = {
     name: 'Jennifer LaPierre',
     email: 'lapierre.j@husky.neu.edu',
     phone: '6175558726',
-    active: false
+    is_active: false
 };
 var contact3 = {
     name: 'Lawrence Lim',
     email: 'lim.law@husky.neu.edu',
     phone: '6175558217',
-    active: true
+    is_active: true
 };
 var contact4 = {
     name: 'Jonathon Northcott',
     email: 'northcott.j@husky.neu.edu',
     phone: '6175552625',
-    active: true
+    is_active: true
 };
 
 // Example Locations
@@ -34,7 +34,7 @@ var location1 = {
     zipcode: '02115',
     location: {lat: 42.341423, lng: -71.091129},
     name: '165 Hemenway Street, Boston MA, 02115',
-    active: true
+    is_active: true
 };
 var location2 = {
     street: '171 Hemenway Street',
@@ -43,7 +43,7 @@ var location2 = {
     zipcode: '02115',
     location: {lat: 42.341309, lng: -71.091202},
     name: '171 Hemenway Street, Boston MA, 02115',
-    active: true
+    is_active: true
 };
 var location3 = {
     street: '360 Huntington Ave',
@@ -52,7 +52,7 @@ var location3 = {
     zipcode: '02115',
     location: {lat: 42.340496, lng: -71.087897},
     name: '360 Huntington Ave, Boston MA, 02115',
-    active: true
+    is_active: true
 };
 var location4 = {
     street: '633 Clark Street',
@@ -61,7 +61,7 @@ var location4 = {
     zipcode: '60208',
     location: {lat: 42.050626, lng: -87.679727},
     name: '633 Clark Street, Evanston IL, 60208',
-    active: false
+    is_active: false
 };
 
 // Example Partners
@@ -70,16 +70,16 @@ var partner1 = {
     name: 'Partner 1',
     contacts: {1: contact1},
     locations: {1: location1, 2: location2},
-    core: true,
-    active: true
+    core_partner: true,
+    is_active: true
 };
 var partner2 = {
     id: 2,
     name: 'Partner 2',
     contacts: {},
     locations: {3: location3},
-    core: false,
-    active: true,
+    core_partner: false,
+    is_active: true,
     added: true
 };
 var partner3 = {
@@ -87,86 +87,86 @@ var partner3 = {
     name: 'Partner 3',
     contacts: {2: contact2, 3: contact3, 4: contact4},
     locations: {2: location2, 3: location3, 4: location4},
-    core: true,
-    active: true
+    core_partner: true,
+    is_active: true
 };
 var partner4 = {
     id: 4,
     name: 'Partner 4',
     contacts: {2: contact2, 4: contact4},
     locations: {2: location2, 4: location4},
-    core: false,
-    active: false
+    core_partner: false,
+    is_active: false
 };
 var partner5 = {
     id: 5,
     name: 'Partner 5',
     contacts: {4: contact4},
     locations: {1: location1, 3: location3},
-    core: true,
-    active: false
+    core_partner: true,
+    is_active: false
 };
 
 // Example User Data
 var user1 = {
     id: 1,
-    firstName: 'Katherine',
-    lastName: 'McDonough',
+    first_name: 'Katherine',
+    last_name: 'McDonough',
     email: 'mcdonough.kat@husky.neu.edu',
-    peerLeaders: [2],
-    authRole: 'Student',
+    peer_leaders: [2],
+    auth_role: 'Student',
     pronouns: 'she',
-    uStartYear: 2013,
-    aStartYear: 2013,
-    active: true
+    neu_start: 2013,
+    aces_start: 2013,
+    is_active: true
 };
 var user2 = {
     id: 2,
-    firstName: 'Jennifer',
-    lastName: 'LaPierre',
+    first_name: 'Jennifer',
+    last_name: 'LaPierre',
     email: 'lapierre.j@husky.neu.edu',
-    authRole: 'Peer Leader',
+    auth_role: 'Peer Leader',
     pronouns: 'she',
-    uStartYear: 2014,
-    aStartYear: 2015,
-    active: true
+    neu_start: 2014,
+    aces_start: 2015,
+    is_active: true
 };
 var user3 = {
     id: 3,
-    firstName: 'Lawrence',
-    lastName: 'Lim',
+    first_name: 'Lawrence',
+    last_name: 'Lim',
     email: 'lim.law@husky.neu.edu',
-    authRole: 'Administrator',
+    auth_role: 'Administrator',
     pronouns: 'he',
-    uStartYear: 2016,
-    aStartYear: 2016,
-    active: true
+    neu_start: 2016,
+    aces_start: 2016,
+    is_active: true
 };
 var user4 = {
     id: 4,
-    firstName: 'Jonathon',
-    lastName: 'Northcott',
+    first_name: 'Jonathon',
+    last_name: 'Northcott',
     email: 'northcott.j@husky.neu.edu',
-    authRole: 'Student',
+    auth_role: 'Student',
     pronouns: 'he',
-    corePartnerId: 3,
-    uStartYear: 2013,
-    aStartYear: 2015,
-    active: true
+    core_partner: 3,
+    neu_start: 2013,
+    aces_start: 2015,
+    is_active: true
 };
 var user5 = {
     id: 5,
-    firstName: 'Jennifer',
-    lastName: 'McDonough',
+    first_name: 'Jennifer',
+    last_name: 'McDonough',
     email: 'mcdonough.j@husky.neu.edu',
-    authRole: 'Peer Leader',
+    auth_role: 'Peer Leader',
     pronouns: 'she',
-    uStartYear: 2014,
-    aStartYear: 2015,
-    active: false
+    neu_start: 2014,
+    aces_start: 2015,
+    is_active: false
 };
 
-var vm, uploadCalled, getUsersCalled, getPartnersCalled;
+var vm, uploadCalled;
 var updatePartnerCalled, deletePartnerCalled, addPartnerCalled;
 var upsertUserCalled, deleteUserCalled;
 
@@ -186,15 +186,22 @@ describe('ManageController', function() {
     }
 
     function mockGetUsers() {
-        getUsersCalled = true;
+        var deferred = $q.defer();
+        deferred.resolve('Remote call result');
+        return deferred.promise;
     }
 
-    function mockGetPartners() {
-        getPartnersCalled = true;
+    function mockGetPartners () {
+        var deferred = $q.defer();
+        deferred.resolve([]);
+        return deferred.promise;
     }
 
     function mockUpdatePartner(partner) {
         updatePartnerCalled = partner;
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
     }
 
     function mockDeletePartner(partner) {
@@ -203,10 +210,23 @@ describe('ManageController', function() {
 
     function mockAddPartner(partner) {
         addPartnerCalled = partner;
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+    }
+
+    function mockGetCurrentUser () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
     }
 
     function mockUpsertUser(user) {
         upsertUserCalled = user;
+
+        var deferred = $q.defer();
+        deferred.resolve('Remote call result');
+        return deferred.promise;
     }
 
     function mockDeleteUser(user) {
@@ -226,7 +246,7 @@ describe('ManageController', function() {
     }
 
     var mockUserService = {
-        getCurrentUser: function () { return {}; },
+        getCurrentUser: mockGetCurrentUser,
         getUsers: mockGetUsers,
         upsertUser: mockUpsertUser,
         deleteUser: mockDeleteUser,
@@ -243,8 +263,6 @@ describe('ManageController', function() {
                                           $scope: scope});
 
     uploadCalled = false;
-    getUsersCalled = false;
-    getPartnersCalled = false;
     updatePartnerCalled = undefined;
     deletePartnerCalled = undefined;
     addPartnerCalled = undefined;
@@ -257,51 +275,7 @@ describe('ManageController', function() {
 
     vm.setTab('Students');
 
-    expect(getUsersCalled).toBe(true);
-
-  }));
-
-  it('when users are needed but defined does not call getUsersService', inject(function($controller) {
-
-    vm.users = [];
-
-    vm.setTab('Students');
-
-    expect(getUsersCalled).toBe(false);
-
-  }));
-
-  it('when users not needed and undefined doesnt calls UserService.getUsers', inject(function($controller) {
-
-    vm.setTab('Community Partners');
-
-    expect(getUsersCalled).toBe(false);
-
-  }));
-
-  it('when partners are needed but undefined calls PartnerService.getPartners', inject(function($controller) {
-
-    vm.setTab('Community Partners');
-
-    expect(getPartnersCalled).toBe(true);
-
-  }));
-
-  it('when partners are needed and defined doesnt call PartnerService.getPartners', inject(function($controller) {
-
-    vm.partners = [{name: 'Partner'}];
-
-    vm.setTab('Community Partners');
-
-    expect(getPartnersCalled).toBe(false);
-
-  }));
-
-  it('when partners are not needed and defined doesnt call PartnerService.getPartners', inject(function($controller) {
-
-    vm.setTab('Administrators');
-
-    expect(getPartnersCalled).toBe(false);
+    expect(vm.selectedTab).toBe('Students');
 
   }));
 
@@ -313,7 +287,7 @@ describe('ManageController', function() {
     vm.addElement();
 
     expect(vm.partners.length).toBe(5);
-    expect(vm.partners[4]).toEqual({locations: {}, contacts: {}, added: true, expanded: true, active: true});
+    expect(vm.partners[4]).toEqual({locations: {}, contacts: {}, added: true, expanded: true, is_active: true});
 
   }));
 
@@ -325,7 +299,7 @@ describe('ManageController', function() {
     vm.addElement();
 
     expect(vm.users.length).toBe(5);
-    expect(vm.users[4]).toEqual({authRole: 'Student', expanded: true, active: true});
+    expect(vm.users[4]).toEqual({auth_role: 'Student', expanded: true, is_active: true});
 
   }));
 
@@ -337,7 +311,7 @@ describe('ManageController', function() {
     vm.addElement();
 
     expect(vm.users.length).toBe(5);
-    expect(vm.users[4]).toEqual({authRole: 'Peer Leader', expanded: true, active: true});
+    expect(vm.users[4]).toEqual({auth_role: 'Peer Leader', expanded: true, is_active: true});
 
   }));
 
@@ -349,7 +323,7 @@ describe('ManageController', function() {
     vm.addElement();
 
     expect(vm.users.length).toBe(5);
-    expect(vm.users[4]).toEqual({authRole: 'Administrator', expanded: true, active: true});
+    expect(vm.users[4]).toEqual({auth_role: 'Administrator', expanded: true, is_active: true});
 
   }));
 
@@ -405,11 +379,11 @@ describe('ManageController', function() {
   }));
 
   it('delete partner deletes the partner and removes from list', inject(function($controller) {
-    vm.partners = [partner1, partner2, partner3, partner4];
+    vm.partners = [partner1, partner2, {_id: {$oid: 3}}, partner4];
 
     vm.deletePartner(2);
 
-    expect(deletePartnerCalled).toBe(partner3);
+    expect(deletePartnerCalled).toBe(3);
     expect(vm.partners[2]).not.toBe(partner3);
 
   }));
@@ -437,7 +411,7 @@ describe('ManageController', function() {
 
     expect(vm.partners[3].locations[2]).toBe(location2);
     expect(vm.partners[3].locations[4]).toBe(location4);
-    expect(vm.partners[3].locations[5]).toEqual({active: true});
+    expect(vm.partners[3].locations[5]).toEqual({is_active: true});
 
   }));
 
@@ -447,7 +421,7 @@ describe('ManageController', function() {
     vm.addContact(0);
 
     expect(vm.partners[0].contacts[1]).toBe(contact1);
-    expect(vm.partners[0].contacts[2]).toEqual({active: true});
+    expect(vm.partners[0].contacts[2]).toEqual({is_active: true});
 
   }));
 
@@ -459,17 +433,17 @@ describe('ManageController', function() {
 
   }));
 
-  it('saveUser will call UserService.upsertUser and switch the authRole', inject(function($controller) {
+  it('saveUser will call UserService.upsertUser and switch the auth_role', inject(function($controller) {
     user3.newAuthRole = 'Student';
 
     vm.saveUser(user3);
 
     expect(upsertUserCalled).toBe(user3);
-    expect(user3.authRole).toBe('Student');
+    expect(user3.auth_role).toBe('Student');
 
   }));
 
-  it('selectNewAuthRole adds a newAuthRole to user', inject(function($controller) {
+  it('selectNewAuthRole adds a new auth role to user', inject(function($controller) {
 
     vm.selectNewAuthRole({name: 'Administrator'}, user4);
 
@@ -477,7 +451,7 @@ describe('ManageController', function() {
 
   }));
 
-  it('unSelectNewAuthRole sets newAuthRole to undefined', inject(function($controller) {
+  it('unSelectNewAuthRole sets auth_role to undefined', inject(function($controller) {
 
     vm.unSelectNewAuthRole(user4);
 
@@ -486,11 +460,11 @@ describe('ManageController', function() {
   }));
 
   it('deleteUser will call UserService.deleteUser with the appropriate user', inject(function($controller) {
-    vm.users = [user1, user2, user3, user4, user5];
+    vm.users = [user1, user2, user3, {_id: {$oid: 4}}, user5];
 
-    vm.deleteUser(user4);
+    vm.deleteUser({_id: {$oid: 4}});
 
-    expect(deleteUserCalled).toBe(user4);
+    expect(deleteUserCalled).toBe(4);
     expect(vm.users.length).toBe(4);
     expect(vm.users[3]).not.toBe(user4);
 
@@ -527,7 +501,7 @@ describe('ManageController', function() {
 
   }));
 
-  it('returns the partner name for the given partnerID', inject(function($controller) {
+  it('returns the partner name for the given partner', inject(function($controller) {
     vm.partners = [partner1, partner2, partner3, partner4, partner5];
 
     var partnerName = vm.getPartnerName(4);
@@ -537,7 +511,7 @@ describe('ManageController', function() {
   }));
 
   it('returns the name of the peer leader with the given id', inject(function($controller) {
-    vm.peerLeaders = [user2];
+    vm.setPeerLeaders([user1, user2]);
 
     var peerLeaderName = vm.getPeerLeaderName(2);
 
@@ -549,7 +523,7 @@ describe('ManageController', function() {
 
     vm.selectCoreCommunityPartner(partner1, user1);
 
-    expect(user1.corePartnerId).toBe(1);
+    expect(user1.core_partner).toBe(1);
 
   }));
 
@@ -557,7 +531,7 @@ describe('ManageController', function() {
 
     vm.unSelectCoreCommunityPartner(user1);
 
-    expect(user1.corePartnerId).toBe(undefined);
+    expect(user1.core_partner).toBe(undefined);
 
   }));
 
@@ -565,7 +539,7 @@ describe('ManageController', function() {
 
     vm.selectPeerLeader(user5, user1, 0);
 
-    expect(user1.peerLeaders).toEqual([5]);
+    expect(user1.peer_leaders).toEqual([5]);
 
   }));
 
@@ -573,16 +547,16 @@ describe('ManageController', function() {
 
     vm.unSelectPeerLeader(user1, 0);
 
-    expect(user1.peerLeaders).toEqual([-1]);
+    expect(user1.peer_leaders).toEqual([-1]);
 
   }));
 
   it('adds a peer leader with id -1 to peer leader list', inject(function($controller) {
-    user1.peerLeaders = [1,2];
+    user1.peer_leaders = [1,2];
 
     vm.addPeerLeader(user1);
 
-    expect(user1.peerLeaders).toEqual([1, 2, -1]);
+    expect(user1.peer_leaders).toEqual([1, 2, -1]);
 
   }));
 
@@ -590,16 +564,16 @@ describe('ManageController', function() {
 
     vm.addPeerLeader(user4);
 
-    expect(user4.peerLeaders).toEqual([-1]);
+    expect(user4.peer_leaders).toEqual([-1]);
 
   }));
 
   it('removes peer leader from given position', inject(function($controller) {
-    user1.peerLeaders = [1,2,3,4];
+    user1.peer_leaders = [1,2,3,4];
 
     vm.removePeerLeader(user1, 1);
 
-    expect(user1.peerLeaders).toEqual([1,3,4]);
+    expect(user1.peer_leaders).toEqual([1,3,4]);
 
   }));
 

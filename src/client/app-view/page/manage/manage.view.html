@@ -1,6 +1,6 @@
 <aces-header show-menu="vm.showMenu"></aces-header>
 <div class="page-with-menu">
-  <aces-menu auth-role="{{ vm.currentUser.authRole }}"
+  <aces-menu auth-role="vm.currentUser.auth_role"
              page-name="Manage"
              ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
   <div class="page">
@@ -70,7 +70,7 @@
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input class="partner-checkbox" type="checkbox" ng-model="partner.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="partner.is_active">
             </span>
           </div>
 
@@ -89,7 +89,7 @@
               <div class="partner-element">
                 <label class="partner-label"> Active: </label>
                 <span class="partner-input">
-                  <input class="partner-checkbox" type="checkbox" ng-model="location.active">
+                  <input class="partner-checkbox" type="checkbox" ng-model="location.is_active">
                 </span>
               </div>
 
@@ -137,7 +137,7 @@
               <div class="partner-element">
                 <label class="partner-label"> Active: </label>
                 <span class="partner-input">
-                  <input class="partner-checkbox" type="checkbox" ng-model="contact.active">
+                  <input class="partner-checkbox" type="checkbox" ng-model="contact.is_active">
                 </span>
               </div>
 
@@ -163,11 +163,11 @@
 
     <div ng-if="vm.selectedTab === 'Students'">
       <ul class="community-partner"
-          ng-repeat="student in vm.users | filter:{authRole: 'Student'}">
+          ng-repeat="student in vm.users | filter:{auth_role: 'Student'}">
 
         <div class="partner-title" ng-click="vm.expandElement(student)"
              ng-class="{'partner-selected': student.expanded}">
-          {{ student.firstName.concat(" ".concat(student.lastName)) }}
+          {{ student.first_name.concat(" ".concat(student.last_name)) }}
         </div>
 
         <i class="arrow-down"></i>
@@ -176,14 +176,14 @@
           <div class="partner-element">
             <label class="partner-label"> First Name: </label>
             <span class="partner-input">
-              <input class="partner-text" type="text" autocomplete="off" ng-model="student.firstName">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="student.first_name">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Last Name: </label>
             <span class="partner-input">
-              <input class="partner-text" type="text" autocomplete="off" ng-model="student.lastName">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="student.last_name">
             </span>
           </div>
 
@@ -204,8 +204,8 @@
           <div class="partner-element">
             <label class="partner-label"> Role: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.authRoles"
-                              selected-text="{{ student.authRole }}"
+              <aces-typeahead options="vm.auth_roles"
+                              selected-text="{{ student.auth_role }}"
                               on-select="vm.selectNewAuthRole(selectedItem, student)"
                               un-select="vm.unSelectNewAuthRole(student)"
                               on-no-options="vm.noop()"
@@ -219,7 +219,7 @@
             <label class="partner-label"> Core Community Partner: </label>
             <span class="partner-input">
               <aces-typeahead options="vm.corePartners"
-                              selected-text="{{ vm.getPartnerName(student.corePartnerId) }}"
+                              selected-text="{{ vm.getPartnerName(student.core_partner) }}"
                               on-select="vm.selectCoreCommunityPartner(selectedItem, student)"
                               un-select="vm.unSelectCoreCommunityPartner(student)"
                               on-no-options="vm.noop()"
@@ -236,7 +236,7 @@
               <div class="add-button" ng-click="vm.addPeerLeader(student)"> + </div>
             </div>
 
-            <ul class="partner-location" ng-repeat="leader in student.peerLeaders track by $index">
+            <ul class="partner-location" ng-repeat="leader in student.peer_leaders track by $index">
 
               <aces-typeahead options="vm.peerLeaders"
                               selected-text="{{ vm.getPeerLeaderName(leader) }}"
@@ -258,21 +258,21 @@
           <div class="partner-element">
             <label class="partner-label"> University Start Year: </label>
             <span class="partner-input">
-              <input class="partner-text" type="number" autocomplete="off" ng-model="student.uStartYear">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="student.neu_start">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> ACES Start Year: </label>
             <span class="partner-input">
-              <input class="partner-text" type="number" autocomplete="off" ng-model="student.aStartYear">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="student.aces_start">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input class="partner-checkbox" type="checkbox" ng-model="student.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="student.is_active">
             </span>
           </div>
 
@@ -288,11 +288,11 @@
 
     <div ng-if="vm.selectedTab === 'Peer Leaders'">
       <ul class="community-partner"
-          ng-repeat="leader in vm.users | filter:{authRole: 'Peer Leader'}">
+          ng-repeat="leader in vm.users | filter:{auth_role: 'Peer Leader'}">
 
         <div class="partner-title" ng-click="vm.expandElement(leader)"
              ng-class="{'partner-selected': leader.expanded}">
-          {{ leader.firstName.concat(" ".concat(leader.lastName)) }}
+          {{ leader.first_name.concat(" ".concat(leader.last_name)) }}
         </div>
 
         <i class="arrow-down"></i>
@@ -301,14 +301,14 @@
           <div class="partner-element">
             <label class="partner-label"> First Name: </label>
             <span class="partner-input">
-              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.firstName">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.first_name">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Last Name: </label>
             <span class="partner-input">
-              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.lastName">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="leader.last_name">
             </span>
           </div>
 
@@ -329,10 +329,10 @@
           <div class="partner-element">
             <label class="partner-label"> Role: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.authRoles"
-                              selected-text="{{ leader.authRole }}"
-                              on-select="vm.selectNewAuthRole(selectedItem, leader)"
-                              un-select="vm.unSelectNewAuthRole(leader)"
+              <aces-typeahead options="vm.auth_roles"
+                              selected-text="{{ leader.auth_role }}"
+                              on-select="vm.selectNewauth_role(selectedItem, leader)"
+                              un-select="vm.unSelectNewauth_role(leader)"
                               on-no-options="vm.noop()"
                               no-options="'No role to match your search'"
                               placeholder="'Select a Role'"
@@ -344,7 +344,7 @@
             <label class="partner-label"> Core Community Partner: </label>
             <span class="partner-input">
               <aces-typeahead options="vm.corePartners"
-                              selected-text="{{ vm.getPartnerName(leader.corePartnerId) }}"
+                              selected-text="{{ vm.getPartnerName(leader.core_partner) }}"
                               on-select="vm.selectCoreCommunityPartner(selectedItem, leader)"
                               un-select="vm.unSelectCoreCommunityPartner(leader)"
                               on-no-options="vm.noop()"
@@ -357,21 +357,21 @@
           <div class="partner-element">
             <label class="partner-label"> University Start Year: </label>
             <span class="partner-input">
-              <input class="partner-text" type="number" autocomplete="off" ng-model="leader.uStartYear">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="leader.neu_start">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> ACES Start Year: </label>
             <span class="partner-input">
-              <input class="partner-text" type="number" autocomplete="off" ng-model="leader.aStartYear">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="leader.aces_start">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input class="partner-checkbox" type="checkbox" ng-model="leader.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="leader.is_active">
             </span>
           </div>
 
@@ -388,11 +388,11 @@
 
     <div ng-if="vm.selectedTab === 'Administrators'">
       <ul class="community-partner"
-          ng-repeat="admin in vm.users | filter:{authRole: 'Administrator'}">
+          ng-repeat="admin in vm.users | filter:{auth_role: 'Administrator'}">
 
         <div class="partner-title" ng-click="vm.expandElement(admin)"
              ng-class="{'partner-selected': admin.expanded}">
-          {{ admin.firstName.concat(" ".concat(admin.lastName)) }}
+          {{ admin.first_name.concat(" ".concat(admin.last_name)) }}
         </div>
 
         <i class="arrow-down"></i>
@@ -401,14 +401,14 @@
           <div class="partner-element">
             <label class="partner-label"> First Name: </label>
             <span class="partner-input">
-              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.firstName">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.first_name">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Last Name: </label>
             <span class="partner-input">
-              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.lastName">
+              <input class="partner-text" type="text" autocomplete="off" ng-model="admin.last_name">
             </span>
           </div>
 
@@ -429,10 +429,10 @@
           <div class="partner-element">
             <label class="partner-label"> Role: </label>
             <span class="partner-input">
-              <aces-typeahead options="vm.authRoles"
-                              selected-text="{{ admin.authRole }}"
-                              on-select="vm.selectNewAuthRole(selectedItem, admin)"
-                              un-select="vm.unSelectNewAuthRole(admin)"
+              <aces-typeahead options="vm.auth_roles"
+                              selected-text="{{ admin.auth_role }}"
+                              on-select="vm.selectNewauth_role(selectedItem, admin)"
+                              un-select="vm.unSelectNewauth_role(admin)"
                               on-no-options="vm.noop()"
                               no-options="'No role to match your search'"
                               placeholder="'Select a Role'"
@@ -443,21 +443,21 @@
           <div class="partner-element">
             <label class="partner-label"> University Start Year: </label>
             <span class="partner-input">
-              <input class="partner-text" type="number" autocomplete="off" ng-model="admin.uStartYear">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="admin.neu_start">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> ACES Start Year: </label>
             <span class="partner-input">
-              <input class="partner-text" type="number" autocomplete="off" ng-model="admin.aStartYear">
+              <input class="partner-text" type="number" autocomplete="off" ng-model="admin.aces_start">
             </span>
           </div>
 
           <div class="partner-element">
             <label class="partner-label"> Active: </label>
             <span class="partner-input">
-              <input class="partner-checkbox" type="checkbox" ng-model="admin.active">
+              <input class="partner-checkbox" type="checkbox" ng-model="admin.is_active">
             </span>
           </div>
 

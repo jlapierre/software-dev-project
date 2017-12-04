@@ -1,6 +1,6 @@
 <aces-header show-menu="vm.showMenu"></aces-header>
 <div class="page-with-menu">
-  <aces-menu auth-role="{{ vm.currentUser.authRole }}"
+  <aces-menu auth-role="vm.currentUser.auth_role"
              page-name="Civic Log"
              ng-class="{'hide-menu': !vm.showMenu, 'show-menu': vm.showMenu}"></aces-menu>
   <div class="page">
@@ -29,7 +29,7 @@
       <div class="tiny-input">
         <div class="typeahead-margin">
           <aces-typeahead options="vm.activityTypes"
-                          selected-text="{{ activity.type }}"
+                          selected-text="{{ activity.activity_type }}"
                           on-select="vm.selectActivityType(selectedItem, activity)"
                           un-select="vm.unSelectActivityType(activity)"
                           on-no-options="vm.noop()"
@@ -63,7 +63,7 @@
                         no-options="'No locations match your search'"
                         placeholder="'Location'"
                         relaxed="true"
-                        disabled="activity.type != 'Partner' || !activity.partnerId"></aces-typeahead>
+                        disabled="activity.activity_type != 'Partner' || !activity.partner"></aces-typeahead>
           </div>
       </div>
 
@@ -77,15 +77,15 @@
                         no-options="'No contacts match your search'"
                         placeholder="'Contact'"
                         relaxed="true"
-                        disabled="activity.type != 'Partner' || !activity.partnerId"></aces-typeahead>
+                        disabled="activity.activity_type != 'Partner' || !activity.partner"></aces-typeahead>
           </div>
       </div>
 
       <input class="date-input log-label date-input-enabled" type="datetime-local" ng-model="activity.startDate"
              ng-change="vm.updateEndDate(activity)">
       <input class="date-input log-label" type="datetime-local" ng-model="activity.endDate"
-             ng-disabled="{{ activity.type != 'Partner' }}"
-             ng-class="{'date-input-disabled': activity.type != 'Partner', 'date-input-enabled': activity.type === 'Partner'}">
+             ng-disabled="{{ activity.activity_type != 'Partner' }}"
+             ng-class="{'date-input-disabled': activity.activity_type != 'Partner', 'date-input-enabled': activity.activity_type === 'Partner'}">
 
       <input class="huge-input" type="text" ng-model="activity.comment" placeholder="Comment">
 

@@ -12,7 +12,7 @@
             templateUrl: 'app-view/directives/menu/menu.view.html',
             controller: 'MenuController as vm',
             scope: {
-                authRole: '@',
+                authRole: '=',
                 pageName: '@'
             }
         }
@@ -22,10 +22,10 @@
         var vm = this;
 
         // Set the pages to the pages appropriate for the user
-        function setPages(authRole) {
-            if (authRole === 'Administrator') {
+        function setPages(auth_role) {
+            if (auth_role === 'Administrator') {
                 vm.pages = [reports, students, manage, signOut];
-            } else if (authRole === 'Peer Leader') {
+            } else if (auth_role === 'Peer Leader') {
                 vm.pages = [checkIn, activities, overview, log, reports, students, manage, signOut];
             } else {
                 vm.pages = [checkIn, activities, overview, log, signOut];
@@ -79,7 +79,7 @@
             onClick: UserService.signOutUser
         };
 
-        vm.setPages($scope.authRole);
+        $scope.$watch('authRole', vm.setPages);
     }
 
 })();

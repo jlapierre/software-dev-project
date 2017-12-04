@@ -49,10 +49,8 @@ def create_student():
 @user_api.route('/api/update_user', methods=['POST'])
 #@requiresomepermission
 def update_user():
-    user = {
-        "email": request.form["email"],
-        # "attr1": val1 ...
-    }
+    form = json.loads(request.data)
+    user = form['user']
     return dumps(user_controller.upsert_user(db, user).raw_result)
 
 @user_api.route('/api/delete_user/<user_id>', methods=['POST'])
@@ -62,10 +60,11 @@ def delete_user(user_id):
 
 @user_api.route('/api/check_in', methods=['POST'])
 def user_check_in():
-    user_id = get_current_user()["_id"]
-    partner_id = request.form["partner_id"]
-    location = {} # not currently used in controller
-    contact = {} # not currently used in controller
+    form = json.loads(request.data)
+    user_id = form["user_id"]
+    partner_id = form["partner_id"]
+    location = form["location"]
+    contact = form["contact"]
     return dumps(user_controller.check_user_in(
         db,
         ObjectId(user_id),
@@ -76,7 +75,8 @@ def user_check_in():
 
 @user_api.route('/api/check_out', methods=['POST'])
 def user_check_out():
-    user_id = get_current_user()["_id"]
+    form = json.loads(request.data)
+    user_id = form["user_id"]
     return dumps(user_controller.check_user_out(db, ObjectId(user_id)))
 
 

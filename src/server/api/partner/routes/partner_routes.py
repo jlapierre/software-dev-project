@@ -1,5 +1,5 @@
 from flask_cors import CORS
-from flask import Blueprint, request
+from flask import Blueprint, request, json
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from server.api.partner.controller import partner_controller
@@ -14,22 +14,15 @@ def get_partners():
 
 @partner_api.route('/api/create_partner', methods=["POST"])
 def create_partner():
-    partner = {
-        "name": request.form["name"],
-        "contacts": {},
-        "locations": {},
-        "core_partner": False,
-        "is_active": True
-    }
-    return dumps(partner_controller.upsert_partner(db, partner).raw_result)
+    form = json.loads(request.data)
+    partner = form['partner']
+    return dumps(partner_controller.upsert_partner(db, partner))
 
 @partner_api.route('/api/update_partner', methods=["POST"])
 def update_partner():
-    partner = {
-        "name": request.form["name"]
-        # "attr1": val1 ...
-    }
-    return dumps(partner_controller.upsert_partner(db, partner).raw_result)
+    form = json.loads(request.data)
+    partner = form['partner']
+    return dumps(partner_controller.upsert_partner(db, partner))
 
 @partner_api.route('/api/delete_partner/<partner_id>', methods=["POST"])
 def delete_partner(partner_id):

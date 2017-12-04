@@ -1,5 +1,7 @@
 import datetime
 import uuid
+from bson import ObjectId
+from bson import DBRef
 
 
 def get_user_with_email(database, email):
@@ -24,9 +26,8 @@ def upsert_user(database, user):
 
 def remove_user(database, user_id):
     """deactivate user with given id"""
-    return database["users"].update_one(
-        {"_id": user_id}, # find user with matching id
-        {"$set": {"is_active": False}}
+    return database["users"].delete_one(
+        {"_id": user_id} # find user with matching id
     )
 
 
@@ -34,10 +35,12 @@ def check_user_in(database, user_id, partner_id, location, contact):
     """create an entry without a checkout time for the given user"""
     activity = {
         "activity_type": "Partner",
-        "partner": database["partners"].find_one({"_id": partner_id}),
+        "partner": DBRef('partners', ObjectId(partner_id)),
         "civic_category": "",
         "start_time": datetime.datetime.now(),
         "end_time": None,
+        "location": location,
+        "contact": contact,
         "manually_edited": False,
         "comment": ""
     }
@@ -65,6 +68,10 @@ def check_user_out(database, user_id):
 
 def get_user_activity(database, user_id):
     """return the current activity for the given user"""
-    r = database["users"].find_one({"_id": user_id})["activities"]
-    if r is None: r = []
-    return r
+    act = database["users"].find_one({"_id": user_id})["activities"]
+    for k,v in act.iteritems():
+        if v["end_time"] is None:
+            if v["activity_type"] == 'Partner':
+                return v
+
+    return None

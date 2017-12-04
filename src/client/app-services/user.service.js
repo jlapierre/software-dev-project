@@ -8,27 +8,27 @@
     function UserService($http, $window, $q) {
         // Activity Examples
         var activity2 = {
-            type: 'Partner',
-            partnerId: 2,
-            locationId: 3,
-            startTime: 1510837200000,
-            manual: false
+            activity_type: 'Partner',
+            partner: 2,
+            location: 3,
+            start_time: 1510837200000,
+            manually_edited: false
         };
         var activity3 = {
-            type: 'Partner',
-            partnerId: 3,
-            contactId: 2,
-            locationId: 2,
-            startTime: 1510833600000,
-            endTime: 1510840800000,
-            manual: true,
+            activity_type: 'Partner',
+            partner: 3,
+            contact: 2,
+            location: 2,
+            start_time: 1510833600000,
+            end_time: 1510840800000,
+            manually_edited: true,
             comment: 'Assisted with organization of an event'
         };
         var activity4 = {
-            type: 'Civic/Alliance',
-            startTime: 1510833600000,
-            civicCategory: 'Voting',
-            manual: true,
+            activity_type: 'Civic/Alliance',
+            start_time: 1510833600000,
+            civic_category: 'Voting',
+            manually_edited: true,
             comment: 'Voted in the city mayoral election'
         };
 
@@ -36,50 +36,50 @@
         // User Examples
         var user1 = {
             id: 1,
-            firstName: 'Katherine',
-            lastName: 'McDonough',
+            first_name: 'Katherine',
+            last_name: 'McDonough',
             email: 'mcdonough.kat@husky.neu.edu',
-            peerLeaders: [2],
-            authRole: 'Student',
+            peer_leaders: [2],
+            auth_role: 'Student',
             pronouns: 'she',
-            uStartYear: 2013,
-            aStartYear: 2013,
-            active: true
+            neu_start: 2013,
+            aces_start: 2013,
+            is_active: true
         };
         var user2 = {
             id: 2,
-            firstName: 'Jennifer',
-            lastName: 'LaPierre',
+            first_name: 'Jennifer',
+            last_name: 'LaPierre',
             email: 'lapierre.j@husky.neu.edu',
-            authRole: 'Peer Leader',
+            auth_role: 'Peer Leader',
             pronouns: 'she',
-            uStartYear: 2014,
-            aStartYear: 2015,
-            active: true,
+            neu_start: 2014,
+            aces_start: 2015,
+            is_active: true,
             activities: {2: activity2, 3: activity3, 4: activity4}
         };
         var user3 = {
             id: 3,
-            firstName: 'Lawrence',
-            lastName: 'Lim',
+            first_name: 'Lawrence',
+            last_name: 'Lim',
             email: 'lim.law@husky.neu.edu',
-            authRole: 'Administrator',
+            auth_role: 'Administrator',
             pronouns: 'he',
-            uStartYear: 2016,
-            aStartYear: 2016,
-            active: true
+            neu_start: 2016,
+            aces_start: 2016,
+            is_active: true
         };
         var user4 = {
             id: 4,
-            firstName: 'Jonathon',
-            lastName: 'Northcott',
+            first_name: 'Jonathon',
+            last_name: 'Northcott',
             email: 'northcott.j@husky.neu.edu',
-            authRole: 'Student',
+            auth_role: 'Student',
             pronouns: 'he',
-            corePartnerId: 3,
-            uStartYear: 2013,
-            aStartYear: 2015,
-            active: true
+            core_partner: 3,
+            neu_start: 2013,
+            aces_start: 2015,
+            is_active: true
         };
         var authRoles = [{name: 'Student'}, {name: 'Peer Leader'}, {name: 'Administrator'}];
 
@@ -91,22 +91,33 @@
 
         // Current Signed In User
         function getCurrentUser() {
-            return user2;
+            return $http({
+                method: 'GET',
+                url: '/api/current_user'});
         }
 
         // Get all users the current signed in user has access too
         function getUsers() {
-            return [user1, user2, user3, user4];
+            return $http({
+                method: 'GET',
+                url: '/api/all_users'
+            });
         }
 
         // Saves the current user
         function upsertUser(user) {
-            return true;
+            return $http({
+                method: 'POST',
+                url: '/api/update_user',
+                data: {user: user}});
         }
 
         // Saves the current user
         function deleteUser(user) {
-            return true;
+            return $http({
+                method: 'POST',
+                url: '/api/delete_user/' + user
+            });
         }
 
         // Sign Out User

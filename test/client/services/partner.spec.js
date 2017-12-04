@@ -37,11 +37,11 @@ describe('PartnerService', function() {
 
   }));
 
-  it('getPartners should return a list of partners', inject(function($injector) {
+  it('getPartners should return a promise', inject(function($injector) {
     var PartnerService = $injector.get('PartnerService');
-    var partners = PartnerService.getPartners();
+    var promise = PartnerService.getPartners();
 
-    expect(Array.isArray(partners)).toBe(true);
+    expect(typeof promise).toBe('object');
 
   }));
 

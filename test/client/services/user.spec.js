@@ -115,11 +115,11 @@ describe('UserService', function() {
 
   }));
 
-  it('getUsers should return a list', inject(function($injector) {
+  it('getUsers should return a promise', inject(function($injector) {
     var UserService = $injector.get('UserService');
-    var users = UserService.getUsers();
+    var promise = UserService.getUsers();
 
-    expect(Array.isArray(users)).toBe(true);
+    expect(typeof promise).toBe('object');
 
   }));
 });

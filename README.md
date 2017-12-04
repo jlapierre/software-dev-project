@@ -29,7 +29,8 @@ This process uses npm, so ensure that is properly installed
 1. npm install karma --save-dev 
 2. npm install angular angular-route angular-mocks --save-dev 
 3. npm install karma-jasmine jasmine-core --save-dev
-4. npm install -g karma-cli (You can either call karma from ./node_modules/karma/bin/karma, or install karma CLI)
+4. npm install 'karma-verbose-reporter' karma-coverage --save-dev
+5. npm install -g karma-cli (You can either call karma from ./node_modules/karma/bin/karma, or install karma CLI)
 
 ## Running Frontend Tests
 1. karma start (from the 108 directory)
