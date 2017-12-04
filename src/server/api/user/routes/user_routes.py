@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from server.api.user.controller import user_controller
 from ...sso.routes.sso_routes import googleauth
 from utils.db_handler import db
+from server.auth.auth_service import require_login
 
 user_api = Blueprint('user_api', __name__)
 
