@@ -125,7 +125,7 @@ var partner4 = {
 // Activity Examples
 var activity3 = {
     type: 'Partner',
-    partner: {$id: {$oid: 3}},
+    partner: 3,
     contact: 3,
     location: 3,
     start_time: 1510833600,

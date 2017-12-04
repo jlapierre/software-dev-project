@@ -72,7 +72,7 @@
 
                             if (!!vm.partners && user.activities[i].partner) {
                                 for (var n = 0; n < vm.partners.length; n++) {
-                                    if (vm.partners[n]._id.$oid === user.activities[i].partner.$id.$oid) {
+                                    if (vm.partners[n]._id.$oid === user.activities[i].partner) {
                                         partner = vm.partners[n];
                                     }
                                 }
@@ -130,9 +130,9 @@
         // Get the name of the partner for the given id
         function getDescriptionName(activity) {
             if (activity.activity_type === 'Partner') {
-                if (!!vm.partners && activity.partner) {
+                if (!!vm.partners) {
                     for (var i = 0; i < vm.partners.length; i++) {
-                        if (vm.partners[i]._id.$oid === activity.partner.$id.$oid) {
+                        if (vm.partners[i]._id.$oid === activity.partner) {
                             return vm.partners[i].name;
                         }
                     }
@@ -150,9 +150,9 @@
         function getLocationName(activity) {
             if (activity.activity_type === 'Partner') {
                 var partner;
-                if (!!vm.partners && activity.partner) {
+                if (!!vm.partners) {
                     for (var i = 0; i < vm.partners.length; i++) {
-                        if (vm.partners[i]._id.$oid === activity.partner.$id.$oid) {
+                        if (vm.partners[i]._id.$oid === activity.partner) {
                             partner = vm.partners[i];
                         }
                     }
@@ -175,9 +175,9 @@
         function getContactName(activity) {
             if (activity.activity_type === 'Partner') {
                 var partner;
-                if (!!vm.partners && activity.partner) {
+                if (!!vm.partners) {
                     for (var i = 0; i < vm.partners.length; i++) {
-                        if (vm.partners[i]._id.$oid === activity.partner.$id.$oid) {
+                        if (vm.partners[i]._id.$oid === activity.partner) {
                             partner = vm.partners[i];
                         }
                     }
@@ -229,7 +229,7 @@
         function selectDescription(selectedItem, activity) {
 
             if (activity.activity_type === 'Partner') {
-                activity.partner = {$id: {$oid: selectedItem._id.$oid}};
+                activity.partner = selectedItem._id.$oid;
 
                 activity.locations = [];
                 for (var id in selectedItem.locations) {

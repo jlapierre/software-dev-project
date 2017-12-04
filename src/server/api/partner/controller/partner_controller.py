@@ -2,10 +2,10 @@ import uuid
 
 def get_partners(database):
     """return all partners the current partner has access to"""
-    return database["partners"].find({})
+    return list(database["partners"].find({}))
 
 
-#partner is a dictionary representing the new partner
+# partner is a dictionary representing the new partner
 def upsert_partner(database, partner):
     """add or update the given partner in the database"""
     database["partners"].update_one({

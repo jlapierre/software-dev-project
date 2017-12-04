@@ -51,7 +51,7 @@ def create_student():
 def update_user():
     form = json.loads(request.data)
     user = form['user']
-    return dumps(user_controller.upsert_user(db, user).raw_result)
+    return dumps(user_controller.upsert_user(db, user))
 
 @user_api.route('/api/delete_user/<user_id>', methods=['POST'])
 #@requiresomepermission
@@ -83,9 +83,9 @@ def user_check_out():
 @user_api.route('/api/user_activity')
 def current_user_activity():
     user_id = get_current_user()["_id"]
-    return dumps(user_controller.get_user_activity(db, ObjectId(user_id)))
+    return dumps(user_controller.get_current_activity(db, ObjectId(user_id)))
 
 
 @user_api.route('/api/user_activity/<_id>')
 def user_activity_by_user_id(_id):
-    return dumps(user_controller.get_user_activity(db, ObjectId(_id)))
+    return dumps(user_controller.get_current_activity(db, ObjectId(_id)))

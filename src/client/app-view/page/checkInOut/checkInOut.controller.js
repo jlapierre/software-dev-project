@@ -76,9 +76,9 @@
 
         // If there is currently an activity in process
         function initCurrentActivity(activity) {
-            if (!!activity && activity.partner) {
+            if (!!activity) {
                 for (var i = 0; i < vm.partners.length; i++) {
-                    if (vm.partners[i]._id.$oid === activity.partner.$id.$oid) {
+                    if (vm.partners[i]._id.$oid === activity.partner) {
                         vm.selectedPartner = vm.partners[i];
                         continue;
                     }

@@ -84,7 +84,7 @@ describe('CivicLogController', function() {
   it('setupActivities if the activity is a partner sets up correct locations', inject(function($controller) {
     var locations = {1: {is_active: true}, 2: {is_active: false}};
     vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, locations: locations}];
-    vm.currentUser = {activities: {1: {activity_type: 'Partner', partner: {$id: {$oid: 2}}}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Partner', partner: 2}}};
 
     vm.setupActivities(vm.currentUser);
 
@@ -95,7 +95,7 @@ describe('CivicLogController', function() {
   it('setupActivities if the activity is a partner sets up correct contacts', inject(function($controller) {
     var contacts = {1: {is_active: true}, 2: {is_active: false}};
     vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, contacts: contacts}];
-    vm.currentUser = {activities: {1: {activity_type: 'Partner', partner: {$id: {$oid: 2}}}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Partner', partner: 2}}};
 
     vm.setupActivities(vm.currentUser);
 
@@ -168,7 +168,7 @@ describe('CivicLogController', function() {
   it('getDescription name will give partner name if type partner', inject(function($controller) {
     vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}}];
 
-    var name = vm.getDescriptionName({activity_type: 'Partner', partner: {$id: {$oid: 2}}});
+    var name = vm.getDescriptionName({activity_type: 'Partner', partner: 2});
 
     expect(name).toBe('partner2');
 
@@ -187,7 +187,7 @@ describe('CivicLogController', function() {
     var locations = {1: {is_active: true}, 2: {is_active: false}};
     vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, locations: locations}];
 
-    var name = vm.getLocationName({activity_type: 'Partner', partner: {$id: {$oid: 2}}, location: 3});
+    var name = vm.getLocationName({activity_type: 'Partner', partner: 2, location: 3});
 
     expect(name).toBe('');
 
@@ -197,7 +197,7 @@ describe('CivicLogController', function() {
     var locations = {1: {is_active: true}, 2: {is_active: false, name: 'location2'}};
     vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, locations: locations}];
 
-    var name = vm.getLocationName({activity_type: 'Partner', partner: {$id: {$oid: 2}}, location: 2});
+    var name = vm.getLocationName({activity_type: 'Partner', partner: 2, location: 2});
 
     expect(name).toBe('location2');
 
@@ -207,7 +207,7 @@ describe('CivicLogController', function() {
     var contacts = {1: {is_active: true}, 2: {is_active: false}};
     vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, contacts: contacts}];
 
-    var name = vm.getContactName({activity_type: 'Partner', partner: {$id: {$oid: 2}}, contact: 3});
+    var name = vm.getContactName({activity_type: 'Partner', partner: 2, contact: 3});
 
     expect(name).toBe('');
 
@@ -217,7 +217,7 @@ describe('CivicLogController', function() {
     var contacts = {1: {is_active: true}, 2: {is_active: false, name: 'contact2'}};
     vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, contacts: contacts}];
 
-    var name = vm.getContactName({activity_type: 'Partner', partner: {$id: {$oid: 2}}, contact: 2});
+    var name = vm.getContactName({activity_type: 'Partner', partner: 2, contact: 2});
 
     expect(name).toBe('contact2');
 
@@ -280,7 +280,7 @@ describe('CivicLogController', function() {
 
     vm.selectDescription(selectedItem, activity);
 
-    expect(activity.partner).toEqual({$id: {$oid: 1}});
+    expect(activity.partner).toEqual(1);
     expect(activity.locations).toEqual([{id: 1, is_active: true}]);
     expect(activity.contacts).toEqual([{id: 4, is_active: true}]);
 
