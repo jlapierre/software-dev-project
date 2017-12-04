@@ -10,39 +10,69 @@
         vm.showMenu = false;
 
         // Get current user and partners
-        vm.currentUser = UserService.getCurrentUser();
+        UserService.getCurrentUser().then(
+            function success(resp) {
+                vm.currentUser = resp.data;
+
+                if (vm.partners) {
+                    vm.setupActivities(vm.currentUser);
+                }
+
+            },
+            function failure() {
+                console.log('Error receiving user');
+                vm.currentUser = {};
+            }
+        );
+
         vm.activityTypes = ActivityService.getActivityTypes();
         vm.civicCategories = ActivityService.getCivicCategories();
 
-        vm.partners = PartnerService.getPartners();
-        vm.activePartners = [];
+        PartnerService.getPartners().then(
+            function success(resp) {
+                vm.partners = resp.data;
+                vm.getActivePartners();
 
-        for (var i = 0; i < vm.partners.length; i++) {
-            if (vm.partners[i].active) {
-                vm.activePartners.push(vm.partners[i]);
+                if (vm.currentUser) {
+                    vm.setupActivities(vm.currentUser);
+                }
+            },
+            function failure() {
+                console.log('Error receiving partners');
+                vm.partners = [];
+            }
+        );
+
+        // Initialize partner list
+        function getActivePartners() {
+            vm.activePartners = [];
+
+            for (var i = 0; i < vm.partners.length; i++) {
+                if (vm.partners[i].is_active) {
+                    vm.activePartners.push(vm.partners[i]);
+                }
             }
         }
-
-        vm.name = vm.currentUser.firstName;
+        vm.getActivePartners = getActivePartners;
 
         // Setup the correct dates for all of the activities
         function setupActivities(user) {
             if (!!user.activities) {
                 for (var i in user.activities) {
-                    if (user.activities[i].type === 'Partner') {
+                    if (user.activities[i].activity_type === 'Partner') {
                         user.activities[i].descriptionOptions = vm.activePartners;
                         user.activities[i].descriptionPlaceholder = 'Community Partner';
                         user.activities[i].descriptionNoOptions = 'No community partner matched your search';
-                        user.activities[i].civicCategory = undefined;
+                        user.activities[i].civic_category = undefined;
                         user.activities[i].locations = [];
                         user.activities[i].contacts = [];
 
-                        if (!!user.activities[i].partnerId) {
+                        if (!!user.activities[i].partner) {
                             var partner;
 
-                            if (!!vm.partners) {
+                            if (!!vm.partners && user.activities[i].partner) {
                                 for (var n = 0; n < vm.partners.length; n++) {
-                                    if (vm.partners[n].id === user.activities[i].partnerId) {
+                                    if (vm.partners[n]._id.$oid === user.activities[i].partner) {
                                         partner = vm.partners[n];
                                     }
                                 }
@@ -53,7 +83,7 @@
                                     var currLocation = partner.locations[id];
                                     currLocation.id = parseInt(id);
 
-                                    if (currLocation.active) {
+                                    if (currLocation.is_active) {
                                         user.activities[i].locations.push(currLocation);
                                     }
 
@@ -64,7 +94,7 @@
                                     var currContact = partner.contacts[id];
                                     currContact.id = parseInt(id);
 
-                                    if (currContact.active) {
+                                    if (currContact.is_active) {
                                         user.activities[i].contacts.push(currContact);
                                     }
                                 }
@@ -74,42 +104,41 @@
                         user.activities[i].descriptionOptions = vm.civicCategories;
                         user.activities[i].descriptionPlaceholder = 'Civic Category';
                         user.activities[i].descriptionNoOptions = 'No civic category matched your search';
-                        user.activities[i].partnerId = undefined;
-                        user.activities[i].locationId = undefined;
-                        user.activities[i].contactId = undefined;
+                        user.activities[i].partner = undefined;
+                        user.activities[i].location = undefined;
+                        user.activities[i].contact = undefined;
                     }
 
-                    if (user.activities[i].startTime) {
-                        user.activities[i].startDate = new Date(user.activities[i].startTime);
+                    if (user.activities[i].start_time) {
+                        user.activities[i].startDate = new Date(user.activities[i].start_time.$date);
 
-                        if (user.activities[i].type != 'Partner') {
+                        if (user.activities[i].activity_type != 'Partner') {
                             user.activities[i].endDate =  user.activities[i].startDate;
                         }
                     }
 
-                    if (user.activities[i].endTime) {
-                        if (user.activities[i].type === 'Partner') {
-                            user.activities[i].endDate = new Date(user.activities[i].endTime);
+                    if (user.activities[i].end_time) {
+                        if (user.activities[i].activity_type === 'Partner') {
+                            user.activities[i].endDate = new Date(user.activities[i].end_time.$date);
                         }
                     }
                 }
             }
         }
         vm.setupActivities = setupActivities;
-        vm.setupActivities(vm.currentUser);
 
         // Get the name of the partner for the given id
         function getDescriptionName(activity) {
-            if (activity.type === 'Partner') {
+            if (activity.activity_type === 'Partner') {
                 if (!!vm.partners) {
                     for (var i = 0; i < vm.partners.length; i++) {
-                        if (vm.partners[i].id === activity.partnerId) {
+                        if (vm.partners[i]._id.$oid === activity.partner) {
                             return vm.partners[i].name;
                         }
                     }
                 }
             } else {
-                return activity.civicCategory;
+                return activity.civic_category;
             }
 
 
@@ -119,11 +148,11 @@
 
         // Get location name
         function getLocationName(activity) {
-            if (activity.type === 'Partner') {
+            if (activity.activity_type === 'Partner') {
                 var partner;
                 if (!!vm.partners) {
                     for (var i = 0; i < vm.partners.length; i++) {
-                        if (vm.partners[i].id === activity.partnerId) {
+                        if (vm.partners[i]._id.$oid === activity.partner) {
                             partner = vm.partners[i];
                         }
                     }
@@ -131,7 +160,7 @@
 
                 if (partner) {
                     for (var id in partner.locations) {
-                        if (parseInt(id) === activity.locationId) {
+                        if (parseInt(id) === activity.location) {
                             return partner.locations[id].name;
                         }
                     }
@@ -144,11 +173,11 @@
 
         // Get contact name
         function getContactName(activity) {
-            if (activity.type === 'Partner') {
+            if (activity.activity_type === 'Partner') {
                 var partner;
                 if (!!vm.partners) {
                     for (var i = 0; i < vm.partners.length; i++) {
-                        if (vm.partners[i].id === activity.partnerId) {
+                        if (vm.partners[i]._id.$oid === activity.partner) {
                             partner = vm.partners[i];
                         }
                     }
@@ -156,7 +185,7 @@
 
                 if (partner) {
                     for (var id in partner.contacts) {
-                        if (parseInt(id) === activity.contactId) {
+                        if (parseInt(id) === activity.contact) {
                             return partner.contacts[id].name;
                         }
                     }
@@ -169,27 +198,27 @@
 
         // Selecting the type of activity
         function selectActivityType(selectedItem, activity) {
-            activity.type = selectedItem.name;
+            activity.activity_type = selectedItem.name;
 
-            if (activity.type === 'Partner') {
+            if (activity.activity_type === 'Partner') {
                 activity.descriptionOptions = vm.activePartners;
                 activity.descriptionPlaceholder = 'Community Partner';
                 activity.descriptionNoOptions = 'No community partner matched your search';
-                activity.civicCategory = undefined;
+                activity.civic_category = undefined;
             } else {
                 activity.descriptionOptions = vm.civicCategories;
                 activity.descriptionPlaceholder = 'Civic Category';
                 activity.descriptionNoOptions = 'No civic category matched your search';
-                activity.partnerId = undefined;
-                activity.locationId = undefined;
-                activity.contactId = undefined;
+                activity.partner = undefined;
+                activity.location = undefined;
+                activity.contact = undefined;
             }
         }
         vm.selectActivityType = selectActivityType;
 
         // UnSelecting the type of activity
         function unSelectActivityType(activity) {
-            activity.type = undefined;
+            activity.activity_type = undefined;
             activity.descriptionOptions = [];
             activity.descriptionPlaceholder = 'Partner/Activity';
             activity.descriptionNoOptions = 'No activity type selected';
@@ -199,15 +228,15 @@
         // Select the description type and set up the next items
         function selectDescription(selectedItem, activity) {
 
-            if (activity.type === 'Partner') {
-                activity.partnerId = selectedItem.id;
+            if (activity.activity_type === 'Partner') {
+                activity.partner = selectedItem._id.$oid;
 
                 activity.locations = [];
                 for (var id in selectedItem.locations) {
                     var currLocation = selectedItem.locations[id];
                     currLocation.id = parseInt(id);
 
-                    if (currLocation.active) {
+                    if (currLocation.is_active) {
                         activity.locations.push(currLocation);
                     }
 
@@ -218,13 +247,13 @@
                     var currContact = selectedItem.contacts[id];
                     currContact.id = parseInt(id);
 
-                    if (currContact.active) {
+                    if (currContact.is_active) {
                         activity.contacts.push(currContact);
                     }
                 }
 
             } else {
-                activity.civicCategory = selectedItem.name;
+                activity.civic_category = selectedItem.name;
             }
         }
         vm.selectDescription = selectDescription;
@@ -232,45 +261,45 @@
         // Select the description type and set up the next items
         function unSelectDescription(activity) {
 
-            if (activity.type === 'Partner') {
-                activity.partnerId = undefined;
-                activity.locationId = undefined;
-                activity.contactId = undefined;
+            if (activity.activity_type === 'Partner') {
+                activity.partner = undefined;
+                activity.location = undefined;
+                activity.contact = undefined;
                 activity.locations = [];
                 activity.contacts = [];
             } else {
-                activity.civicCategory = undefined;
+                activity.civic_category = undefined;
             }
         }
         vm.unSelectDescription = unSelectDescription;
 
         // Select the location
         function selectLocation(selectedItem, activity) {
-            activity.locationId = selectedItem.id;
+            activity.location = selectedItem.id;
         }
         vm.selectLocation = selectLocation;
 
         // Un-select Location
         function unSelectLocation(activity) {
-            activity.locationId = undefined;
+            activity.location = undefined;
         }
         vm.unSelectLocation = unSelectLocation;
 
         // Select the contact
         function selectContact(selectedItem, activity) {
-            activity.contactId = selectedItem.id;
+            activity.contact = selectedItem.id;
         }
         vm.selectContact = selectContact;
 
         // Un-select contact
         function unSelectContact(activity) {
-            activity.contactId = undefined;
+            activity.contact = undefined;
         }
         vm.unSelectContact = unSelectContact;
 
         // Update End Date if start date updated
         function updateEndDate(activity) {
-            if (!!activity.type && activity.type != 'Partner') {
+            if (!!activity.activity_type && activity.activity_type != 'Partner') {
                 activity.endDate = activity.startDate;
             }
         }

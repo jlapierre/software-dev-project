@@ -10,22 +10,63 @@
         vm.showMenu = false;
 
         // Get current user and activity (if applicable)
-        vm.currentUser = UserService.getCurrentUser();
-        vm.currentActivity = ActivityService.currentUserActivity(vm.currentUser.id);
+        UserService.getCurrentUser().then(
+            function success(resp) {
+                vm.currentUser = resp.data;
+
+                ActivityService.currentUserActivity(vm.currentUser._id).then (
+                    function success(actResp) {
+                        if (actResp.data != "null") {
+                            vm.currentActivity = actResp.data;
+
+                            if (vm.partners) {
+                                vm.initCurrentActivity(vm.currentActivity);
+                            }
+                        } else {
+                            vm.currentActivity = undefined;
+                            vm.initCurrentActivity(vm.currentActivity);
+                        }
+
+                    }, function error() {
+                        console.log('Error receiving activity');
+                        vm.currentActivity = undefined;
+                        vm.initCurrentActivity(vm.currentActivity);
+                    }
+
+                );
+            },
+            function failure() {
+                console.log('Error receiving user');
+                vm.currentUser = {};
+            }
+        );
+
+        // Get all of the active partners
+        PartnerService.getPartners().then(
+            function success(resp) {
+                vm.getActivePartners(resp.data);
+
+                if (vm.currentActivity) {
+                    vm.initCurrentActivity(vm.currentActivity);
+                }
+            },
+            function failure() {
+                console.log('Error receiving partners');
+                vm.partners = [];
+            }
+        );
 
         // Initialize partner list
-        function getActivePartners() {
-            var partners = PartnerService.getPartners();
+        function getActivePartners(partners) {
             vm.partners = [];
 
             for (var i = 0; i < partners.length; i++) {
-                if (partners[i].active) {
+                if (partners[i].is_active) {
                     vm.partners.push(partners[i]);
                 }
             }
         }
         vm.getActivePartners = getActivePartners;
-        vm.getActivePartners();
 
         // Initialize the map
         var defaultMapCenter = {lat: 42.360082, lng: -71.058880};
@@ -37,21 +78,21 @@
         function initCurrentActivity(activity) {
             if (!!activity) {
                 for (var i = 0; i < vm.partners.length; i++) {
-                    if (vm.partners[i].id === activity.partnerId) {
+                    if (vm.partners[i]._id.$oid === activity.partner) {
                         vm.selectedPartner = vm.partners[i];
                         continue;
                     }
                 }
 
-                if (!!activity.locationId) {
-                    vm.selectedLocation = vm.selectedPartner.locations[activity.locationId];
+                if (!!activity.location) {
+                    vm.selectedLocation = vm.selectedPartner.locations[activity.location];
                     map.setCenter(vm.selectedLocation.location);
                     map.setZoom(17);
                     marker.setPosition(vm.selectedLocation.location);
                 }
 
-                if (!!activity.contactId) {
-                    vm.selectedContact = vm.selectedPartner.contacts[activity.contactId];
+                if (!!activity.contact) {
+                    vm.selectedContact = vm.selectedPartner.contacts[activity.contact];
                 }
 
             } else {
@@ -61,8 +102,6 @@
         }
 
         vm.initCurrentActivity = initCurrentActivity;
-
-        vm.initCurrentActivity(vm.currentActivity);
 
         // Determine the appropriate wording for the button
         function correctButton() {
@@ -76,20 +115,30 @@
 
         // Determine correct action for the button
         function checkInOrOut() {
+            var location, contact;
+
             if (!vm.currentActivity) {
                 vm.currentActivity = {
-                    partnerId: vm.selectedPartner.id,
-                    locationId: vm.selectedLocation.id,
-                    contactId: vm.selectedContact.id
+                    partner: vm.selectedPartner._id.$oid
                 };
 
-                ActivityService.checkUserIn(vm.currentUser.id, vm.selectedPartner.id,
-                                            vm.selectedLocation.id, vm.selectedContact.id);
+                if (vm.selectedLocation) {
+                    location = vm.selectedLocation.id;
+                    vm.currentActivity.location = location;
+                }
+
+                if (vm.selectedContact) {
+                    contact = vm.selectedContact.id;
+                    vm.currentActivity.contact = contact;
+                }
+
+                ActivityService.checkUserIn(vm.currentUser._id.$oid, vm.selectedPartner._id.$oid,
+                                            location, contact);
             } else {
                 vm.currentActivity = undefined;
                 partnerUnSelect();
 
-                ActivityService.checkUserOut(vm.currentUser.id);
+                ActivityService.checkUserOut(vm.currentUser._id.$oid);
             }
         }
 
@@ -109,7 +158,7 @@
                 var currLocation = selectedItem.locations[id];
                 currLocation.id = parseInt(id);
 
-                if (currLocation.active) {
+                if (currLocation.is_active) {
                     vm.locations.push(currLocation);
                 }
 
@@ -119,7 +168,7 @@
                 var currContact = selectedItem.contacts[id];
                 currContact.id = parseInt(id);
 
-                if (currContact.active) {
+                if (currContact.is_active) {
                     vm.contacts.push(currContact);
                 }
             }

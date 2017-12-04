@@ -6,14 +6,18 @@ describe('CivicLogController', function() {
 
   beforeEach(module('app'));
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, $q) {
 
     function mockGetCurrentUser() {
-        return {};
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
     }
 
     function mockGetPartners() {
-        return [];
+        var deferred = $q.defer();
+        deferred.resolve([]);
+        return deferred.promise;
     }
 
     function mockUpsertUser(user) {
@@ -64,58 +68,58 @@ describe('CivicLogController', function() {
 
   it('setupActivities if the activity is a partner sets up the proper description lookups', inject(function($controller) {
     vm.activePartners = [{name: 'partner'}];
-    vm.currentUser = {activities: {1: {type: 'Partner'}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Partner'}}};
 
     vm.setupActivities(vm.currentUser);
 
     expect(vm.currentUser.activities[1].descriptionOptions).toEqual([{name: 'partner'}]);
     expect(vm.currentUser.activities[1].descriptionPlaceholder).toEqual('Community Partner');
     expect(vm.currentUser.activities[1].descriptionNoOptions).toEqual('No community partner matched your search');
-    expect(vm.currentUser.activities[1].civicCategory).toEqual(undefined);
+    expect(vm.currentUser.activities[1].civic_category).toEqual(undefined);
     expect(vm.currentUser.activities[1].locations).toEqual([]);
     expect(vm.currentUser.activities[1].contacts).toEqual([]);
 
   }));
 
   it('setupActivities if the activity is a partner sets up correct locations', inject(function($controller) {
-    var locations = {1: {id: 1, active: true}, 2: {id: 2, active: false}};
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2, locations: locations}];
-    vm.currentUser = {activities: {1: {type: 'Partner', partnerId: 2}}};
+    var locations = {1: {is_active: true}, 2: {is_active: false}};
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, locations: locations}];
+    vm.currentUser = {activities: {1: {activity_type: 'Partner', partner: 2}}};
 
     vm.setupActivities(vm.currentUser);
 
-    expect(vm.currentUser.activities[1].locations).toEqual([{id: 1, active: true}]);
+    expect(vm.currentUser.activities[1].locations).toEqual([{is_active: true, id: 1}]);
 
   }));
 
   it('setupActivities if the activity is a partner sets up correct contacts', inject(function($controller) {
-    var contacts = {1: {id: 1, active: true}, 2: {id: 2, active: false}};
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2, contacts: contacts}];
-    vm.currentUser = {activities: {1: {type: 'Partner', partnerId: 2}}};
+    var contacts = {1: {is_active: true}, 2: {is_active: false}};
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, contacts: contacts}];
+    vm.currentUser = {activities: {1: {activity_type: 'Partner', partner: 2}}};
 
     vm.setupActivities(vm.currentUser);
 
-    expect(vm.currentUser.activities[1].contacts).toEqual([{id: 1, active: true}]);
+    expect(vm.currentUser.activities[1].contacts).toEqual([{is_active: true, id: 1}]);
 
   }));
 
   it('setupActivities if the activity is not a partner sets up the proper description lookups', inject(function($controller) {
     vm.civicCategories = ['category1', 'category2'];
-    vm.currentUser = {activities: {1: {type: 'Civic'}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Civic'}}};
 
     vm.setupActivities(vm.currentUser);
 
     expect(vm.currentUser.activities[1].descriptionOptions).toEqual(['category1', 'category2']);
     expect(vm.currentUser.activities[1].descriptionPlaceholder).toEqual('Civic Category');
     expect(vm.currentUser.activities[1].descriptionNoOptions).toEqual('No civic category matched your search');
-    expect(vm.currentUser.activities[1].partnerId).toEqual(undefined);
-    expect(vm.currentUser.activities[1].locationId).toEqual(undefined);
-    expect(vm.currentUser.activities[1].contactId).toEqual(undefined);
+    expect(vm.currentUser.activities[1].partner).toEqual(undefined);
+    expect(vm.currentUser.activities[1].location).toEqual(undefined);
+    expect(vm.currentUser.activities[1].contact).toEqual(undefined);
 
   }));
 
   it('setupActivities with a start time will add a start date will not add end date if partner', inject(function($controller) {
-    vm.currentUser = {activities: {1: {type: 'Partner', startTime: 1510837200000}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Partner', start_time: {$date: 1510837200000}}}};
 
     vm.setupActivities(vm.currentUser);
 
@@ -125,7 +129,7 @@ describe('CivicLogController', function() {
   }));
 
   it('setupActivities with a start time will add a start date and end date if type not partner', inject(function($controller) {
-    vm.currentUser = {activities: {1: {type: 'Civic', startTime: 1510837200000}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Civic', start_time: {$date: 1510837200000}}}};
 
     vm.setupActivities(vm.currentUser);
 
@@ -135,7 +139,7 @@ describe('CivicLogController', function() {
   }));
 
   it('setupActivities with a end time will add a end date if type partner', inject(function($controller) {
-    vm.currentUser = {activities: {1: {type: 'Partner', endTime: 1510837200000}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Partner', end_time: {$date: 1510837200000}}}};
 
     vm.setupActivities(vm.currentUser);
 
@@ -144,7 +148,7 @@ describe('CivicLogController', function() {
   }));
 
   it('setupActivities with a end time will not add a end date if type not partner', inject(function($controller) {
-    vm.currentUser = {activities: {1: {type: 'Civic', endTime: 1510837200000}}};
+    vm.currentUser = {activities: {1: {activity_type: 'Civic', end_time: {$date: 1510837200000}}}};
 
     vm.setupActivities(vm.currentUser);
 
@@ -153,18 +157,18 @@ describe('CivicLogController', function() {
   }));
 
   it('getDescription name will give empty string if type partner but no id', inject(function($controller) {
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2}];
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}}];
 
-    var name = vm.getDescriptionName({type: 'Partner'});
+    var name = vm.getDescriptionName({activity_type: 'Partner'});
 
     expect(name).toBe('');
 
   }));
 
   it('getDescription name will give partner name if type partner', inject(function($controller) {
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2}];
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}}];
 
-    var name = vm.getDescriptionName({type: 'Partner', partnerId: 2});
+    var name = vm.getDescriptionName({activity_type: 'Partner', partner: 2});
 
     expect(name).toBe('partner2');
 
@@ -173,47 +177,47 @@ describe('CivicLogController', function() {
 
   it('getDescription name will give civic category if type not partner', inject(function($controller) {
 
-    var name = vm.getDescriptionName({type: 'Civic', civicCategory: 'Voting'});
+    var name = vm.getDescriptionName({activity_type: 'Civic', civic_category: 'Voting'});
 
     expect(name).toBe('Voting');
 
   }));
 
   it('location name will return empty string if location does not exist', inject(function($controller) {
-    var locations = {1: {id: 1, active: true}, 2: {id: 2, active: false}};
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2, locations: locations}];
+    var locations = {1: {is_active: true}, 2: {is_active: false}};
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, locations: locations}];
 
-    var name = vm.getLocationName({type: 'Partner', partnerId: 2, locationId: 3});
+    var name = vm.getLocationName({activity_type: 'Partner', partner: 2, location: 3});
 
     expect(name).toBe('');
 
   }));
 
   it('location name will return location name', inject(function($controller) {
-    var locations = {1: {id: 1, active: true}, 2: {id: 2, active: false, name: 'location2'}};
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2, locations: locations}];
+    var locations = {1: {is_active: true}, 2: {is_active: false, name: 'location2'}};
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, locations: locations}];
 
-    var name = vm.getLocationName({type: 'Partner', partnerId: 2, locationId: 2});
+    var name = vm.getLocationName({activity_type: 'Partner', partner: 2, location: 2});
 
     expect(name).toBe('location2');
 
   }));
 
   it('contact name will return empty string if contact does not exist', inject(function($controller) {
-    var contacts = {1: {id: 1, active: true}, 2: {id: 2, active: false}};
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2, contacts: contacts}];
+    var contacts = {1: {is_active: true}, 2: {is_active: false}};
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, contacts: contacts}];
 
-    var name = vm.getContactName({type: 'Partner', partnerId: 2, contactId: 3});
+    var name = vm.getContactName({activity_type: 'Partner', partner: 2, contact: 3});
 
     expect(name).toBe('');
 
   }));
 
   it('contact name will return contact name', inject(function($controller) {
-    var contacts = {1: {id: 1, active: true}, 2: {id: 2, active: false, name: 'contact2'}};
-    vm.partners = [{name: 'partner1', id: 1}, {name: 'partner2', id: 2, contacts: contacts}];
+    var contacts = {1: {is_active: true}, 2: {is_active: false, name: 'contact2'}};
+    vm.partners = [{name: 'partner1', _id: {$oid: 1}}, {name: 'partner2', _id: {$oid: 2}, contacts: contacts}];
 
-    var name = vm.getContactName({type: 'Partner', partnerId: 2, contactId: 2});
+    var name = vm.getContactName({activity_type: 'Partner', partner: 2, contact: 2});
 
     expect(name).toBe('contact2');
 
@@ -229,7 +233,7 @@ describe('CivicLogController', function() {
     expect(activity.descriptionOptions).toEqual([{name: 'partner'}]);
     expect(activity.descriptionPlaceholder).toEqual('Community Partner');
     expect(activity.descriptionNoOptions).toEqual('No community partner matched your search');
-    expect(activity.civicCategory).toEqual(undefined);
+    expect(activity.civic_category).toEqual(undefined);
 
   }));
 
@@ -243,15 +247,15 @@ describe('CivicLogController', function() {
     expect(activity.descriptionOptions).toEqual(['category1', 'category2']);
     expect(activity.descriptionPlaceholder).toEqual('Civic Category');
     expect(activity.descriptionNoOptions).toEqual('No civic category matched your search');
-    expect(activity.partnerId).toEqual(undefined);
-    expect(activity.locationId).toEqual(undefined);
-    expect(activity.contactId).toEqual(undefined);
+    expect(activity.partner).toEqual(undefined);
+    expect(activity.location).toEqual(undefined);
+    expect(activity.contact).toEqual(undefined);
 
   }));
 
   it('unSelectActivityType sets type and descriptions to defaults', inject(function($controller) {
     var activity = {
-        type: 'Civic',
+        activity_type: 'Civic',
         descriptionOptions: ['category1', 'category2'],
         descriptionPlaceholder: 'Civic Category',
         descriptionNoOptions: 'No civic category matched your search'
@@ -259,7 +263,7 @@ describe('CivicLogController', function() {
 
     vm.unSelectActivityType(activity)
 
-    expect(activity.type).toBe(undefined);
+    expect(activity.activity_type).toBe(undefined);
     expect(activity.descriptionOptions).toEqual([]);
     expect(activity.descriptionPlaceholder).toEqual('Partner/Activity');
     expect(activity.descriptionNoOptions).toEqual('No activity type selected');
@@ -267,57 +271,57 @@ describe('CivicLogController', function() {
   }));
 
   it('selectDescription choosing a partner will set up the partner elements', inject(function($controller) {
-    var activity = { type: 'Partner' };
+    var activity = { activity_type: 'Partner' };
     var selectedItem = {
-        id: 1,
-        locations: {1: {id: 1, active: true}, 2: {id: 2, active: false}},
-        contacts: {3: {id: 3, active: false}, 4: {id: 4, active: true}}
+        _id: {$oid: 1},
+        locations: {1: {is_active: true}, 2: {is_active: false}},
+        contacts: {3: {is_active: false}, 4: {is_active: true}}
     }
 
     vm.selectDescription(selectedItem, activity);
 
-    expect(activity.partnerId).toBe(1);
-    expect(activity.locations).toEqual([{id: 1, active: true}]);
-    expect(activity.contacts).toEqual([{id: 4, active: true}]);
+    expect(activity.partner).toEqual(1);
+    expect(activity.locations).toEqual([{id: 1, is_active: true}]);
+    expect(activity.contacts).toEqual([{id: 4, is_active: true}]);
 
   }));
 
-  it('selectDescription choosing a partner will set up the partner elements', inject(function($controller) {
-    var activity = { type: 'Civic' };
+  it('selectDescription choosing a activity sets the activity', inject(function($controller) {
+    var activity = { activity_type: 'Civic' };
     var selectedItem = { name: 'Voting' };
 
     vm.selectDescription(selectedItem, activity);
 
-    expect(activity.civicCategory).toBe('Voting');
+    expect(activity.civic_category).toBe('Voting');
 
   }));
 
   it('unSelectDescription undefine all partner elements for partner type', inject(function($controller) {
     var activity = {
-        type: 'Partner',
-        partnerId: 1,
-        locationId: 2,
-        contactId: 3,
-        locations: [{id: 1, active: true}],
-        contacts: [{id: 4, active: true}]
+        activity_type: 'Partner',
+        partner: 1,
+        location: 2,
+        contact: 3,
+        locations: [{is_active: true}],
+        contacts: [{is_active: true}]
     };
 
     vm.unSelectDescription(activity);
 
-    expect(activity.partnerId).toBe(undefined);
-    expect(activity.locationId).toBe(undefined);
-    expect(activity.contactId).toBe(undefined);
+    expect(activity.partner).toBe(undefined);
+    expect(activity.location).toBe(undefined);
+    expect(activity.contact).toBe(undefined);
     expect(activity.locations).toEqual([]);
     expect(activity.contacts).toEqual([]);
 
   }));
 
   it('unSelectDescription undefine civic category for not partner type', inject(function($controller) {
-    var activity = { civicCategory: 'Voting' };
+    var activity = { civic_category: 'Voting' };
 
     vm.unSelectDescription(activity);
 
-    expect(activity.civicCategory).toBe(undefined);
+    expect(activity.civic_category).toBe(undefined);
 
   }));
 
@@ -327,16 +331,16 @@ describe('CivicLogController', function() {
 
     vm.selectLocation(selectedItem, activity);
 
-    expect(activity.locationId).toBe(1);
+    expect(activity.location).toBe(1);
 
   }));
 
   it('unSelectLocation unsets location id', inject(function($controller) {
-    var activity = {locationId: 1};
+    var activity = {location: 1};
 
     vm.unSelectLocation(activity);
 
-    expect(activity.locationId).toBe(undefined);
+    expect(activity.location).toBe(undefined);
 
   }));
 
@@ -346,23 +350,23 @@ describe('CivicLogController', function() {
 
     vm.selectContact(selectedItem, activity);
 
-    expect(activity.contactId).toBe(1);
+    expect(activity.contact).toBe(1);
 
   }));
 
   it('unSelectContact unsets contact id', inject(function($controller) {
-    var activity = {contactId: 1};
+    var activity = {contact: 1};
 
     vm.unSelectContact(activity);
 
-    expect(activity.contactId).toBe(undefined);
+    expect(activity.contact).toBe(undefined);
 
   }));
 
   it('updateEndDate does not update end Date if type partner', inject(function($controller) {
     var startDate = new Date(0);
     var endDate = new Date(1);
-    var activity = {startDate: startDate, endDate: endDate, type: 'Partner'};
+    var activity = {startDate: startDate, endDate: endDate, activity_type: 'Partner'};
 
     vm.updateEndDate(activity);
 
@@ -373,7 +377,7 @@ describe('CivicLogController', function() {
   it('updateEndDate only updates the endDate if type not partner', inject(function($controller) {
     var startDate = new Date(0);
     var endDate = new Date(1);
-    var activity = {startDate: startDate, endDate: endDate, type: 'Civic'};
+    var activity = {startDate: startDate, endDate: endDate, activity_type: 'Civic'};
 
     vm.updateEndDate(activity);
 
@@ -408,6 +412,16 @@ describe('CivicLogController', function() {
 
   }));
 
+  it('getActivePartners places only active partners on the active partner list', inject(function($controller) {
+    vm.partners = [partner1, partner2, partner3, partner4];
+    vm.getActivePartners();
+
+    expect(vm.activePartners.length).toBe(3);
+    expect(vm.activePartners[0]).toBe(partner1);
+    expect(vm.activePartners[1]).toBe(partner2);
+    expect(vm.activePartners[2]).toBe(partner3);
+
+  }));
 
 
 });

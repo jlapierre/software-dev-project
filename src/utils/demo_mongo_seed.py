@@ -68,37 +68,35 @@ def populate_users():
         "_id": ObjectId('5a0b43b63d852b0cc7b6161b'),
         "email": "northcott.j@husky.neu.edu",
         "checked_in": True,
-        "legal_first": "Jonathan",
-        "legal_last": "Northcott",
-        "preferred_first": "",
-        "preferred_last": "",
-        "pronouns": "",
+        "first_name": "Jonathan",
+        "last_name": "Northcott",
+        "pronouns": "he",
         "peer_leaders": [],
         "core_partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab772")),
         "activities": {
-            '2c008961b164448e9da546271e064f6e': {
+            '1': {
                 "activity_type": "Partner",
-                "partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab772")),
+                "partner": "5126bc054aed4daf9e2ab772",
                 "civic_category": "",
                 "start_time": datetime.datetime(2017, 11, 14, 14, 1, 30),
                 "end_time": datetime.datetime(2017, 11, 14, 15, 10, 53),
                 "manually_edited": False,
                 "comment": "This is a completed activity"
             },
-            '55cb59953369439e98a77579a4948256': {
+            '2': {
                 "activity_type": "Partner",
-                "partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab772")),
+                "partner": "5126bc054aed4daf9e2ab772",
                 "civic_category": "",
                 "start_time": datetime.datetime(2017, 11, 15, 14, 1, 30),
                 "end_time": None,
                 "manually_edited": False,
                 "comment": "I'm currently checked into this location"
             },
-            '85af60b5deb844fcae0dfdd25cab0edd': {
+            '3': {
                 "activity_type": "Civic",
                 "partner": None,
                 "civic_category": "Voting",
-                "start_time": None,
+                "start_time": datetime.datetime(2017, 11, 15, 14, 1, 30),
                 "end_time": None,
                 "manually_edited": False,
                 "comment": "This is a civic activity"
@@ -112,17 +110,36 @@ def populate_users():
     }
     Katherine = {
         "_id": ObjectId('5a0b43b63d852b0cc7b6161f'),
-        "email": "mcdonough.k@husky.neu.edu",
+        "email": "mcdonough.kat@husky.neu.edu",
         "checked_in": False,
-        "legal_first": "Katherine",
-        "legal_last": "McDonough",
-        "preferred_first": "",
-        "preferred_last": "",
-        "pronouns": "",
-        "peer_leaders": [],
-        "core_partner": None,
-        "activities": None,
-        "auth_role": "Administrator",
+        "first_name": "Katherine",
+        "last_name": "McDonough",
+        "pronouns": "she",
+        "peer_leaders": [DBRef('users', ObjectId("5a0b43b63d852b0cc7b6161b"))],
+        "core_partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab779")),
+        "activities": {
+            '1': {
+                "activity_type": "Partner",
+                "partner": "5126bc054aed4daf9e2ab779",
+                "civic_category": "",
+                "start_time": datetime.datetime(2017, 10, 14, 14, 11, 30),
+                "end_time": datetime.datetime(2017, 10, 14, 16, 11, 30),
+                "contact": 1,
+                "location": 1,
+                "manually_edited": False,
+                "comment": "This is a completed activity"
+            },
+            '2': {
+                "activity_type": "Alliance",
+                "partner": None,
+                "civic_category": "Rally",
+                "start_time": datetime.datetime(2017, 11, 14, 14, 9, 30),
+                "end_time": None,
+                "manually_edited": False,
+                "comment": "Random civic activity"
+            }
+        },
+        "auth_role": "Peer Leader",
         "neu_start": 2014,
         "aces_start": 2017,
         "badge": None,
@@ -132,30 +149,28 @@ def populate_users():
         "_id": ObjectId('5a0b46ef3d852b0cc7b6161c'),
         "email": "lapierre.je@husky.neu.edu",
         "checked_in": False,
-        "legal_first": "Jennifer",
-        "legal_last": "LaPierre",
-        "preferred_first": "",
-        "preferred_last": "",
-        "pronouns": "",
+        "first_name": "Jennifer",
+        "last_name": "LaPierre",
+        "pronouns": "she",
         "peer_leaders": [
             DBRef('users', ObjectId("5a0b43b63d852b0cc7b6161b"))
         ],
         "core_partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab779")),
         "activities": {
-            '5dbcf814663c49939501dda6f3596fd2': {
+            '1': {
                 "activity_type": "Partner",
-                "partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab779")),
+                "partner": "5126bc054aed4daf9e2ab779",
                 "civic_category": "",
                 "start_time": datetime.datetime(2017, 10, 14, 14, 11, 30),
                 "end_time": datetime.datetime(2017, 10, 14, 15, 9, 22),
                 "manually_edited": False,
                 "comment": "This is a completed activity"
             },
-            '89c444b0a2ab49dab626cf0922834339': {
+            '2': {
                 "activity_type": "Civic/Alliance",
                 "partner": None,
                 "civic_category": "Other",
-                "start_time": None,
+                "start_time": datetime.datetime(2017, 10, 14, 15, 9, 22),
                 "end_time": None,
                 "manually_edited": False,
                 "comment": "This is a civic activity marked as Other"
@@ -171,36 +186,13 @@ def populate_users():
         "_id": ObjectId('5a0b46ef3d852b0cc7b6161e'),
         "email": "lim.l@husky.neu.edu",
         "checked_in": False,
-        "legal_first": "Lawrence",
-        "legal_last": "Lim",
-        "preferred_first": "",
-        "preferred_last": "",
-        "pronouns": "",
-        "peer_leaders": [
-            DBRef('users', ObjectId("5a0b43b63d852b0cc7b6161b"))
-        ],
-        "core_partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab779")),
-        "activities": {
-            '93df9adfdfd04a81be0f5b114b9cfc99': {
-                "activity_type": "Partner",
-                "partner": DBRef('partners', ObjectId("5126bc054aed4daf9e2ab779")),
-                "civic_category": "",
-                "start_time": datetime.datetime(2017, 10, 14, 14, 11, 30),
-                "end_time": datetime.datetime(2017, 10, 14, 15, 9, 22),
-                "manually_edited": False,
-                "comment": "This is a completed activity"
-            },
-            '54879a04b1464ca08320ed43df838c53': {
-                "activity_type": "Alliance",
-                "partner": None,
-                "civic_category": "Rally",
-                "start_time": None,
-                "end_time": None,
-                "manually_edited": False,
-                "comment": "Random civic activity"
-            }
-        },
-        "auth_role": "Student",
+        "first_name": "Lawrence",
+        "last_name": "Lim",
+        "pronouns": "he",
+        "peer_leaders": None,
+        "core_partner": None,
+        "activities": None,
+        "auth_role": "Administrator",
         "neu_start": 2014,
         "aces_start": 2017,
         "badge": None,
@@ -210,8 +202,8 @@ def populate_users():
         "_id": ObjectId('5a0b43b63d852b0cc7b6162f'),
         "email": "weintraub.m@neu.edu",
         "checked_in": False,
-        "legal_first": "Michael",
-        "legal_last": "Weintraub",
+        "first_name": "Michael",
+        "last_name": "Weintraub",
         "preferred_first": "",
         "preferred_last": "",
         "pronouns": "",
@@ -226,7 +218,7 @@ def populate_users():
     }
     users = [Weintraub, Katherine, Jonathan, Jenny, Lawrence]
     for u in users:
-        print "Adding {0} {1} to the users collection...".format(u['legal_first'], u['legal_last'])
+        print "Adding {0} {1} to the users collection...".format(u['first_name'], u['last_name'])
         db.users.insert_one(u)
 
 
@@ -240,61 +232,72 @@ def populate_partners():
         "_id": ObjectId("5126bc054aed4daf9e2ab772"),
         "name": "826 Boston",
         "contacts": {
-            'd8e12321f41244ab9ecee6f42dc30071': {
+            '1': {
                 "name": "Jane Doe",
                 "email": "jane@826Boston.com",
-                "phone": "603-123-4567"
+                "phone": "603-123-4567",
+                "is_active": True
             },
-            '2290aa403e934ce6b14e40a2022e98fd': {
+            '2': {
                 "name": "John Smith",
                 "email": "john@826Boston.com",
-                "phone": "603-455-9999"
+                "phone": "603-455-9999",
+                "is_active": True
             }
         },
         "locations": {
-            'b4aeafd29b0b460b98172e0ea0b00979': {
+            '1': {
                 "address": {
                     "street": "360 Huntington Ave",
                     "city": "Boston",
                     "state": "Massachusetts",
-                    "zipcode": "02115"
+                    "zipcode": "02115",
                 },
-                "active": False
+                "is_active": False,
+                "name": "360 Huntington Ave, Boston Massachusetts, 02115",
+                "location": {"lat": 42.340496, "lng": -71.087897}
             },
-            '6d03a6a938074474bbcebb7d17556c39': {
+            '2': {
                 "address": {
                     "street": "3035 Washington St",
                     "city": "Roxbury",
                     "state": "Massachusetts",
-                    "zipcode": "02119"
+                    "zipcode": "02119",
                 },
-                "active": True
+                "is_active": True,
+                "name": "3035 Washington St, Roxbury Massachusetts, 02119",
+                "location": {"lat": 42.3166404, "lng": -71.09769749999998}
             }
         },
-        "core_partner": True
+        "core_partner": True,
+        "is_active": True
     }
     ABCD = {
         "_id": ObjectId("5126bc054aed4daf9e2ab779"),
         "name": "ABCD Boston",
         "contacts": {
-            '51b352d81a7d420b827f20bd3dcecb47': {
+            '1': {
                 "name": "Tom Cruise",
                 "email": "tommy@bostonabcd.com",
-                "phone": "617-123-4567"
+                "phone": "617-123-4567",
+                "is_active": True
             }
         },
         "locations": {
-            '8a58d9a6901445dabcc5dbf2d41c0bc6': {
+            '1': {
                 "address": {
-                    "street": "714 Parker St",
+                    "street": "714 Parker Street",
                     "city": "Roxbury",
                     "state": "Massachusetts",
-                    "zipcode": "02120"
+                    "zipcode": "02120",
                 },
-                "active": True
+                "name": "714 Parker Street, Roxbury Massachusetts, 02120",
+                "location": {"lat": 42.331206, "lng": -71.09714059999999},
+                "is_active": True
             }
         },
-        "core_partner": True
+        "core_partner": True,
+        "is_active": True
     }
     partners = [Boston826, ABCD]
     for p in partners:

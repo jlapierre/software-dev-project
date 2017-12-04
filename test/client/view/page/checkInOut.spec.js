@@ -29,25 +29,25 @@ var contact1 = {
     name: 'Katherine McDonough',
     email: 'mcdonough.kat@husky.neu.edu',
     phone: '6175550129',
-    active: true
+    is_active: true
 };
 var contact2 = {
     name: 'Jennifer LaPierre',
     email: 'lapierre.j@husky.neu.edu',
     phone: '6175558726',
-    active: false
+    is_active: false
 };
 var contact3 = {
     name: 'Lawrence Lim',
     email: 'lim.law@husky.neu.edu',
     phone: '6175558217',
-    active: true
+    is_active: true
 };
 var contact4 = {
     name: 'Jonathon Northcott',
     email: 'northcott.j@husky.neu.edu',
     phone: '6175552625',
-    active: true
+    is_active: true
 };
 
 // Example Locations
@@ -58,7 +58,7 @@ var location1 = {
     zipcode: '02115',
     location: {lat: 42.341423, lng: -71.091129},
     name: '165 Hemenway Street, Boston MA, 02115',
-    active: true
+    is_active: true
 };
 var location2 = {
     street: '171 Hemenway Street',
@@ -67,7 +67,7 @@ var location2 = {
     zipcode: '02115',
     location: {lat: 42.341309, lng: -71.091202},
     name: '171 Hemenway Street, Boston MA, 02115',
-    active: true
+    is_active: true
 };
 var location3 = {
     street: '360 Huntington Ave',
@@ -76,7 +76,7 @@ var location3 = {
     zipcode: '02115',
     location: {lat: 42.340496, lng: -71.087897},
     name: '360 Huntington Ave, Boston MA, 02115',
-    active: true
+    is_active: true
 };
 var location4 = {
     street: '633 Clark Street',
@@ -85,51 +85,51 @@ var location4 = {
     zipcode: '60208',
     location: {lat: 42.050626, lng: -87.679727},
     name: '633 Clark Street, Evanston IL, 60208',
-    active: false
+    is_active: false
 };
 
 // Example Partners
 var partner1 = {
-    id: 1,
+    _id: {$oid: 1},
     name: 'Partner 1',
     contacts: {1: contact1},
     locations: {1: location1, 2: location2},
-    core: true,
-    active: true
+    core_partner: true,
+    is_active: true
 };
 var partner2 = {
-    id: 2,
+    _id: {$oid: 2},
     name: 'Partner 2',
     contacts: {},
     locations: {3: location3},
-    core: false,
-    active: true
+    core_partner: false,
+    is_active: true
 };
 var partner3 = {
-    id: 3,
+    _id: {$oid: 3},
     name: 'Partner 3',
     contacts: {2: contact2, 3: contact3, 4: contact4},
     locations: {2: location2, 3: location3, 4: location4},
-    core: true,
-    active: true
+    core_partner: true,
+    is_active: true
 };
 var partner4 = {
-    id: 4,
+    _id: {$oid: 4},
     name: 'Partner 4',
     contacts: {2: contact2, 4: contact4},
     locations: {2: location2, 4: location4},
-    core: false,
-    active: false
+    core_partner: false,
+    is_active: false
 };
 
 // Activity Examples
 var activity3 = {
     type: 'Partner',
-    partnerId: 3,
-    contactId: 3,
-    locationId: 3,
-    startTime: 1510833600,
-    endTime: 1510840800,
+    partner: 3,
+    contact: 3,
+    location: 3,
+    start_time: 1510833600,
+    end_time: 1510840800,
     manual: true,
     comment: 'Assisted with organization of an event'
 };
@@ -140,24 +140,62 @@ describe('CheckInOutController', function() {
 
   beforeEach(module('app'));
 
-  beforeEach(inject(function ($rootScope, $controller) {
+  beforeEach(inject(function ($rootScope, $controller, $q) {
 
     function mockGetPartners () {
-        return [partner1, partner2, partner3, partner4];
+        var deferred = $q.defer();
+        deferred.resolve([partner1, partner2, partner3, partner4]);
+        return deferred.promise;
     }
 
     var mockPartnerService = {
         getPartners: mockGetPartners
     }
 
+    function mockGetCurrentUser () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+    }
+
+    var mockUserService = {
+        getCurrentUser: mockGetCurrentUser
+    }
+
+    function mockGetCurrentActivity () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+    }
+
+    function mockCheckUserIn() {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+    }
+
+    function mockCheckUserOut() {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+    }
+
+    var mockActivityService = {
+        getCurrentActivity: mockGetCurrentActivity,
+        checkUserIn: mockCheckUserIn,
+        checkUserOut: mockCheckUserOut
+    }
+
     var scope = $rootScope.$new();
-    vm = $controller('CheckInOutController', {PartnerService: mockPartnerService});
+    vm = $controller('CheckInOutController', {PartnerService: mockPartnerService,
+                                              UserService: mockUserService,
+                                              ActivityService: mockActivityService});
 
   }));
 
   it('getActivePartners only returns the list of active partners', inject(function($controller) {
 
-    vm.getActivePartners();
+    vm.getActivePartners([partner1, partner2, partner3, partner4]);
 
     expect(vm.partners.length).toBe(3);
     expect(vm.partners[0]).toBe(partner1);
@@ -279,16 +317,18 @@ describe('CheckInOutController', function() {
   }));
 
   it('can set up an current activity correctly', inject(function($controller) {
+    vm.partners = [{_id: {$oid: 3}, contacts: {3: contact3}, locations: {3: location3}}];
 
     vm.initCurrentActivity(activity3);
 
-    expect(vm.selectedPartner.id).toBe(3);
+    expect(vm.selectedPartner._id.$oid).toBe(3);
     expect(vm.selectedLocation.name).toBe('360 Huntington Ave, Boston MA, 02115');
     expect(vm.selectedContact.name).toBe('Lawrence Lim');
 
   }));
 
   it('can set up an current activity correctly with the Google map', inject(function($controller) {
+    vm.partners = [{_id: {$oid: 3}, contacts: {3: contact3}, locations: {3: location3}}];
 
     vm.initCurrentActivity(activity3);
 
@@ -321,22 +361,24 @@ describe('CheckInOutController', function() {
   }));
 
   it('when there is no current activity current activity is created when checked in', inject(function($controller) {
+    vm.currentUser = {_id: {$oid: 1}};
 
     vm.currentActivity = undefined;
-    vm.onPartnerSelect(partner3);
-    vm.onLocationSelect(location3);
-    vm.onContactSelect(contact3);
+    vm.onPartnerSelect({_id: {$oid: 3},contacts: {3: contact3}, locations: {3: location3}});
+    vm.onLocationSelect({id: 3, location: [0,0]});
+    vm.onContactSelect({id: 3});
 
     vm.checkInOrOut();
 
     expect(vm.currentActivity).not.toBe(undefined);
-    expect(vm.currentActivity.partnerId).toBe(3);
-    expect(vm.currentActivity.locationId).toBe(3);
-    expect(vm.currentActivity.contactId).toBe(3);
+    expect(vm.currentActivity.partner).toBe(3);
+    expect(vm.currentActivity.location).toBe(3);
+    expect(vm.currentActivity.contact).toBe(3);
 
   }));
 
   it('when there is a current activity current activity cleared', inject(function($controller) {
+    vm.currentUser = {_id: {$oid: 1}};
 
     vm.currentActivity = activity3;
 
